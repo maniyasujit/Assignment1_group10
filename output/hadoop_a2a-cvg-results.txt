@@ -1,0 +1,39 @@
+============================================================
+A2a: ACDC vs LIMBO
+Command: java -jar arcade_tools/arcade_core_A2a.jar output/acdc/hadoop_acdc_clusters.rsf output/limbo/hadoop-limbo-3.6.0-snapshot_IL_50_clusters.rsf
+------------------------------------------------------------
+83.34200937011973
+
+============================================================
+A2a: ACDC vs WCA
+Command: java -jar arcade_tools/arcade_core_A2a.jar output/acdc/hadoop_acdc_clusters.rsf output/wca/hadoop-wca-3.6.0-snapshot_UEM_50_clusters.rsf
+------------------------------------------------------------
+88.39146277980218
+
+============================================================
+A2a: LIMBO vs WCA
+Command: java -jar arcade_tools/arcade_core_A2a.jar output/limbo/hadoop-limbo-3.6.0-snapshot_IL_50_clusters.rsf output/wca/hadoop-wca-3.6.0-snapshot_UEM_50_clusters.rsf
+------------------------------------------------------------
+85.79429735234217
+
+============================================================
+Cvg: ACDC vs LIMBO
+Command: java -jar arcade_tools/arcade_core_Cvg.jar output/acdc/hadoop_acdc_clusters.rsf output/limbo/hadoop-limbo-3.6.0-snapshot_IL_50_clusters.rsf
+------------------------------------------------------------
+Coverage from output/acdc/hadoop_acdc_clusters.rsf to output/limbo/hadoop-limbo-3.6.0-snapshot_IL_50_clusters.rsf is 0.0
+Coverage from output/limbo/hadoop-limbo-3.6.0-snapshot_IL_50_clusters.rsf to output/acdc/hadoop_acdc_clusters.rsf is 0.0
+
+============================================================
+Cvg: ACDC vs WCA
+Command: java -jar arcade_tools/arcade_core_Cvg.jar output/acdc/hadoop_acdc_clusters.rsf output/wca/hadoop-wca-3.6.0-snapshot_UEM_50_clusters.rsf
+------------------------------------------------------------
+Coverage from output/acdc/hadoop_acdc_clusters.rsf to output/wca/hadoop-wca-3.6.0-snapshot_UEM_50_clusters.rsf is 0.14285714285714285
+Coverage from output/wca/hadoop-wca-3.6.0-snapshot_UEM_50_clusters.rsf to output/acdc/hadoop_acdc_clusters.rsf is 0.02
+
+============================================================
+Cvg: LIMBO vs WCA
+Command: java -jar arcade_tools/arcade_core_Cvg.jar output/limbo/hadoop-limbo-3.6.0-snapshot_IL_50_clusters.rsf output/wca/hadoop-wca-3.6.0-snapshot_UEM_50_clusters.rsf
+------------------------------------------------------------
+Coverage from output/limbo/hadoop-limbo-3.6.0-snapshot_IL_50_clusters.rsf to output/wca/hadoop-wca-3.6.0-snapshot_UEM_50_clusters.rsf is 0.0
+Coverage from output/wca/hadoop-wca-3.6.0-snapshot_UEM_50_clusters.rsf to output/limbo/hadoop-limbo-3.6.0-snapshot_IL_50_clusters.rsf is 0.0
+

@@ -1,0 +1,25 @@
+Update in the Task of Week 1:
+
+For Week 1, we compared the old run_week1_group10.sh script with the updated run_week1_arcade.sh script. The main change is that run_week1_arcade.sh uses MASTER_PREFIX=org.apache.hadoop when running ARCADE JavaParser. This keeps the master RSF focused on Hadoop project dependencies only, instead of also including external Java, Jackson, SLF4J, and other library/API classes.
+
+Because of this filter, the updated script produces a cleaner master RSF with around 11972 lines, while the older script produces around 21523 lines because it has no parser-level package filter. The focused RSF also becomes smaller and cleaner, with around 1812 lines in the updated script compared with around 3324 lines in the older script.
+
+The cluster output also changes because the clustering tools use the focused RSF as input. The updated script clusters only Hadoop classes and generates around 466 cluster entries, while the older script also clusters external dependency classes and generates around 624 entries. Therefore, run_week1_arcade.sh is the better version to use for the assignment because the task is architectural clustering of the Hadoop project, not clustering external library classes.
+
+We also confirmed that the WCA and Limbo parameters are correct: WCA uses measure=uem and Limbo uses measure=il. The old script explicitly sets the cluster stopping threshold to 50, while the updated script relies on ARCADE's default behavior, so this is not the main reason for the output difference.
+
+For Week 3, we also created run_week3_arc.sh. This script compares our Week 3 ARC clustering result with the Week 1 clustering outputs from ACDC, LIMBO, and WCA. It runs both A2A and Coverage metrics using the ARCADE metric tools and saves the comparison results in output/group10_week3_arc_a2a-cvg-results.txt.
+
+Short Description of the Task Done in Week 3:
+
+For Week 3, we started from the professor's raw [READ_ONLY]DS4SE26Week3.ipynb notebook and completed it as Group10_Week3.ipynb for our selected Hadoop YARN ResourceManager capacity scheduler source code.
+
+We replaced the template placeholders with actual paths for the Java source files and output folder, mounted Google Drive in Colab, installed the required Python libraries, and loaded the Java files into a list for processing. We also configured Hugging Face authentication and used the jinaai/jina-code-embeddings-0.5b model with 4-bit quantization to generate semantic embeddings for the Java files.
+
+The embedding function from the raw notebook was fixed so that it extracts the model's last hidden state, applies mean pooling, converts the tensor to float values, and produces a valid NumPy array for cosine similarity calculation. After this, we created the semantic similarity matrix for the source files.
+
+We also completed the structural similarity part of the notebook. The updated notebook reads the Week 1 filtered RSF file, maps class names to the Java files, handles inner class names, builds a structural dependency matrix, normalizes it, and combines it with the semantic similarity matrix using ALPHA = 0.5.
+
+For clustering, we replaced the raw notebook's placeholder hyperparameter with a valid cluster count of 10 and applied Agglomerative Clustering using a precomputed distance matrix and complete linkage. We added visualizations including a dendrogram, a sorted distance matrix heatmap, and a PCA scatter plot to better understand the generated clusters.
+
+Finally, we exported the Week 3 ARC clustering result into an RSF file named group10_week3_arc_clusters.rsf. This generated ARC clustering output was then compared with the ACDC, LIMBO, and WCA clustering outputs using the run_week3_arc.sh script.

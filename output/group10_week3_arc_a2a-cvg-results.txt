@@ -1,0 +1,39 @@
+============================================================
+A2a: ARC vs ACDC
+Command: java -jar /e/Assignment1_group10/arcade_tools/arcade_core_A2a.jar /e/Assignment1_group10/output/week3/group10_week3_arc_clusters.rsf /e/Assignment1_group10/output/acdc/hadoop_acdc_clusters.rsf
+------------------------------------------------------------
+26.519823788546258
+
+============================================================
+Cvg: ARC vs ACDC
+Command: java -jar /e/Assignment1_group10/arcade_tools/arcade_core_Cvg.jar /e/Assignment1_group10/output/week3/group10_week3_arc_clusters.rsf /e/Assignment1_group10/output/acdc/hadoop_acdc_clusters.rsf
+------------------------------------------------------------
+Coverage from E:/Assignment1_group10/output/week3/group10_week3_arc_clusters.rsf to E:/Assignment1_group10/output/acdc/hadoop_acdc_clusters.rsf is 0.0
+Coverage from E:/Assignment1_group10/output/acdc/hadoop_acdc_clusters.rsf to E:/Assignment1_group10/output/week3/group10_week3_arc_clusters.rsf is 0.0
+
+============================================================
+A2a: ARC vs LIMBO
+Command: java -jar /e/Assignment1_group10/arcade_tools/arcade_core_A2a.jar /e/Assignment1_group10/output/week3/group10_week3_arc_clusters.rsf /e/Assignment1_group10/output/limbo/hadoop-limbo-3.6.0-snapshot_IL_50_clusters.rsf
+------------------------------------------------------------
+26.226734348561763
+
+============================================================
+Cvg: ARC vs LIMBO
+Command: java -jar /e/Assignment1_group10/arcade_tools/arcade_core_Cvg.jar /e/Assignment1_group10/output/week3/group10_week3_arc_clusters.rsf /e/Assignment1_group10/output/limbo/hadoop-limbo-3.6.0-snapshot_IL_50_clusters.rsf
+------------------------------------------------------------
+Coverage from E:/Assignment1_group10/output/week3/group10_week3_arc_clusters.rsf to E:/Assignment1_group10/output/limbo/hadoop-limbo-3.6.0-snapshot_IL_50_clusters.rsf is 0.1
+Coverage from E:/Assignment1_group10/output/limbo/hadoop-limbo-3.6.0-snapshot_IL_50_clusters.rsf to E:/Assignment1_group10/output/week3/group10_week3_arc_clusters.rsf is 0.02
+
+============================================================
+A2a: ARC vs WCA
+Command: java -jar /e/Assignment1_group10/arcade_tools/arcade_core_A2a.jar /e/Assignment1_group10/output/week3/group10_week3_arc_clusters.rsf /e/Assignment1_group10/output/wca/hadoop-wca-3.6.0-snapshot_UEM_50_clusters.rsf
+------------------------------------------------------------
+26.061120543293715
+
+============================================================
+Cvg: ARC vs WCA
+Command: java -jar /e/Assignment1_group10/arcade_tools/arcade_core_Cvg.jar /e/Assignment1_group10/output/week3/group10_week3_arc_clusters.rsf /e/Assignment1_group10/output/wca/hadoop-wca-3.6.0-snapshot_UEM_50_clusters.rsf
+------------------------------------------------------------
+Coverage from E:/Assignment1_group10/output/week3/group10_week3_arc_clusters.rsf to E:/Assignment1_group10/output/wca/hadoop-wca-3.6.0-snapshot_UEM_50_clusters.rsf is 0.0
+Coverage from E:/Assignment1_group10/output/wca/hadoop-wca-3.6.0-snapshot_UEM_50_clusters.rsf to E:/Assignment1_group10/output/week3/group10_week3_arc_clusters.rsf is 0.0
+
