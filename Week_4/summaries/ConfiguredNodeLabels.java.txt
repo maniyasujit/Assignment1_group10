@@ -1,0 +1,39 @@
+**Analysis of `ConfiguredNodeLabels` Class**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+This Java class, `ConfiguredNodeLabels`, manages node labels for queues in a YARN (Yet Another Resource Negotiator) resource management context. It extracts node labels from configuration properties and provides methods to retrieve and set labels for specific queues or aggregate all labels.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of Main Algorithm/Business Logic:**
+
+1. **Initialization**:
+	* The class can be initialized with or without a `CapacitySchedulerConfiguration` object.
+	* If initialized without the config object, an empty `configuredNodeLabelsByQueue` map is created.
+	* If initialized with the config object, node labels by queue are pre-populated from the configuration.
+2. **Getting Labels for a Queue (`getLabelsByQueue`)**:
+	* Takes a `queuePath` as input.
+	* Checks if labels are configured for the queue in the `configuredNodeLabelsByQueue` map.
+	* Returns the set of labels if found; otherwise, returns a default set containing the "NO_LABEL" (representing an empty label).
+3. **Setting Labels for a Queue (`setLabelsByQueue`)**:
+	* Takes a `queuePath` and a collection of `nodeLabels` as inputs.
+	* Stores the provided labels in the `configuredNodeLabelsByQueue` map, overwriting any previous labels for the queue.
+4. **Aggregating All Configured Labels (`getAllConfiguredLabels`)**:
+	* Iterates through all values in the `configuredNodeLabelsByQueue` map (which are sets of labels).
+	* Flattens these sets into a single set of all unique node labels.
+	* If no labels are found, returns a set containing the "NO_LABEL".
+
+### **3. Inputs/Outputs:**
+**Primary Inputs and Outputs:**
+
+* **Inputs:**
+	+ `queuePath` (String): Path of the queue for which to retrieve or set labels.
+	+ `nodeLabels` (Collection<String>): Set of node labels to set for a queue.
+	+ `CapacitySchedulerConfiguration` (Object, optional): Configuration object used for initialization.
+* **Outputs:**
+	+ `Set<String>`: A set of node labels associated with a queue or all queues (aggregated).
+
+### **4. Dependencies:**
+**Key Classes, Interfaces, or External Libraries:**
+
+* **Classes:

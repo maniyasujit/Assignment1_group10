@@ -1,0 +1,45 @@
+**1. Key Functionality:**
+ Concise, high-level overview of what this code does:
+
+* **Capacity Management for YARN (Yet Another Resource Negotiator) Queues**: This Java class, `CapacitySchedulerQueueCapacityHandler`, is responsible for calculating and updating capacity values for queues in a YARN cluster, ensuring effective resource allocation based on configured capacity types (absolute, percentage, weight) and node labels.
+
+**2. Core Logic:**
+ Step-by-step explanation of the main algorithm or business logic:
+
+1. **Initialization**:
+	* Load resource names (e.g., memory, vCores) and store them in `definedResources`.
+	* Initialize calculators for each capacity type (absolute, percentage, weight).
+2. **Updating Queue Capacities**:
+	* **Root Queue Update**:
+		+ Calculate resources using the `RootCalculationDriver`.
+		+ Update the root queue's capacities based on the cluster resource.
+	* **Child Queue Update**:
+		+ Recursively traverse the queue hierarchy.
+		+ For each queue:
+			- Calculate resources using `ResourceCalculationDriver`.
+			- Update queue capacities based on the calculated effective resources and parent queue's resources.
+			- Refresh the queue with the updated cluster resource and resource limits.
+3. **Capacity Calculation**:
+	* **Effective Resource Calculation**: Determine minimum and maximum effective resources for each queue based on the capacity type and node labels.
+	* **Capacity Value Calculation**: Compute capacity and maximum capacity values as ratios of the queue's effective resources to its parent's effective resources.
+
+**3. Inputs/Outputs:**
+ Description of the primary inputs the code takes and the outputs it produces:
+
+* **Inputs**:
+	+ `RMNodeLabelsManager` (node labels manager)
+	+ `CapacitySchedulerConfiguration` (configuration for capacity scheduling)
+	+ `CSQueue` objects (queues to update)
+	+ `Resource` objects (cluster resources)
+* **Outputs**:
+	+ Updated `CSQueue` objects with recalculated capacities
+	+ `QueueCapacityUpdateContext` objects containing information about the update process
+
+**4. Dependencies:**
+ List of key classes, interfaces, or external libraries that this code depends on:
+
+* **Apache Hadoop YARN Libraries**:
+	+ `org.apache.hadoop.yarn.api.records.Resource`
+	+ `org.apache.hadoop.yarn.api.records.ResourceInformation`
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacitySchedulerConfiguration`
+* **Apache Commons

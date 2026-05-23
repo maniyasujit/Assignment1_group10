@@ -1,0 +1,44 @@
+**Analysis of the `UserWeights` Class**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+The `UserWeights` class manages a collection of user-specific weights for a queue in a resource management system (Apache Hadoop YARN). It provides methods to create, retrieve, validate, and combine user weights.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of the Main Algorithm/Business Logic:**
+
+1. **Initialization**:
+	* The class can be initialized in two ways:
+		+ **Empty**: `createEmpty()` returns an instance with an empty weight map.
+		+ **From Configuration**: `createByConfig()` populates the weight map based on configuration properties for a specified queue.
+2. **Weight Retrieval**:
+	* `getByUser(String userName)` returns the weight for a given user, defaulting to `DEFAULT_WEIGHT` (1.0F) if the user is not found.
+3. **Validation**:
+	* `validateForLeafQueue(float queueUserLimit, String queuePath)` checks all user weights against a specified limit (100 / `queueUserLimit`) for a leaf queue, throwing an `IOException` for any invalid weights.
+4. **Weight Combination**:
+	* `addFrom(UserWeights addFrom)` merges the weights from another `UserWeights` instance into the current one.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs and Outputs:**
+
+* **Inputs:**
+	+ `userName` (String) for weight retrieval
+	+ `CapacitySchedulerConfiguration` and `ConfigurationProperties` for initialization from configuration
+	+ `queueUserLimit` (float) and `queuePath` (String) for validation
+	+ Another `UserWeights` instance for weight combination
+* **Outputs:**
+	+ **Weight Values** (float) for a given user
+	+ **Validation Result** (throws `IOException` on failure)
+	+ **Updated `UserWeights` Instance** after combining weights
+
+### **4. Dependencies:**
+**Key Classes, Interfaces, or External Libraries:**
+
+* **Apache Hadoop YARN Libraries**:
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacitySchedulerConfiguration`
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.QueuePrefixes`
+* **Java Standard Library**:
+	+ `java.io.IOException`
+	+ `java.util.HashMap`
+	+ `java.util.Map`
+	+ `java.util.regex

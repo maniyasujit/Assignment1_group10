@@ -1,0 +1,40 @@
+**Analysis of the Provided Source Code**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+The `CalculationContext` class is a data container that encapsulates essential parameters for resource calculation iterations in the context of YARN (Yet Another Resource Negotiator) Resource Manager's Capacity Scheduler. It provides a structured way to access queue-specific capacity settings for a given resource.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of the Main Algorithm/Business Logic:**
+
+1. **Initialization**: The `CalculationContext` object is initialized with three key parameters:
+	* `resourceName`: The name of the resource (e.g., CPU, Memory).
+	* `capacityType`: The type of capacity measurement (defined by `ResourceUnitCapacityType`).
+	* `queue`: An instance of `CSQueue`, representing the queue for which resource calculations are being performed.
+2. **Getter Methods**: The class provides simple getter methods to access the initialized parameters:
+	* `getResourceName()`
+	* `getCapacityType()`
+	* `getQueue()`
+3. **Capacity Vector Entry Retrieval**:
+	* **Minimum Capacity**: `getCurrentMinimumCapacityEntry(label)` retrieves the minimum capacity vector entry for a specified `label` (node label) and the currently set `resourceName`.
+	* **Maximum Capacity**: `getCurrentMaximumCapacityEntry(label)` retrieves the maximum capacity vector entry under the same conditions.
+
+**Note:** The core logic is primarily about encapsulation and providing convenient access to queue capacity settings rather than complex algorithmic processing.
+
+### **3. Inputs/Outputs:**
+
+* **Primary Inputs:**
+	+ `resourceName` (String): Name of the resource.
+	+ `capacityType` (ResourceUnitCapacityType): Type of capacity measurement.
+	+ `queue` (CSQueue): The queue for which calculations are being performed.
+	+ `label` (String, for capacity entry methods): Node label for retrieving specific capacity vector entries.
+* **Primary Outputs:**
+	+ `resourceName` (String, via getter).
+	+ `capacityType` (ResourceUnitCapacityType, via getter).
+	+ `queue` (CSQueue, via getter).
+	+ `QueueCapacityVectorEntry` objects (for minimum and maximum capacity, via `getCurrentMinimumCapacityEntry` and `getCurrentMaximumCapacityEntry`).
+
+### **4. Dependencies:**
+
+* **Key Classes/Interfaces:**
+	+ `CSQueue`: Represents a queue in the Capacity Scheduler, providing

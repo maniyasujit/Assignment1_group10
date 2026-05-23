@@ -1,0 +1,38 @@
+**1. Key Functionality:**
+This Java class, `ResourceCalculationDriver`, is responsible for driving the resource calculation logic for all child queues under a parent queue in a resource management system, likely within the Apache Hadoop YARN (Yet Another Resource Negotiator) framework. It orchestrates the calculation of minimum and maximum effective resources for child queues based on predefined capacity types (absolute, percentage, weight) and ensures resource utilization constraints are met.
+
+**2. Core Logic:**
+The main algorithm can be broken down into the following steps:
+
+1. **Initialization**:
+	* Set up the driver with a parent queue, update context, calculators for different capacity types, and defined resources.
+	* Initialize data structures to track remaining resources, weights, and normalized resource ratios.
+2. **Resource Calculation** (`calculateResources()`):
+	* Reset remaining resource storage to the parent's available resource for each node label.
+	* Iterate through each capacity calculator (in precedence order: absolute, percentage, weight):
+		+ For each defined resource and child queue, calculate the resource prerequisites.
+		+ Calculate the minimum and maximum effective resources for each child queue, considering the capacity type and constraints (e.g., not exceeding parent's maximum resource).
+		+ Update the remaining resources after each calculator phase.
+3. **Validation and Warning Generation**:
+	* Validate calculated resources against constraints (e.g., minimum not exceeding maximum, not exceeding parent's resources).
+	* Generate update warnings for issues like overutilization, underutilization, or zero resource assignments.
+
+**3. Inputs/Outputs:**
+
+* **Inputs**:
+	+ `CSQueue` (parent queue)
+	+ `QueueCapacityUpdateContext` (update context)
+	+ `Map<ResourceUnitCapacityType, AbstractQueueCapacityCalculator>` (calculators for capacity types)
+	+ `Collection<String>` (defined resources)
+	+ Various method-specific inputs (e.g., node label, resource name, weight value)
+* **Outputs**:
+	+ Calculated minimum and maximum effective resources for child queues (stored in `CSQueue` objects)
+	+ Update warnings (added to `QueueCapacityUpdateContext`)
+	+ Accessor methods for remaining resources, weights, and normalized resource ratios
+
+**4. Dependencies:**
+
+* **Classes/Interfaces**:
+	+ `CSQueue` (represents a queue in the resource management system)
+	+ `QueueCapacityUpdateContext` (context for queue capacity updates)
+	+ `AbstractQueueCapacityCalculator` (base class

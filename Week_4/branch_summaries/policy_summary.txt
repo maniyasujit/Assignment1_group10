@@ -1,0 +1,25 @@
+**Concise Summary of the 'policy' Sub-module's Role and Functionality**
+
+**Role:** 
+The 'policy' sub-module is responsible for determining the allocation order of queues within a resource management system, specifically tailored for Apache Hadoop YARN's Capacity Scheduler. It provides a framework for queue ordering policies, ensuring efficient resource allocation based on factors like priority, utilization, and accessibility.
+
+**Functionality:**
+
+1. **Queue Ordering Strategy**: Defines how to order child queues for resource allocation, considering:
+	* Priority
+	* Utilization (used capacity)
+	* Accessibility to node partitions
+	* Absolute capacity
+2. **Policy Implementation**: Provides a concrete implementation (`PriorityUtilizationQueueOrderingPolicy`) that can be used to order queues based on the aforementioned factors.
+3. **Extensibility**: Offers an interface (`QueueOrderingPolicy`) for developing custom queue ordering policies, allowing for flexibility in resource allocation strategies.
+4. **Integration**: Designed to work seamlessly with Apache Hadoop YARN's Resource Manager and Capacity Scheduler, utilizing `CSQueue` objects for queue representation.
+
+**Key Outputs**:
+
+* An iterator over the ordered list of `CSQueue` objects, suitable for container assignment.
+* A configuration name identifying the ordering policy, for use in settings.
+
+**Dependencies**:
+
+* Apache Hadoop YARN (Resource Manager and Capacity Scheduler)
+* Java Standard Library

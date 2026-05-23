@@ -1,0 +1,42 @@
+**Analysis of `QueueAppLifetimeAndLimitSettings` Class**
+
+### **1. Key Functionality:**
+ Concise, high-level overview of what this code does:
+
+* Determines application lifetime (max and default) and maximum parallel applications settings for a queue in a YARN (Yet Another Resource Negotiator) resource management context.
+* Settings are derived from `CapacitySchedulerConfiguration` and queue properties, with inheritance from parent queues.
+
+### **2. Core Logic:**
+ Step-by-step explanation of the main algorithm or business logic:
+
+1. **Initialization**:
+	* Extract `maxParallelApps` from `CapacitySchedulerConfiguration` for the given queue path.
+	* Recursively determine `maxApplicationLifetime` from the queue's configuration or its parent queue (if not set).
+	* Calculate `defaultApplicationLifetime` based on the queue's configuration, parent queue's settings, and `maxApplicationLifetime`.
+2. **Determining `maxApplicationLifetime`**:
+	* If the queue is the root, use the value from `CapacitySchedulerConfiguration`.
+	* Otherwise, use the queue's configured value if set (>= 0); otherwise, use the parent queue's value.
+3. **Calculating `defaultApplicationLifetime`**:
+	* If set at the current queue level (>= 0), use that value.
+	* If not set but was specified somewhere in the parent hierarchy, use the parent's default if it doesn't exceed `maxApplicationLifetime`; otherwise, use `maxApplicationLifetime`.
+	* If not set anywhere in the hierarchy, default to `maxApplicationLifetime`.
+4. **Validation**:
+	* Ensure `defaultApplicationLifetime` does not exceed `maxApplicationLifetime`.
+
+### **3. Inputs/Outputs:**
+
+* **Primary Inputs**:
+	+ `CapacitySchedulerConfiguration` object
+	+ `AbstractCSQueue` object (`q`)
+	+ `QueuePath` object (`queuePath`)
+* **Primary Outputs (Accessible via Getters)**:
+	+ `maxParallelApps`: Maximum number of parallel applications allowed in the queue
+	+ `maxApplicationLifetime`: Maximum lifetime of an application in the queue
+	+ `defaultApplicationLifetime`: Default lifetime of an application in the queue if not specified
+	+ `defaultAppLifetimeWasSpecifiedInConfig`: Indicator if the default application lifetime was set in the configuration (at any level of the queue hierarchy)
+
+### **4. Dependencies:**
+
+* **Key Classes/Interfaces**:
+	+ `CapacitySchedulerConfiguration`
+	+ `AbstractCS

@@ -1,0 +1,38 @@
+**Analysis of the Provided Source Code**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+The `CapacitySchedulerQueueManager` class is a core component of the Apache Hadoop YARN (Yet Another Resource Negotiator) Capacity Scheduler. It is responsible for managing the hierarchy of queues, including their configuration, initialization, and dynamic updates. This involves parsing queue configurations, handling auto-creation of queues, managing access control lists (ACLs), and ensuring the integrity of the queue hierarchy.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of the Main Algorithm/Business Logic:**
+
+1. **Initialization:**
+   - The `CapacitySchedulerQueueManager` is initialized with a `Configuration` object, an `RMNodeLabelsManager`, and an `AppPriorityACLsManager`.
+   - It sets up the `CapacitySchedulerContext`, `YarnAuthorizationProvider`, and internal data structures like `CSQueueStore` for managing queues.
+
+2. **Queue Parsing and Initialization:**
+   - The `initializeQueues` method parses the queue configuration, creating a hierarchy of queues (`CSQueue` objects) based on the provided `CapacitySchedulerConfiguration`.
+   - It sets up the root queue and recursively initializes child queues, applying configurations and ACLs.
+
+3. **Dynamic Queue Management:**
+   - **Auto-Creation:** The `createQueue` method dynamically creates a leaf queue and its necessary parent hierarchy based on a given `QueuePath`, adhering to auto-creation policies.
+   - **Removal:** The `removeLegacyDynamicQueue` method safely removes an auto-created leaf queue, ensuring it has no active applications and updating the queue hierarchy.
+
+4. **Queue Hierarchy Updates:**
+   - The `reinitializeQueues` method updates the queue hierarchy based on a new configuration, validating changes and ensuring the integrity of the queue structure.
+
+5. **ACL Management:**
+   - The `setQueueAcls` method sets ACLs for queues based on the `YarnAuthorizationProvider` and `AppPriorityACLsManager`, controlling access to queues.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs:**
+- `Configuration` object for initialization
+- `CapacitySchedulerConfiguration` for queue initialization and updates
+- `QueuePath` objects for dynamic queue creation
+- `CSQueue` objects for addition or removal
+
+**Primary Outputs:**
+- The managed hierarchy of `CSQueue` objects
+- ACL configurations for queues
+- Success/failure indicators for dynamic queue operations (

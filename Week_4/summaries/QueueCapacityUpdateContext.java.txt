@@ -1,0 +1,40 @@
+**Analysis of `QueueCapacityUpdateContext` Class**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+The `QueueCapacityUpdateContext` class serves as a container for intermediate calculation values during a full queue capacity update phase in a YARN (Yet Another Resource Negotiator) Resource Manager. It manages cluster resource information and tracks update warnings.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of Main Algorithm/Business Logic:**
+
+1. **Initialization**:
+	* The class is instantiated with two key parameters:
+		+ `updatedClusterResource`: The overall cluster resource available for the update phase.
+		+ `labelsManager`: An instance of `RMNodeLabelsManager` for managing node labels.
+2. **Resource Retrieval**:
+	* **Labeled Resource**: `getUpdatedClusterResource(String label)` filters the `updatedClusterResource` by a specified node label using the `labelsManager`.
+	* **Unlabeled Resource**: `getUpdatedClusterResource()` returns the overall `updatedClusterResource` without label filtering.
+3. **Warning Management**:
+	* **Add Warning**: `addUpdateWarning(QueueUpdateWarning warning)` appends a warning to the internal list of warnings encountered during the update phase.
+	* **Retrieve Warnings**: `getUpdateWarnings()` returns the list of all warnings accumulated during the update process.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs and Outputs:**
+
+* **Inputs:**
+	+ `updatedClusterResource` (of type `Resource`): Provided during class instantiation.
+	+ `labelsManager` (of type `RMNodeLabelsManager`): Provided during class instantiation.
+	+ `label` (of type `String`): Optional, used for labeled resource retrieval.
+	+ `warning` (of type `QueueUpdateWarning`): Added to the context via `addUpdateWarning`.
+* **Outputs:**
+	+ `Resource`: Returned by `getUpdatedClusterResource()` and `getUpdatedClusterResource(String label)`.
+	+ `List<QueueUpdateWarning>`: Returned by `getUpdateWarnings()`.
+
+### **4. Dependencies:**
+**Key Classes, Interfaces, or External Libraries:**
+
+* **Classes:**
+	+ `org.apache.hadoop.yarn.api.records.Resource`
+	+ `org.apache.hadoop.yarn.server.resourcemanager.nodelabels.RMNodeLabelsManager`
+	+ `QueueUpdateWarning` (not shown in the provided code snippet, assumed to be defined elsewhere)
+*

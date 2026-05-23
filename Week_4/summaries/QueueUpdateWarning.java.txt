@@ -1,0 +1,41 @@
+**Analysis of the Provided Source Code**
+
+### **1. Key Functionality:**
+**Concise Overview:** 
+This Java class, `QueueUpdateWarning`, represents a warning event that occurs during a queue capacity update phase in a resource management system (specifically, Apache Hadoop YARN). It encapsulates the queue name, warning type, and additional information, providing a structured way to handle and communicate warnings.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of the Main Algorithm/Business Logic:**
+
+1. **Initialization**: 
+   - A `QueueUpdateWarning` object is created with a `QueueUpdateWarningType` and a `queue` name.
+   - The `info` field is optional and can be added later.
+
+2. **Warning Type Management**:
+   - The `QueueUpdateWarningType` enum defines various warning scenarios related to queue capacity updates.
+   - Each enum value has a template string for generating a warning message.
+   - The `ofQueue` method in the enum allows for easy creation of a `QueueUpdateWarning` instance tied to a specific queue.
+
+3. **Warning Message Generation**:
+   - The `toString` method formats the warning message using the template from the `QueueUpdateWarningType` and the provided `queue` and `info` fields.
+
+4. **Optional Information Addition**:
+   - The `withInfo` method allows for adding supplementary details to the warning after its creation.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs:**
+- `QueueUpdateWarningType`: The type of warning (e.g., `BRANCH_UNDERUTILIZED`, `QUEUE_OVERUTILIZED`, etc.)
+- `queue`: The name of the queue related to the warning
+- `info` (Optional): Additional information about the warning
+
+**Primary Outputs:**
+- A formatted warning message (as a `String`) when `toString` is invoked, incorporating the queue name, warning type, and any provided additional information.
+
+### **4. Dependencies:**
+**Key Classes, Interfaces, or External Libraries:**
+- **Java Standard Library**:
+  - `java.lang.Enum` (for `QueueUpdateWarningType`)
+  - `java.lang.String` and `java.lang.String.format` (for message formatting)
+- **Apache Licensing and Framework Context**:
+  - Part of the Apache Hadoop YARN project, implying dependencies on Hadoop and YARN libraries, though none are directly referenced in this class.
+- **No direct external library dependencies** are

@@ -1,0 +1,36 @@
+**Analysis of the Provided Source Code**
+
+### **1. Key Functionality:**
+**High-Level Overview:** 
+This Java class, `KillableContainer`, represents a container in a YARN (Yet Another Resource Negotiator) cluster that can be terminated (killed) as part of resource management, specifically in the context of capacity preemption. It encapsulates key attributes of such a container for scheduling decisions.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of the Main Algorithm/Business Logic:**
+
+1. **Instantiation**: An instance of `KillableContainer` is created by passing an `RMContainer` object, a `partition` string, and a `leafQueueName` string to its constructor.
+2. **Attribute Setting**: During instantiation, the provided `RMContainer`, `partition`, and `leafQueueName` are assigned to the object's fields.
+3. **Attribute Retrieval**: The class provides getter methods for each attribute, allowing other components to access the:
+   - `RMContainer` instance associated with this killable container.
+   - `partition` (node partition) where the container resides.
+   - `leafQueueName` of the queue to which this container belongs.
+
+**Note:** The core logic is primarily focused on encapsulation and data access, as the actual preemption or killing logic is not implemented within this class. It serves as a data carrier for other components that handle the preemption decisions.
+
+### **3. Inputs/Outputs:**
+
+* **Inputs:**
+	+ `RMContainer container`: The container that can be killed.
+	+ `String partition`: The node partition associated with the container.
+	+ `String leafQueueName`: The name of the leaf queue to which the container belongs.
+* **Outputs:**
+	+ `RMContainer`: Accessed via `getRMContainer()`.
+	+ `String`: Node partition, retrieved via `getNodePartition()`.
+	+ `String`: Leaf queue name, obtained via `getLeafQueueName()`.
+
+### **4. Dependencies:**
+
+* **Key Classes/Interfaces:**
+	+ `org.apache.hadoop.yarn.server.resourcemanager.rmcontainer.RMContainer`: Represents a container in YARN's ResourceManager.
+* **External Libraries/Frameworks:**
+	+ **Apache Hadoop YARN**: This class is part of the YARN project, specifically designed for resource management and scheduling in Hadoop clusters.
+* **No explicit external libraries (beyond Apache Hadoop YARN) are directly referenced in this code snippet

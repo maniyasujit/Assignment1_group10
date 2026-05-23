@@ -1,0 +1,40 @@
+**Overview of the Provided Code**
+
+The provided code is for a Java class named `AbstractLeafQueue`, which appears to be part of the Apache Hadoop YARN (Yet Another Resource Negotiator) project. Specifically, it's related to the Capacity Scheduler, a pluggable scheduler in YARN that allows for hierarchical queues with guaranteed capacities.
+
+**Functionality Breakdown**
+
+1. **Queue Management**:
+	* The class represents a leaf queue in the YARN Capacity Scheduler hierarchy.
+	* It manages applications, resources, and users within the queue.
+2. **Resource Management**:
+	* Tracks and updates resource usage (memory, CPU, etc.) for the queue.
+	* Handles resource allocation, deallocation, and reservation for applications.
+3. **Application Management**:
+	* Manages the lifecycle of applications (submit, activate, finish) within the queue.
+	* Maintains lists of pending, active, and non-runnable applications.
+4. **User Management**:
+	* Tracks user resource usage and limits within the queue.
+	* Enforces user limits on resource allocation.
+5. **Scheduling Policies**:
+	* Utilizes ordering policies for scheduling applications (e.g., FIFO for pending apps).
+	* Supports dynamic adjustment of scheduling policies.
+6. **Preemption and Resource Reclamation**:
+	* Participates in preemption decisions to reclaim resources from other queues or applications.
+7. **Metrics and Monitoring**:
+	* Updates and provides queue, application, and user metrics for monitoring and debugging.
+8. **Configuration and Dynamic Updates**:
+	* Supports dynamic updates to queue configurations, such as capacity, user limits, and scheduling policies.
+
+**Key Methods and Their Purposes**
+
+* `setupQueueConfigs(Resource clusterResource)`: Initializes queue configurations based on the provided cluster resource.
+* `submitApplicationAttempt(FiCaSchedulerApp application, String userName)`: Submits an application attempt to the queue.
+* `activateApplications()`: Activates pending applications based on available resources and queue/user limits.
+* `assignContainers(Resource clusterResource, ...)`: Attempts to assign containers to applications based on resource availability and scheduling policies.
+* `completedContainer(Resource clusterResource, ...)`: Handles container completion, updating resource usage and application state.
+* `updateClusterResource(Resource clusterResource, ...)`: Updates the queue's view of the cluster resource, triggering recalculations of capacities and limits.
+
+**Design and Implementation Notes**
+
+* The class uses a write lock (`writeLock`) for critical sections that modify the queue's state

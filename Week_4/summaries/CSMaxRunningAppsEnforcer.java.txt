@@ -1,0 +1,29 @@
+**Overview**
+
+The provided Java code is for a class named `CSMaxRunningAppsEnforcer`, which is part of the Apache Hadoop YARN (Yet Another Resource Negotiator) project. Specifically, it's designed to work within the Capacity Scheduler to enforce limits on the maximum number of concurrently running applications (maxRunningApps) for both users and queues.
+
+**Key Functionality:**
+
+1. **Tracking Application State**:
+   - **Runnable Apps**: Maintains a count of running applications per user (`usersNumRunnableApps`).
+   - **Non-Runnable Apps**: Keeps track of applications that cannot run due to maxRunningApps limits, organized by user (`usersNonRunnableApps`).
+
+2. **Enforcing maxRunningApps Limits**:
+   - **User Level**: Checks if allowing an application to run would exceed the user's maxRunningApps limit (`exceedUserMaxParallelApps`).
+   - **Queue Level**: Recursively checks all parent queues to ensure the application's execution wouldn't surpass any queue's maxRunningApps limit (`exceedQueueMaxParallelApps`).
+
+3. **Updating Application Runnability**:
+   - **On Configuration Reload**: Reevaluates non-runnable applications to see if changes in maxRunningApps settings now allow them to run (`updateRunnabilityOnReload`).
+   - **After Application Removal**: Checks if the removal of an application allows previously non-runnable applications to now run, considering both user and queue limits (`updateRunnabilityOnAppRemoval`).
+
+4. **Utility Methods**:
+   - **Tracking and Untracking Apps**: Methods to update internal state when applications are added, removed, or change runnability status.
+   - **Gathering Possibly Runnable Apps**: Collects lists of non-runnable applications under a given queue, useful for reevaluation after configuration changes or application removals.
+   - **MultiListStartTimeIterator**: A custom iterator that merges multiple lists of applications (ordered by start time) into a single, chronologically ordered iteration.
+
+**Simple Use Case Explanation:**
+
+- **Scenario**: A user, "John", has a maxRunningApps limit of 3 across all queues. John submits 4 applications (App1, App2, App3, App4) to QueueA, which itself has no specific maxRunningApps limit set (thus, it defaults to a higher or no limit).
+
+- **Step-by-Step Process**:
+  1. **App1, App2, App3 Submission**: Each is allowed to run as

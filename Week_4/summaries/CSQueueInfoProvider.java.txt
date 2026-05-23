@@ -1,0 +1,49 @@
+**Code Analysis: CSQueueInfoProvider**
+
+**Overview**
+---------------
+
+The `CSQueueInfoProvider` class is a utility provider in the Apache Hadoop YARN (Yet Another Resource Negotiator) project, specifically designed for the Capacity Scheduler. Its primary function is to gather and return detailed information about a given queue in the YARN resource management system.
+
+**Key Functionality**
+----------------------
+
+1. **Queue Information Retrieval**: The main entry point is the `getQueueInfo(AbstractCSQueue csQueue)` method, which takes an `AbstractCSQueue` object as input and returns a `QueueInfo` object. This `QueueInfo` object encapsulates various attributes and statistics of the specified queue.
+
+2. **Queue Statistics Generation**: The `getQueueStatistics(AbstractCSQueue csQueue)` method is responsible for collecting and returning queue-level statistics (e.g., number of submitted, running, pending, completed, killed, and failed applications, as well as resource utilization metrics).
+
+3. **Queue Configurations Mapping**: The `getQueueConfigurations(AbstractCSQueue csQueue)` method generates a map of `QueueConfigurations` keyed by node labels. Each `QueueConfigurations` object contains capacity settings, maximum capacity, and resource quota configurations specific to a node label.
+
+**Method Breakdown**
+----------------------
+
+### `getQueueInfo(AbstractCSQueue csQueue)`
+
+* **Input**: `AbstractCSQueue` object representing the queue.
+* **Output**: `QueueInfo` object containing queue attributes and statistics.
+* **Attributes Set**:
+	+ Scheduler Type
+	+ Queue Name and Path
+	+ Accessible Node Labels
+	+ Capacity, Maximum Capacity, and Current Capacity
+	+ Queue State
+	+ Default Node Label Expression
+	+ Preemption Settings
+	+ Weight and Maximum Parallel Applications
+	+ Queue Statistics (via `getQueueStatistics`)
+	+ Queue Configurations (via `getQueueConfigurations`)
+
+### `getQueueStatistics(AbstractCSQueue csQueue)`
+
+* **Input**: `AbstractCSQueue` object.
+* **Output**: `QueueStatistics` object.
+* **Statistics Collected**:
+	+ Application Counts (Submitted, Running, Pending, Completed, Killed, Failed)
+	+ Active Users
+	+ Memory and Virtual Core Resource Utilization (Available, Allocated, Pending, Reserved)
+	+ Container Counts (Pending, Allocated, Reserved)
+
+### `getQueueConfigurations(AbstractCSQueue csQueue)`
+
+* **Input**: `AbstractCSQueue` object.
+* **Output**: A

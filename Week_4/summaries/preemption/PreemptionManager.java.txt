@@ -1,0 +1,44 @@
+**Analysis of the Provided Source Code**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+The `PreemptionManager` class is a crucial component in the Apache Hadoop YARN (Yet Another Resource Negotiator) Resource Manager, specifically designed for managing preemption in a capacity scheduler environment. It tracks and manages containers that can be preempted (killed) to allocate resources to higher-priority applications or queues. The class ensures thread safety through the use of read and write locks.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of the Main Algorithm/Business Logic:**
+
+1. **Initialization**: 
+   - Creates a `ReentrantReadWriteLock` for concurrent access control.
+   - Initializes an empty map (`entities`) to store `PreemptableQueue` instances, keyed by queue names.
+
+2. **Queue Refreshment** (`refreshQueues` method):
+   - Acquires a write lock to ensure exclusive access.
+   - Recursively updates the `entities` map with `PreemptableQueue` instances for the given queue and its children, maintaining a hierarchical structure.
+
+3. **Container Management**:
+   - **Add Container**: Adds a killable container to the corresponding `PreemptableQueue` instance (acquiring a write lock).
+   - **Remove Container**: Removes a killable container from its associated `PreemptableQueue` (acquiring a write lock).
+   - **Move Container** and **Update Container Resource**: Currently unimplemented (TODO comments indicate future development plans).
+
+4. **Resource and Container Retrieval**:
+   - **Get Killable Containers**: Returns an iterator of killable containers for a specified queue and partition (read lock).
+   - **Get Killable Resource**: Retrieves the total killable resources for a given queue and partition (read lock).
+   - **Get Shallow Copy of Preemptable Queues**: Provides a shallow copy of the `PreemptableQueue` map for external access (read lock).
+
+### **3. Inputs/Outputs:**
+
+**Inputs:**
+
+- `CSQueue` objects for queue hierarchy management
+- `KillableContainer` objects for addition, removal, and updates
+- Queue names and partition identifiers for targeted container/resource queries
+
+**Outputs:**
+
+- Iterators of `RMContainer` objects (killable containers)
+- `Resource` objects representing total killable resources
+- A shallow copy of the `PreemptableQueue` map for external inspection
+
+### **4. Dependencies:**
+
+**Key Classes

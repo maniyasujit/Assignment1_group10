@@ -1,0 +1,39 @@
+**Analysis of `QueueAllocationSettings` Class**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+This Java class, `QueueAllocationSettings`, determines and manages the minimum and maximum resource allocation settings for a queue in a YARN (Yet Another Resource Negotiator) cluster, based on configuration settings and queue properties.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of Main Algorithm/Business Logic:**
+
+1. **Initialization**:
+	* The class is instantiated with a `minimumAllocation` Resource, which is stored as a final field.
+2. **Setup Maximum Allocation** (`setupMaximumAllocation` method):
+	* Retrieves the cluster's maximum allocation from the `CapacitySchedulerConfiguration`.
+	* Retrieves the queue's maximum allocation (if set) from the configuration for the specified `queuePath`.
+	* **Backward Compatibility Handling**:
+		+ If the queue's maximum allocation is not set (`Resources.none()`), it checks for deprecated settings (`queueMaximumAllocationMb` and `queueMaximumAllocationVcores`) and applies them to the `maximumAllocation` if present.
+		+ Validates that these settings do not exceed the cluster's maximum allocation.
+	* **Queue Maximum Allocation Handling** (if set):
+		+ Clones the parent queue's maximum allocation (or cluster's if no parent) as the initial `maximumAllocation`.
+		+ Iterates through each resource type in the queue's maximum allocation:
+			- Validates that each resource type's allocation does not exceed the cluster's setting.
+			- Updates the `maximumAllocation` with the queue's specified resource allocations.
+3. **Getter Methods**:
+	* `getMinimumAllocation()` and `getMaximumAllocation()` provide access to the determined allocation settings.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs:**
+
+* `minimumAllocation` (Resource): The minimum resource allocation for the queue, provided during class instantiation.
+* `CapacitySchedulerConfiguration`: Configuration settings for the capacity scheduler.
+* `queuePath`: Path identifying the queue for which to set allocations.
+* `CSQueue parent`: Optional parent queue, used to inherit maximum allocation settings if not explicitly set for the queue.
+
+**Primary Outputs:**
+
+* `minimumAllocation` (Resource): Accessible via `getMinimumAllocation()`, representing the minimum resource allocation for the queue.
+* `maximumAllocation` (Resource): Accessible via `getMaximumAllocation()`, representing the maximum resource allocation for the queue, as determined by the setup process.
+
+### **

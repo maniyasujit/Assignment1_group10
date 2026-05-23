@@ -1,0 +1,42 @@
+**Analysis of the Provided Source Code**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+This Java class, `WeightQueueCapacityCalculator`, is responsible for calculating resource capacities for queues in a resource management system, specifically designed for Apache Hadoop YARN (Yet Another Resource Negotiator). It focuses on weight-based capacity calculations, ensuring fair resource allocation among queues based on their configured weights.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of the Main Algorithm/Business Logic:**
+
+1. **PreCalculation (calculateResourcePrerequisites)**:
+	* Iterates through child queues, their node labels, and resources (with a focus on weight capacity type).
+	* Accumulates the weight of each resource across all child queues for each label.
+
+2. **Minimum Resource Calculation (calculateMinimumResource)**:
+	* **Normalization**: Calculates the normalized weight of a resource in a queue based on the total weight of all resources with the same label.
+	* **Resource Allocation**:
+		+ If the normalized weight is 1 (sole resource), allocates all remaining resources.
+		+ Otherwise, calculates the queue's absolute capacity based on the parent's capacity, remaining resource ratio, and the normalized weight.
+
+3. **Maximum Resource Calculation (calculateMaximumResource)**:
+	* **Unsupported Operation**: Throws an exception, indicating that weight-based maximum capacity is not supported.
+
+4. **Post-Calculation Update (updateCapacitiesAfterCalculation)**:
+	* **Capacity Normalization**:
+		- For each resource in a queue, calculates its capacity based on its weight relative to the total weight of all resources with the same label.
+		- Updates the queue's normalized weight as the average capacity across all its resources.
+	* **Absolute Capacity Update**: Triggers an update of the queue's absolute capacities.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs:**
+
+* `ResourceCalculationDriver`: Provides context and methods for resource calculations.
+* `CalculationContext`: Offers specifics about the resource being calculated (e.g., resource name, label).
+* `CSQueue` and `String label`: Define the queue and label for which capacities are being updated.
+
+**Primary Outputs:**
+
+* **Calculated Minimum Resource Value** (double): The minimum resource amount allocated to a queue based on its weight.
+* **Updated Queue Capacities**: Normalized and absolute capacities are updated for the queues after calculations.
+
+### **4. Dependencies:**
+**Key Classes, Interfaces, or

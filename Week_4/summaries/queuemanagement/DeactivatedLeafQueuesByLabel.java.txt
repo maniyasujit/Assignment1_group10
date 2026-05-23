@@ -1,0 +1,38 @@
+**Analysis of `DeactivatedLeafQueuesByLabel` Class**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+This Java class, `DeactivatedLeafQueuesByLabel`, is part of the Apache Hadoop YARN (Yet Another Resource Negotiator) project, specifically designed for capacity scheduling and queue management. It manages deactivated leaf queues within a parent queue, based on node labels, calculating capacities and determining the feasibility of activating leaf queues.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of Main Algorithm/Business Logic:**
+
+1. **Initialization**:
+	* The class is instantiated with a set of deactivated leaf queues, parent queue path, node label, and various capacity metrics.
+	* It calculates the total deactivated capacity by summing the absolute capacities of all deactivated leaf queues for the given node label.
+2. **Capacity Calculations**:
+	* **Available Capacity**: Computed as the parent's absolute capacity minus the sum of child queue activated capacities, plus the total deactivated capacity, with a small epsilon value added.
+	* **Total Deactivated Capacity**: Sums the absolute capacities of all deactivated leaf queues for the specified node label.
+3. **Activation Checks and Recommendations**:
+	* **Can Activate Leaf Queues?**: Checks if the available capacity is sufficient to activate a leaf queue (i.e., >= leaf queue template's absolute capacity).
+	* **Max Leaves to Be Activated**: Calculates the maximum number of leaf queues that can be activated based on available capacity and the number of pending applications, using the leaf queue template's absolute capacity as a basis.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs:**
+
+* `deactivatedLeafQueues`: A map of deactivated leaf queues to their capacities.
+* `parentQueuePath`: The path of the parent queue.
+* `nodeLabel`: The label of the node.
+* `sumOfChildQueueActivatedCapacity`: The sum of activated capacities of child queues.
+* `parentAbsoluteCapacity`: The absolute capacity of the parent queue.
+* `leafQueueTemplateAbsoluteCapacity`: The absolute capacity template for leaf queues.
+
+**Primary Outputs:**
+
+* **Available Capacity**: The computed available capacity for activation.
+* **Total Deactivated Capacity**: The total capacity of all deactivated leaf queues.
+* **Activation Feasibility**: Boolean indicating whether a leaf queue can be activated.
+* **Max Activatable Leaves**: The maximum number of leaf queues that can be activated.
+
+### **4. Dependencies:**
+**Key Classes,

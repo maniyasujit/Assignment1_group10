@@ -1,0 +1,39 @@
+**Class Overview**
+
+* **Name:** `AbstractManagedParentQueue`
+* **Package:** `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity`
+* **License:** Apache License, Version 2.0
+* **Description:** An abstract container class for managing automatically created child leaf queues in a YARN (Yet Another Resource Negotiator) resource manager. It extends `AbstractParentQueue` and provides functionality for adding, removing, and managing child queues.
+
+**Key Functionality:**
+
+1. **Child Queue Management:**
+	* `addChildQueue(CSQueue childQueue)`: Adds a child queue with zero capacity.
+	* `removeChildQueue(CSQueue childQueue)`: Removes a child queue with zero capacity.
+	* `removeChildQueue(String childQueueName)`: Removes a child queue by name.
+2. **Capacity Calculations:**
+	* `sumOfChildCapacities()`: Returns the total capacity of all child queues.
+	* `sumOfChildAbsCapacities()`: Returns the total absolute capacity of all child queues.
+3. **Configuration and Validation:**
+	* `initializeLeafQueueConfigs(String configPrefix)`: Initializes leaf queue configurations from a given prefix.
+	* `validateQueueEntitlementChange(AbstractAutoCreatedLeafQueue leafQueue, QueueEntitlement entitlement)`: Validates changes to queue entitlements, ensuring the sum of child queue capacities doesn't exceed 100%.
+
+**Important Methods and Variables:**
+
+* **Constructors:**
+	+ `AbstractManagedParentQueue(CapacitySchedulerQueueContext queueContext, String queueName, CSQueue parent, CSQueue old)`: Initializes the parent queue.
+* **Variables:**
+	+ `leafQueueTemplate`: Template configuration for auto-created leaf queues.
+	+ `queueManagementPolicy`: Policy for managing auto-created queues.
+	+ `writeLock`: Lock for synchronizing write operations.
+* **Inherited Methods:**
+	+ `reinitialize(CSQueue newlyParsedQueue, Resource clusterResource)`: Reinitializes the queue with new configurations (inherited from `AbstractParentQueue`).
+
+**Usage Context:**
+
+This class is part of the Apache Hadoop YARN resource manager, specifically designed for managing capacity scheduling. It's intended for use in distributed computing environments where resources need to be allocated efficiently among various queues. Developers working on YARN-based projects can extend this abstract class to create custom managed parent queues, leveraging its built-in functionality for child queue management and capacity calculations.
+
+**Example Use Case:**
+
+```java
+//

@@ -1,0 +1,46 @@
+**Overview of the Provided Source Code**
+
+The provided source code is for an abstract class `AbstractCSQueue` in Java, which appears to be part of the Apache Hadoop YARN (Yet Another Resource Negotiator) project. Specifically, it's related to the Capacity Scheduler, a pluggable scheduler in YARN that allows for hierarchical queues with guaranteed capacities.
+
+**Functionality Breakdown**
+
+1. **Queue Management**:
+	* Represents a queue in the Capacity Scheduler hierarchy.
+	* Manages queue properties (e.g., capacity, maximum capacity, used resources, pending resources, and reserved resources).
+	* Handles queue state transitions (e.g., RUNNING, STOPPED, DRAINING).
+
+2. **Resource Management**:
+	* Tracks resource usage (memory, CPU, etc.) at the queue level.
+	* Updates resource allocations based on container assignments and releases.
+	* Supports resource limits (minimum and maximum) for queues.
+
+3. **Access Control and Security**:
+	* Integrates with YARN's security features for access control (e.g., checks user permissions for queue operations).
+	* Manages Access Control Lists (ACLs) for queues.
+
+4. **Scheduling and Allocation**:
+	* Participates in the scheduling process by determining if a container allocation request can be accepted based on current queue resource usage and limits.
+	* Supports different scheduling modes (e.g., respecting partition exclusivity or ignoring it).
+
+5. **Configuration and Initialization**:
+	* Initializes queue settings from the configuration.
+	* Supports dynamic queue creation and configuration.
+
+6. **Metrics and Monitoring**:
+	* Updates and provides queue usage metrics.
+
+7. **Preemption and Killable Resources**:
+	* Interacts with the preemption manager to handle killable resources within the queue.
+
+**Key Methods and Their Purposes**
+
+* `setupQueueConfigs(Resource clusterResource)`: Initializes queue properties based on configuration.
+* `allocateResource` and `releaseResource`: Update queue resource usage upon container allocation or deallocation.
+* `accept(Resource cluster, ResourceCommitRequest request)`: Determines if a container allocation request can be accepted by the queue.
+* `updateQueueState(QueueState queueState)`: Changes the state of the queue (e.g., from STOPPED to RUNNING).
+* `getQueueInfo()`: Returns information about the queue.
+* `incUsedResource`, `decUsedResource`, `incReservedResource`, `decReservedResource`: Update resource usage metrics.
+
+**Class Structure and Relationships**
+
+* **Abstract Class**:

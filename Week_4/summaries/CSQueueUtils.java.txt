@@ -1,0 +1,45 @@
+**1. Key Functionality:**
+==========================
+
+The `CSQueueUtils` class provides utility methods for managing and updating queue capacities, resource usage, and statistics in the context of the Apache Hadoop YARN (Yet Another Resource Negotiator) Capacity Scheduler. The key functionality includes:
+
+* Validating and computing absolute capacities and maximum capacities for queues
+* Updating used capacity, reserved capacity, and available resources for queues based on node partitions (labels)
+* Updating queue statistics, including guaranteed resources, maximum capacities, and available resources to queues
+
+**2. Core Logic:**
+==================
+
+Here's a step-by-step explanation of the main algorithms and business logic:
+
+### **a. Computing Absolute Capacities**
+
+1. `computeAbsoluteMaximumCapacity`:
+	* Takes `maximumCapacity` and `CSQueue parent` as inputs
+	* Returns the absolute maximum capacity by multiplying `maximumCapacity` with the parent queue's absolute maximum capacity (if exists)
+
+### **b. Updating Queue Capacities and Statistics**
+
+1. `updateUsedCapacity`:
+	* Takes `ResourceCalculator`, `totalPartitionResource`, `nodePartition`, and `AbstractCSQueue childQueue` as inputs
+	* Computes used capacity, reserved capacity, and available resources for the specified node partition
+	* Updates the queue's capacities and metrics accordingly
+2. `updateQueueStatistics`:
+	* Takes `ResourceCalculator`, `cluster`, `AbstractCSQueue childQueue`, `RMNodeLabelsManager`, and `nodePartition` as inputs
+	* Updates used capacity, absolute used capacity, and available resources to the queue for all node partitions (if `nodePartition` is null) or a specific partition
+3. `updateConfiguredCapacityMetrics`:
+	* Takes `ResourceCalculator`, `partitionResource`, `partition`, and `AbstractCSQueue queue` as inputs
+	* Updates the queue's guaranteed resources, maximum capacities, and guaranteed/maximum capacities for the specified partition
+
+### **c. Updating Absolute Capacities by Node Labels**
+
+1. `updateAbsoluteCapacitiesByNodeLabels`:
+	* Takes `QueueCapacities queueCapacities`, `QueueCapacities parentQueueCapacities`, `Set<String> nodeLabels`, and `boolean isLegacyQueueMode` as inputs
+	* Updates the absolute capacities and maximum capacities for each node label based on the parent queue's capacities (if exists) and the specified queue mode
+
+**3. Inputs/Outputs:**
+=====================
+
+**Inputs:**
+
+* `Queue

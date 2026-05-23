@@ -1,0 +1,38 @@
+**Code Analysis: AutoCreatedQueueDeletionPolicy**
+
+**Overview**
+---------------
+
+This Java class, `AutoCreatedQueueDeletionPolicy`, implements a scheduling edit policy for the Apache Hadoop YARN (Yet Another Resource Negotiator) Resource Manager. Its primary function is to automatically delete auto-created queues that are no longer needed, based on a predefined expiration time. This policy is specifically designed for weight-based auto-created queues.
+
+**Key Components**
+--------------------
+
+1. **Initialization (`init` method)**
+	* Sets up the policy with the provided configuration, Resource Manager context, and Resource Scheduler.
+	* Verifies the scheduler is an instance of `CapacityScheduler`.
+	* Retrieves the monitoring interval (expiration time for auto-created queues) from the configuration.
+2. **Queue Monitoring and Marking for Deletion**
+	* `prepareForAutoDeletion` method:
+		+ Iterates through all queues managed by the `CapacityScheduler`.
+		+ Checks if a queue is eligible for auto-deletion (based on `AbstractCSQueue` criteria).
+		+ Marks eligible queues for deletion, tracking them in two sets:
+			- `markedForDeletion`: new queues marked for deletion in the current interval.
+			- `sentForDeletion`: queues already marked in a previous interval and still eligible.
+3. **Deletion of Expired Queues (`editSchedule` and `triggerAutoDeletionForExpiredQueues` methods)**
+	* Periodically (based on the monitoring interval):
+		1. Updates the lists of queues marked for deletion.
+		2. Triggers the deletion of queues in `sentForDeletion`.
+4. **Deletion Mechanism (`deleteAutoCreatedQueue` method)**
+	* Creates an `AutoCreatedQueueDeletionEvent` for the queue to be deleted.
+	* Submits this event to the Resource Manager's event handler for processing.
+
+**How it Works**
+-----------------
+
+1. **Initialization**: The policy is initialized with the necessary components and configuration.
+2. **Periodic Monitoring** (every `monitoringInterval` milliseconds):
+	* **Queue Assessment**: All queues are checked for eligibility for auto-deletion.
+	* **Update Deletion Lists**: Queues are either marked for deletion (`markedForDeletion`) or confirmed for deletion if previously marked (`sentForDeletion`).
+	* **Deletion Trigger**: Queues in `sentForDeletion` are processed for deletion by submitting a deletion event to the Resource Manager.
+3. **De

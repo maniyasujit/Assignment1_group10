@@ -1,0 +1,39 @@
+Here is the analysis of the provided source code:
+
+**1. Key Functionality:**
+This Java class, `LegacyMappingRuleToJson`, is designed to convert legacy mapping rules from a string-based format to a JSON format. The rules pertain to user group, application name, and queue mappings in the context of the Apache Hadoop YARN (Yet Another Resource Negotiator) Capacity Scheduler.
+
+**2. Core Logic:**
+The core logic involves the following steps:
+
+* **Rule Parsing**:
+	1. Split incoming legacy rules into their constituent parts (e.g., type, match, target) using a delimiter (`:`).
+	2. Validate the number of parts and ensure none are empty.
+* **Rule Conversion**:
+	1. Determine the rule type (user, group, application).
+	2. Apply specific conversion logic for each rule type, which may involve:
+		* Identifying match patterns (e.g., `%user`, `%application`).
+		* Resolving target queue paths, potentially involving variables (e.g., `%primary_group`, `%secondary_group`).
+		* Creating a JSON node with the converted rule details.
+* **JSON Construction**:
+	1. Create a root JSON object with an array node for the converted rules.
+	2. Add each converted rule node to the array.
+	3. Pretty-print the JSON output (if successful).
+
+**3. Inputs/Outputs:**
+
+* **Inputs**:
+	+ `userGroupMappingRules`: A string or collection of strings representing legacy user group mapping rules.
+	+ `applicationNameMappingRules`: A string or collection of strings representing legacy application name mapping rules.
+* **Outputs**:
+	+ A JSON string representing the converted mapping rules, or `null` if no rules are provided or conversion fails.
+
+**4. Dependencies:**
+
+* **Classes/Interfaces**:
+	+ `ObjectMapper` (Jackson library): for JSON creation and manipulation.
+	+ `QueuePath` (Apache Hadoop YARN): for parsing and manipulating queue paths.
+* **External Libraries**:
+	+ **Jackson** (for JSON processing): `com.fasterxml.jackson.core` and `com.fasterxml.jackson.databind`.
+	+ **Apache Hadoop YARN**: `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity` (for Capacity Scheduler context).
+	+ **Apache Commons** (implicitly, via Hadoop dependencies): for utility classes like `StringUtils`.

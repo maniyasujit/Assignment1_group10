@@ -1,0 +1,34 @@
+**Concise Summary of the 'conf' Sub-module's Role and Functionality**
+
+**Role:**
+The 'conf' sub-module is responsible for managing and persisting configuration settings for Apache YARN (Yet Another Resource Negotiator) Capacity Schedulers, ensuring data integrity, recoverability, and access control.
+
+**Key Functionalities:**
+
+1. **Configuration Management**:
+	* Stores, retrieves, and updates scheduler configurations.
+	* Supports various storage backends (e.g., in-memory, LevelDB, ZooKeeper, filesystem).
+2. **Access Control and Validation**:
+	* Enforces access control policies for configuration mutations (updates).
+	* Validates user permissions for queue administration.
+3. **Versioning and Compatibility**:
+	* Manages configuration store versions for backward compatibility.
+	* Checks for version incompatibilities during initialization.
+4. **Logging and Auditing**:
+	* Logs configuration mutations for auditing and recovery purposes.
+5. **Factory-based Instantiation**:
+	* Provides a factory class (`YarnConfigurationStoreFactory`) for creating store instances based on configurations.
+
+**Core Components:**
+
+1. **YarnConfigurationStore** (interface): Defines the contract for configuration stores.
+2. **Concrete Store Implementations** (e.g., `InMemoryConfigurationStore`, `LeveldbConfigurationStore`, `ZKConfigurationStore`, `FSSchedulerConfigurationStore`): Each provides a specific storage solution.
+3. **YarnConfigurationStoreFactory**: A factory for instantiating store instances based on configurations.
+4. **QueueAdminConfigurationMutationACLPolicy**: Enforces access control for queue administration configuration updates.
+5. **Configuration Update Assembler** (`ConfigurationUpdateAssembler`): Constructs updates to scheduler configurations.
+
+**Dependencies:**
+
+* Apache Hadoop and YARN libraries
+* External libraries (e.g., LevelDB, ZooKeeper, SLF4J for logging)
+* Java Standard Library for serialization, reflection, and other utilities

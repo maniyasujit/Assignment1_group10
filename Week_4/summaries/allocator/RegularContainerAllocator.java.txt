@@ -1,0 +1,47 @@
+**Analysis of the Provided Source Code**
+
+### **1. Key Functionality:**
+**Container Allocation for YARN (Yet Another Resource Negotiator) Applications**
+
+This Java class, `RegularContainerAllocator`, is responsible for allocating containers to YARN applications based on resource requests, considering factors like locality (node, rack, off-switch), resource availability, and scheduling modes (e.g., ignoring partition exclusivity). It's part of the Apache Hadoop YARN project, specifically designed for the Capacity Scheduler.
+
+### **2. Core Logic:**
+
+1. **Pre-allocation Checks**:
+	* Verify if the application needs more resources.
+	* Check if the requested resource can fit within the current resource limits (headroom).
+	* Ensure the node matches the request's partition and placement constraints.
+2. **Locality-based Allocation**:
+	* Attempt allocation in order of locality preference: Node Local, Rack Local, Off-Switch.
+	* For each locality level, check if allocation is possible based on available resources and scheduling opportunities.
+3. **Allocation or Reservation**:
+	* If resources are available, allocate a container; otherwise, reserve resources for future allocation if configured to do so.
+	* Handle the allocation result, updating application state and logging allocation activities.
+4. **Scheduling Opportunity Management**:
+	* Manage scheduling opportunities to delay allocations for better locality, especially for off-switch requests.
+
+### **3. Inputs/Outputs:**
+
+**Inputs:**
+
+* `clusterResource`: The total resource available in the cluster.
+* `candidates`: A set of candidate nodes for allocation, filtered by partition and other constraints.
+* `schedulingMode`: The mode in which to perform scheduling (e.g., ignoring partition exclusivity).
+* `resourceLimits`: The current resource limits for the queue or user.
+* `reservedContainer`: An optional reserved container to allocate.
+
+**Outputs:**
+
+* `CSAssignment`: An object representing the allocation result, which can indicate a successful allocation, a reservation, or a decision to skip allocation for the application.
+
+### **4. Dependencies:**
+
+* **Apache Hadoop YARN Libraries**:
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity`
+	+ `org.apache.hadoop.yarn.api.records`
+	+ `org.apache.hadoop.yarn.server.resourcemanager.rmcontainer`
+* **Apache Commons Lang**:
+	+ `org.apache.commons.lang3.StringUtils`
+* **SLF4J Logging API**:
+	+ `org.slf4j.Logger`
+	+ `org.slf

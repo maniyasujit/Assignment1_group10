@@ -1,0 +1,41 @@
+**1. Key Functionality:**
+==========================
+
+*   **Queue Capacity Management:** This Java class, `QueueCapacities`, is designed to manage and track various capacity-related metrics for queues in a resource management system, such as Apache Hadoop YARN. It provides a thread-safe way to store, retrieve, and update capacities for different node labels.
+
+**2. Core Logic:**
+==================
+
+1.  **Initialization:**
+    *   The class is initialized with a boolean flag `isRoot`, indicating whether it's the root queue.
+    *   A `ReentrantReadWriteLock` is set up for thread-safe read and write operations.
+    *   An empty `HashMap` (`capacitiesMap`) is created to store capacity metrics for each node label.
+2.  **Capacity Metrics Management:**
+    *   The class uses an enum `CapacityType` to define various capacity metrics (e.g., used capacity, maximum capacity, weight).
+    *   For each node label, a `Capacities` object is created to store the metrics as a float array.
+    *   Thread-safe getter and setter methods (`_get` and `_set`) are provided to access and update these metrics.
+3.  **Label-Based Capacity Retrieval and Update:**
+    *   Methods are provided to get and set capacity metrics for a specific node label or the default label (NL).
+    *   Special handling is applied for the root queue and when a label doesn't exist.
+4.  **Additional Operations:**
+    *   `clearConfigurableFields`: Resets certain capacity metrics for all labels, used during queue reinitialization.
+    *   `getExistingNodeLabels`: Returns a set of all existing node labels.
+    *   `toString`: Provides a string representation of the `capacitiesMap`.
+
+**3. Inputs/Outputs:**
+=====================
+
+*   **Inputs:**
+    *   `isRoot` (boolean): Indicates whether this is the root queue.
+    *   `label` (String): Node label for which to retrieve or update capacity metrics.
+    *   `value` (float): New value for a capacity metric.
+*   **Outputs:**
+    *   `float` values representing various capacity metrics for a given label.
+    *   `Set<String>` of existing node labels.
+    *   `String` representation of the `capacitiesMap`.
+
+**4. Dependencies:**
+===================
+
+*   **Java Standard Library:**
+    *

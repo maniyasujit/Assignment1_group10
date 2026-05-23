@@ -1,0 +1,43 @@
+**Analysis of `PriorityUtilizationQueueOrderingPolicy` Class**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+This Java class, `PriorityUtilizationQueueOrderingPolicy`, implements a policy for ordering queues in a resource management system (specifically, Apache Hadoop YARN). It determines the order based on queue priority, utilization (used capacity), and accessibility to node partitions. The policy aims to allocate resources efficiently, considering both priority and capacity utilization.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of Main Algorithm/Business Logic:**
+
+1. **Queue Comparison**:
+	* If priorities are the same, compare queues based on **relative used capacity** (lower used capacity goes first).
+	* If priorities differ:
+		+ If both queues are under/over their guaranteed capacities, **higher priority** goes first.
+		+ If one queue is under and the other is over its guaranteed capacity, the **under-capacity queue** goes first.
+2. **Sorting Queues** (`PriorityQueueComparator`):
+	* **Node Label Accessibility**: Prioritize queues accessible to the specified partition.
+	* **Absolute Capacity**:
+		- If one queue has a positive absolute capacity and the other does not, prioritize the one with capacity.
+		- If both have positive capacities or both have zero capacity, proceed to the next step.
+	* **Utilization and Priority**:
+		- Compare based on used capacity and priority (using the logic from step 1).
+		- If utilization and priority are equal, **higher configured capacity** goes first.
+
+3. **Iterator Generation** (`getAssignmentIterator`):
+	* Create a snapshot of queues for thread safety.
+	* Sort the queues using `PriorityQueueComparator`.
+	* Return an iterator over the sorted list of queues.
+
+### **3. Inputs/Outputs:**
+
+* **Inputs:**
+	+ `queues`: A list of `CSQueue` objects to be ordered.
+	+ `partition`: A string specifying the node partition for accessibility checks.
+	+ `respectPriority`: A boolean indicating whether to consider priority in ordering.
+* **Outputs:**
+	+ `Iterator<CSQueue>`: An iterator over the sorted list of `CSQueue` objects, ordered according to the policy.
+	+ `String`: The configuration name of the policy (depending on `respectPriority`).
+
+### **4. Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `CSQueue`
+	+

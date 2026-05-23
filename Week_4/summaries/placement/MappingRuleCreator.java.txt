@@ -1,0 +1,40 @@
+**Analysis of the `MappingRuleCreator` Class**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+The `MappingRuleCreator` class is responsible for parsing mapping rules from JSON files or strings and converting them into `MappingRule` objects. These rules are used for placement decisions in a YARN (Yet Another Resource Negotiator) resource manager, specifically for capacity scheduling.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of the Main Algorithm:**
+
+1. **Input Handling**:
+	* Accepts JSON files or JSON strings as input.
+	* Uses Jackson's `ObjectMapper` to deserialize the JSON into a `MappingRulesDescription` object.
+2. **Rule Processing**:
+	* Iterates through each `Rule` in the `MappingRulesDescription`.
+	* **Validation**: Checks for mandatory parameters (policy, type, matches).
+	* **Matcher Creation**: Creates a `MappingRuleMatcher` based on the rule's type (USER, GROUP, APPLICATION) and match string.
+	* **Action Creation**: Creates a `MappingRuleAction` based on the rule's policy (e.g., DEFAULT_QUEUE, REJECT, PRIMARY_GROUP).
+	* **Fallback Setup**: Configures the fallback behavior for the action if specified.
+3. **Output**:
+	* Returns a list of `MappingRule` objects, each containing a matcher and an action.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs:**
+
+* **JSON File Path (String)**: Path to a JSON file containing mapping rules.
+* **JSON String**: A string representing the mapping rules in JSON format.
+
+**Primary Outputs:**
+
+* **List of `MappingRule` Objects**: Each object contains a `MappingRuleMatcher` and a `MappingRuleAction` derived from the input rules.
+
+### **4. Dependencies:**
+**Key Classes, Interfaces, or External Libraries:**
+
+* **Jackson Library (`com.fasterxml.jackson.databind.ObjectMapper`)**: For JSON deserialization.
+* **Apache Commons Lang (`org.apache.commons.lang3.StringUtils`)**: For string utility functions.
+* **Apache Hadoop YARN Classes**:
+	+ `org.apache.hadoop.yarn.server.resourcemanager.placement.csmappingrule.*` (Mapping rules, matchers, and actions)
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.placement.schema.*` (Schema for mapping rules description)
+* **SLF4J Logging API (`org.slf4j.Logger`)**: For logging purposes.

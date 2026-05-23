@@ -1,0 +1,42 @@
+**Analysis of the Provided Source Code**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+The `PlanQueue` class represents a dynamic queue in the Apache Hadoop YARN (Yet Another Resource Negotiator) resource management system, specifically designed to work with the `ReservationSystem`. It extends `AbstractManagedParentQueue` and provides functionality for managing reservations, application limits, and user quotas within a queue.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of the Main Algorithm/Business Logic:**
+
+1. **Initialization**:
+	* The constructor `PlanQueue` initializes the queue with configurations from `CapacitySchedulerConfiguration`.
+	* It sets up queue capacities, reservation attributes (e.g., max applications for reservation, user limits), and logs queue information.
+2. **Reinitialization**:
+	* `reinitialize` method updates the queue's configuration when the queue definition changes.
+	* It performs sanity checks, updates quotas, and reinitializes child queues.
+3. **Reservation Management**:
+	* `initializeDefaultInternalQueue` creates a default internal reservation queue for compatibility.
+	* `updateQuotas` method updates the queue's reservation quotas (max apps for reservation, per user, user limit, and factor).
+4. **Accessors**:
+	* Various getter methods provide access to the queue's reservation limits and configuration (e.g., `getMaxApplicationsForReservations`, `getUserLimitForReservation`).
+
+### **3. Inputs/Outputs:**
+**Primary Inputs:**
+- `CapacitySchedulerQueueContext` (queue context)
+- `String` (queue name)
+- `CSQueue` (parent queue and optionally an old queue for reinitialization)
+- `Resource` (cluster resource for reinitialization)
+
+**Primary Outputs:**
+- Logged queue information during initialization
+- Updated queue configurations and quotas upon reinitialization
+- Access to queue's reservation limits and configurations through getter methods
+
+### **4. Dependencies:**
+**Key Classes, Interfaces, or External Libraries:**
+- `AbstractManagedParentQueue` (parent class)
+- `CapacitySchedulerConfiguration` (for configuration settings)
+- `ReservationSystem` (context for managing reservations)
+- `org.apache.hadoop.yarn.api.records.Resource` (for resource management)
+- `org.slf4j.Logger` and `org.slf4j.LoggerFactory` (for logging)
+- `CSQueue` and `ReservationQueue` (related queue classes)
+- Apache Hadoop YARN libraries and dependencies (implicit)

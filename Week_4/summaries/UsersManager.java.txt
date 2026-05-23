@@ -1,0 +1,41 @@
+**Analysis of the Provided Source Code**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+The `UsersManager` class is a core component of the Apache Hadoop YARN (Yet Another Resource Negotiator) Resource Manager, responsible for managing users, tracking their resource usage, and computing user-specific resource limits within a queue. It ensures fair resource allocation among users based on configured limits, weights, and current usage.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of the Main Algorithm/Business Logic:**
+
+1. **User Management:**
+   - **Add/Remove Users:** Dynamically adds or removes users from the system, updating internal data structures.
+   - **User Resource Usage Tracking:** Monitors and updates resource usage (e.g., memory, CPU) for each user.
+
+2. **Resource Limit Computation:**
+   - **Input Parameters:** User name, cluster resource, node partition, and scheduling mode.
+   - **Logic:**
+     1. **Determine Current Capacity:** Calculates based on queue capacity, used resources, and required resources.
+     2. **Compute User Limit:** Applies user limit percentage, user weight, and maximum user limit (capped by queue capacity or total partition resource, depending on the scheduling mode).
+     3. **Cache Results:** Stores computed user limits to avoid redundant calculations, with invalidation based on user count changes.
+
+3. **Usage Ratio Updates:**
+   - **Increment/Decrement Resource Usage:** Reflects container allocations/releases in user and total resource usage.
+   - **Update Usage Ratios:** Recalculates usage ratios for affected users and the queue, influencing future resource allocations.
+
+4. **Active/Non-Active User Management:**
+   - **Activate/Deactivate Applications:** Moves users between active and non-active sets based on application status, updating resource usage and limits accordingly.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs:**
+
+- **User Name:** For user-specific operations.
+- **Resource:** For allocation/release updates.
+- **Cluster Resource:** Reflects the overall cluster capacity.
+- **Node Partition:** Specifies the resource label.
+- **Scheduling Mode:** Determines how resource limits are calculated (RESPECT_PARTITION_EXCLUSIVITY or IGNORE_PARTITION_EXCLUSIVITY).
+- **Application ID:** For application activation/deactivation.
+
+**Primary Outputs:**
+
+- **Computed Resource Limits:** For users, based on the input parameters.
+- **Updated User Resource Usage:** Reflects changes due to container allocations/releases

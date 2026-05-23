@@ -1,0 +1,32 @@
+**Overview**
+
+The provided source code defines an interface `CSQueue` in Java, which represents a node in a hierarchical queue structure within the Apache Hadoop YARN (Yet Another Resource Negotiator) Capacity Scheduler. This interface outlines the functionality and attributes of a queue in the scheduler, governing how resources are allocated to applications.
+
+**Key Functionality Areas:**
+
+1. **Queue Hierarchy and Identification**
+	* `getParent()`, `setParent()`: Manage the parent-child relationships within the queue hierarchy.
+	* `getQueueName()`, `getQueueShortName()`, `getQueuePath()`: Identify the queue by its name, short name, or full path in the hierarchy.
+
+2. **Access Control and Permissions**
+	* `hasAccess(QueueACL, UserGroupInformation)`: Verify if a user has the required permissions to perform an operation on the queue.
+	* `validateSubmitApplication()`, `submitApplication()`: Validate and submit new applications to the queue, enforcing access control.
+
+3. **Resource Management**
+	* `getCapacity()`, `getAbsoluteCapacity()`, `getMaximumCapacity()`, `getAbsoluteMaximumCapacity()`: Retrieve the queue's capacity, absolute capacity, maximum capacity, and absolute maximum capacity.
+	* `getUsedCapacity()`, `getAbsoluteUsedCapacity()`, `getUsedResources()`: Monitor the queue's used capacity, absolute used capacity, and utilized resources.
+	* `assignContainers()`: Assign containers to applications within the queue based on resource availability and scheduling policies.
+	* `completedContainer()`: Handle container completion, updating queue resource usage accordingly.
+
+4. **Application and Container Lifecycle**
+	* `submitApplicationAttempt()`: Submit a new application attempt to the queue.
+	* `finishApplication()`, `finishApplicationAttempt()`: Mark the completion of applications and their attempts.
+	* `detachContainer()`, `attachContainer()`: Manage container attachment and detachment from the queue.
+
+5. **Scheduling and Preemption**
+	* `getPreemptionDisabled()`, `getIntraQueuePreemptionDisabled()`: Check if preemption is disabled at the queue or intra-queue level.
+	* `assignContainers()` (with `SchedulingMode`): Assign containers considering scheduling modes and preemption settings.
+
+6. **Queue Configuration and Metrics**
+	* `getQueueCapacities()`, `getQueueResourceUsage()`: Retrieve queue capacities and resource usage metrics.
+	* `incUsedResource()`, `decUsedResource()`, `dec

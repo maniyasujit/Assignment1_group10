@@ -1,0 +1,46 @@
+**Analysis of `InMemoryConfigurationStore` Class**
+
+### **1. Key Functionality:**
+**Concise Overview:**
+The `InMemoryConfigurationStore` class provides a non-persistent, in-memory implementation of the `YarnConfigurationStore` interface. It stores and manages YARN scheduler configurations in RAM, without backing store, offering basic CRUD (Create, Read, Update, Delete) operations for configuration settings.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of Main Algorithm/Business Logic:**
+
+1. **Initialization**:
+	* `initialize(Configuration conf, Configuration schedConf, RMContext rmContext)`:
+		+ Sets the scheduler configuration (`schedConf`) and initializes a configuration version counter to 1.
+2. **Configuration Updates**:
+	* `logMutation(LogMutation logMutation)`:
+		+ **No Operation (NOP)**: Does not log mutations due to the in-memory nature.
+	* `confirmMutation(LogMutation pendingMutation, boolean isValid)`:
+		+ If `isValid` is `true`:
+			- Applies updates from `pendingMutation` to the in-memory `schedConf`.
+			- Increments the `configVersion`.
+3. **Configuration Retrieval and Management**:
+	* `retrieve()`:
+		+ Returns the current in-memory `schedConf`.
+	* `getConfigVersion()`:
+		+ Returns the current `configVersion`.
+	* `format()`:
+		+ Resets the in-memory store by setting `schedConf` to `null`.
+
+### **3. Inputs/Outputs:**
+
+* **Primary Inputs:**
+	+ `Configuration conf` (general configuration)
+	+ `Configuration schedConf` (scheduler-specific configuration)
+	+ `RMContext rmContext` (Resource Manager context)
+	+ `LogMutation logMutation` (configuration update mutations)
+* **Primary Outputs:**
+	+ `Configuration schedConf` (retrieved scheduler configuration)
+	+ `long configVersion` (current configuration version)
+	+ **Null Values** for methods indicating inapplicability due to the in-memory nature (e.g., `getConfirmedConfHistory`, `getLogs`, `getConfStoreVersion`, etc.)
+
+### **4. Dependencies:**
+
+* **Key Classes/Interfaces:**
+	+ `YarnConfigurationStore` (interface being implemented)
+	+ `Configuration` (Apache Hadoop configuration class)
+	+ `RMContext` (Resource Manager context class)
+	+ `LogMutation` (class representing configuration

@@ -1,0 +1,39 @@
+**1. Key Functionality:**
+**Capacity Scheduler Configuration Validator for Apache Hadoop YARN**
+-----------------------------------------------
+
+This Java class, `CapacitySchedulerConfigValidator`, is designed to validate configuration changes for the Capacity Scheduler in Apache Hadoop YARN. It ensures that updates to the scheduler's configuration are correct and compatible with the existing setup, preventing potential errors or inconsistencies.
+
+**2. Core Logic:**
+**Step-by-Step Explanation of the Main Algorithm/Business Logic:**
+
+1. **Validation of Overall Configuration:**
+	* `validateCSConfiguration(oldConf, newConf, rmContext)`:
+		1. Deep copies the old configuration.
+		2. Creates a new `CapacityScheduler` instance with the old configuration.
+		3. Reinitializes the scheduler with the new configuration.
+		4. If successful, returns `true`, indicating the new configuration is valid.
+2. **Placement Rules Validation:**
+	* `validatePlacementRules(placementRuleStrs)`:
+		1. Checks for duplicate placement rules in the input collection.
+		2. Returns a set of unique rules or throws an `IOException` if duplicates are found.
+3. **Resource Allocation Validation:**
+	* `validateMemoryAllocation(conf)` and `validateVCores(conf)`:
+		1. Retrieves minimum and maximum allocation values for memory and vCores, respectively.
+		2. Checks if the minimum value is greater than 0 and not exceeding the maximum value.
+		3. Throws a `YarnRuntimeException` if the validation fails.
+4. **Queue Hierarchy Validation:**
+	* `validateQueueHierarchy(queues, newQueues, newConf)`:
+		1. Iterates through existing queues, skipping auto-created leaf queues.
+		2. For each queue, checks if it exists in the new configuration.
+		3. If not, checks if the queue is in a stopped state, allowing for deletion.
+		4. If existing, validates the queue's path hasn't changed and checks for conversions between parent and leaf queues, ensuring compatibility.
+
+**3. Inputs/Outputs:**
+
+* **Inputs:**
+	+ `oldConf` and `newConf`: Old and new `Configuration` instances for validation.
+	+ `rmContext`: `RMContext` instance for the Resource Manager.
+	+ `placementRuleStrs`: Collection of placement rule strings.
+	+ `conf`: `Configuration` instance for resource allocation validation.
+	+ `queues` and `newQueues

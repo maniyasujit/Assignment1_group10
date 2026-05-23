@@ -1,0 +1,40 @@
+**Code Analysis: AppPriorityACLConfigurationParser**
+
+**Overview**
+---------------
+
+The `AppPriorityACLConfigurationParser` class is responsible for parsing Application Priority Access Control List (ACL) configurations from the `capacity-scheduler.xml` file. It extracts and processes priority ACL settings for users and groups, ensuring they comply with the cluster's maximum priority.
+
+**Key Functionality**
+----------------------
+
+1. **Parsing ACL Configurations**:
+	* Extracts ACL groups from the input `aclString` using a regular expression (`PATTERN_FOR_PRIORITY_ACL`).
+	* Iterates through each ACL group, parsing key-value pairs (e.g., `user=b1,b2`, `max-priority=a2`).
+2. **Priority ACL Group Processing**:
+	* Creates an `AppPriorityACLGroup` object for each ACL group.
+	* Parses and sets the following attributes:
+		+ `user` and `group` ACLs (stored in `userAndGroupName` list).
+		+ `max-priority` (ensuring it doesn't exceed the cluster's maximum priority).
+		+ `default-priority` (with a minimum value of 0).
+3. **ACL String Creation**:
+	* Concatenates `user` and `group` ACLs into a single string (e.g., `user1,user2 group1`).
+	* Handles special cases for `*` (all) and ` ` (none) ACL values.
+
+**Important Methods and Variables**
+--------------------------------------
+
+* `getPriorityAcl(Priority clusterMaxPriority, String aclString)`: Main entry point for parsing ACL configurations.
+* `parsePriorityACLType(AppPriorityACLGroup userPriorityACL, String[] splits, List<StringBuilder> userAndGroupName)`: Parses individual ACL key-value pairs.
+* `createACLStringForPriority(List<StringBuilder> acls)`: Concatenates `user` and `group` ACLs into a single string.
+* `AppPriorityACLKeyType` enum: Defines the possible ACL key types (USER, GROUP, MAX_PRIORITY, DEFAULT_PRIORITY).
+* `PATTERN_FOR_PRIORITY_ACL` (regular expression): Extracts ACL groups from the input string.
+
+**Example Usage**
+-----------------
+
+Assuming an `aclString` value of:
+```
+[user=b1,b2 group=g1 max-priority=a2 default-priority=a1] [user=b3 group=g2 max-priority=a3]
+```
+The parser would produce a list of `AppPriorityACLGroup` objects with the following attributes

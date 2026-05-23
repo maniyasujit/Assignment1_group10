@@ -1,0 +1,51 @@
+**Code Analysis: `AbstractQueueCapacityCalculator` Class**
+
+**Overview**
+---------------
+
+The `AbstractQueueCapacityCalculator` is a Java abstract class that provides a framework for calculating queue capacities in a resource management system, specifically designed for Apache Hadoop YARN (Yet Another Resource Negotiator). It encapsulates the logic for setting up queue capacities and computing resource values.
+
+**Key Functionality**
+----------------------
+
+1. **Capacity Calculation**: The class provides abstract methods for calculating:
+	* **Minimum Effective Resource** (`calculateMinimumResource`)
+	* **Maximum Effective Resource** (`calculateMaximumResource`)
+2. **Prerequisite Calculations**: Executes necessary logic before effective resource value calculations (`calculateResourcePrerequisites`)
+3. **Capacity Updates**: Updates metrics and statistics after effective resource value calculations (`updateCapacitiesAfterCalculation`)
+4. **Resource Name Retrieval**: Provides protected methods to retrieve resource names for a given capacity type (`getResourceNames`)
+
+**Method Breakdown**
+----------------------
+
+### Abstract Methods (Must be implemented by subclasses)
+
+* **`updateCapacitiesAfterCalculation`**:
+	+ **Purpose**: Update metrics and statistics after resource calculations.
+	+ **Parameters**:
+		- `resourceCalculationDriver`: Intermediate calculation results for a queue branch.
+		- `queue`: The queue on which calculations are based.
+		- `label`: Node label.
+* **`getCapacityType`**:
+	+ **Purpose**: Return the capacity type handled by the calculator.
+	+ **Return**: `ResourceUnitCapacityType` enum value.
+* **`calculateMinimumResource`**:
+	+ **Purpose**: Calculate the minimum effective resource.
+	+ **Parameters**:
+		- `resourceCalculationDriver`: Intermediate calculation results.
+		- `context`: Units evaluated in the current iteration phase.
+		- `label`: Node label.
+	+ **Return**: Minimum effective resource value (double).
+* **`calculateMaximumResource`**:
+	+ **Purpose**: Calculate the maximum effective resource.
+	+ **Parameters** (same as `calculateMinimumResource`).
+	+ **Return**: Maximum effective resource value (double).
+* **`calculateResourcePrerequisites`**:
+	+ **Purpose**: Execute prerequisite logic before effective resource calculations.
+	+ **Parameter**:
+		- `resourceCalculationDriver`: Parent queue for prerequisite calculations.
+
+### Protected Methods (For subclass use)
+
+* **`getResourceNames` (overloaded)**:
+	+ **Purpose**: Retrieve resource names for a given capacity type.

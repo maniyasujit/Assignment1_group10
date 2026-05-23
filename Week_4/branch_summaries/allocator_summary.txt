@@ -1,0 +1,20 @@
+**Concise Summary of the 'allocator' Sub-module's Role and Functionality**
+
+**Role:**
+The 'allocator' sub-module is a crucial component of the Apache Hadoop YARN (Yet Another Resource Negotiator) Resource Manager, specifically designed for capacity scheduling. Its primary role is to manage the allocation and deallocation of containers for YARN applications, ensuring efficient resource utilization within the cluster.
+
+**Key Functionality:**
+
+1. **Container Allocation Management**: Decides how to allocate containers based on application resource requests, considering factors like locality (node, rack, off-switch), resource availability, and scheduling modes.
+2. **State Management**: Tracks and updates the state of allocation requests (e.g., allocated, reserved, skipped) to inform subsequent scheduling decisions.
+3. **Resource Utilization Optimization**: Aims to optimize resource allocation by evaluating requests against resource limits, cluster availability, and scheduling opportunities.
+4. **Extensibility**: Provides an abstract foundation (`AbstractContainerAllocator`) for developing custom allocation logic, with a concrete implementation (`RegularContainerAllocator`) for standard capacity scheduling scenarios.
+5. **Delegation and Abstraction**: Employs a delegation model (`ContainerAllocator` delegating to `RegularContainerAllocator`) to abstract the complexity of allocation logic, enhancing maintainability and flexibility.
+
+**Core Components and Their Responsibilities:**
+
+* **AllocationState.java**: Defines enumeration values for representing allocation states.
+* **ContainerAllocation.java**: Represents a single container allocation request, managing its state and metadata.
+* **AbstractContainerAllocator.java**: Provides an abstract base for container allocation logic, outlining the allocation process.
+* **RegularContainerAllocator.java**: Implements the standard container allocation logic for capacity scheduling, considering locality and resource availability.
+* **ContainerAllocator.java**: Delegates container allocation to `RegularContainerAllocator`, abstracting the allocation complexity.

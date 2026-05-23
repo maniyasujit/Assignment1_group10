@@ -1,0 +1,45 @@
+**1. Key Functionality:**
+**Zookeeper-based Configuration Store for YARN Resource Manager**
+
+This Java class, `ZKConfigurationStore`, implements a configuration store for Apache YARN's Resource Manager using Apache ZooKeeper. It provides a centralized, fault-tolerant repository for storing and managing YARN configurations, versioning, and logging mutations.
+
+**2. Core Logic:**
+
+1. **Initialization**:
+	* Reads configuration from `YarnConfiguration`.
+	* Establishes a ZooKeeper connection using `ZKCuratorManager`.
+	* Creates necessary znodes (e.g., version, logs, config store) if they don't exist.
+2. **Configuration Management**:
+	* **Store**: Serializes and stores configurations in ZooKeeper.
+	* **Retrieve**: Deserializes and returns configurations from ZooKeeper.
+	* **Versioning**: Maintains a version counter for configurations.
+3. **Logging Mutations**:
+	* Stores log mutations (changes to configurations) in ZooKeeper, with a configurable maximum log size.
+4. **Confirmation and Updates**:
+	* Confirms mutations and updates the configuration store accordingly.
+
+**3. Inputs/Outputs:**
+
+**Inputs:**
+
+* `Configuration` objects (YARN configurations)
+* `LogMutation` objects (changes to configurations)
+* `RMContext` (Resource Manager context)
+
+**Outputs:**
+
+* Stored configurations in ZooKeeper
+* Retrieved configurations as `Configuration` objects
+* Version numbers (long)
+* Lists of log mutations (currently unimplemented for `getConfirmedConfHistory`)
+
+**4. Dependencies:**
+
+* **Apache Libraries:**
+	+ `org.apache.hadoop:yarn-server-common`
+	+ `org.apache.hadoop:hadop-common`
+	+ `org.apache.zookeeper:zookeeper`
+	+ `org.apache.curator:curator-framework`
+* **Other Libraries:**
+	+ `org.apache.commons:commons-io` (for serialization)
+	+ `org.slf4j:slf4j-api` (for logging)

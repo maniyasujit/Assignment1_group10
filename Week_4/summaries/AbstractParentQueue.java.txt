@@ -1,0 +1,35 @@
+**Overview**
+
+The provided source code is for an abstract class `AbstractParentQueue` in the Apache Hadoop YARN (Yet Another Resource Negotiator) project. This class represents a parent queue in the YARN resource management system, which can have multiple child queues. It extends `AbstractCSQueue` and provides functionality for managing child queues, resource allocation, and scheduling.
+
+**Key Functionality**
+
+1. **Child Queue Management**:
+	* `setChildQueues(Collection<CSQueue> childQueues)`: Sets the child queues for this parent queue, verifying their capacities.
+	* `getChildQueues()`: Returns a list of child queues.
+	* `removeChildQueue(CSQueue queue)`: Removes a child queue.
+2. **Resource Allocation and Scheduling**:
+	* `assignContainers(Resource clusterResource, ...)`: Assigns containers to child queues based on resource availability and scheduling policies.
+	* `getResourceLimitsOfChild(CSQueue child, ...)`: Calculates resource limits for a child queue.
+	* `allocateResource(Resource clusterResource, ...)`: Allocates resources to this queue, considering maximum resource limits.
+3. **Queue State and Application Management**:
+	* `submitApplication(ApplicationId, String, String)`: Submits an application to this queue (not directly, but informs the parent queue).
+	* `finishApplication(ApplicationId, String)`: Finishes an application in this queue (not directly, but informs the parent queue).
+	* `stopQueue()`: Stops this queue and its child queues.
+4. **Queue Configuration and Ordering**:
+	* `setupQueueConfigs(Resource clusterResource)`: Sets up queue configurations, including ordering policies.
+	* `getQueueOrderingPolicy()`: Returns the queue ordering policy.
+
+**Important Methods and Variables**
+
+* `childQueues`: A list of child queues.
+* `queueOrderingPolicy`: The policy used for ordering child queues.
+* `effectiveMinResourceRatio`: A map of effective minimum resource ratios for each label.
+* `allowZeroCapacitySum`: A flag indicating whether the sum of child queue capacities can be zero.
+* `autoCreatedQueueTemplate`: A template for auto-created queues.
+
+**Context and Deployment**
+
+This class is part of the Apache Hadoop YARN project, specifically in the resource management module. It is designed to work in a distributed computing environment, managing resources and scheduling applications across multiple queues. The class is abstract, meaning it is intended to be extended by concrete implementations of parent queues.
+
+**Complexity and

@@ -1,0 +1,44 @@
+**1. Key Functionality:**
+ Concise, high-level overview of what this code does:
+
+* **Filesystem-based Configuration Store**: This Java class, `FSSchedulerConfigurationStore`, implements a configuration storage system for YARN (Yet Another Resource Negotiator) schedulers, utilizing the Hadoop Filesystem (HDFS) for storing, retrieving, and managing scheduler configurations.
+
+**2. Core Logic:**
+ Step-by-step explanation of the main algorithm or business logic:
+
+1. **Initialization**:
+	* Reads configuration from provided `Configuration` objects (`fsConf` and `vSchedConf`) and `RMContext`.
+	* Sets up the filesystem path for storing configurations based on `YarnConfiguration.SCHEDULER_CONFIGURATION_FS_PATH`.
+	* Initializes the filesystem, configuration file filter, and versioning.
+2. **Configuration Management**:
+	* **Log Mutation**: Updates the in-memory configuration with provided `LogMutation` changes and writes the updated configuration to a temporary file.
+	* **Confirm Mutation**: If the mutation is valid, renames the temporary file to a final configuration file and updates the version; otherwise, reverts to the previous configuration.
+3. **Configuration Retrieval**:
+	* **Retrieve**: Reads the latest configuration from the filesystem.
+4. **Housekeeping**:
+	* **Clean Configuration File**: Removes older configuration files to maintain a maximum version count (`maxVersion`).
+	* **Format**: Deletes all configuration files in the specified directory (used for cleanup or reset).
+
+**3. Inputs/Outputs:**
+
+* **Inputs**:
+	+ `fsConf` and `vSchedConf` (`Configuration` objects)
+	+ `RMContext`
+	+ `LogMutation` objects (for updates)
+	+ `fromId` (for retrieving confirmed configuration history, though this method is currently unimplemented)
+* **Outputs**:
+	+ Stored configuration files in the Hadoop Filesystem
+	+ Retrieved `Configuration` object (representing the latest scheduler configuration)
+	+ Logging information (for debugging and monitoring purposes)
+
+**4. Dependencies:**
+ Key classes, interfaces, or external libraries that this code depends on:
+
+* **Hadoop Ecosystem**:
+	+ `org.apache.hadoop.conf.Configuration`
+	+ `org.apache.hadoop.fs.FileSystem`
+	+ `org.apache.hadoop.fs.Path`
+	+ `org.apache.hadoop.yarn.conf.YarnConfiguration`
+* **Apache YARN**:
+	+ `org.apache.hadoop.yarn.server.resourcemanager.RMContext`
+	+ `

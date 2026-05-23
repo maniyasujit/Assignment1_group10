@@ -1,0 +1,37 @@
+**Analysis of the Provided Source Code**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+The `CapacityHeadroomProvider` class calculates the available **headroom** (i.e., the remaining allocatable resources) for a given application within a specific queue in a YARN (Yet Another Resource Negotiator) cluster, considering node labels/partitions.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of the Main Algorithm:**
+
+1. **Initialization**: The class is instantiated with a user, a queue, an application, and queue resource limits information.
+2. **`getHeadroom()` Method**:
+   - **Synchronized Access**: Retrieves the current queue limit and total cluster resources from `queueResourceLimitsInfo` in a thread-safe manner.
+   - **Determine Requested Partitions**: Extracts the set of requested node labels/partitions for the application.
+   - **Headroom Calculation**:
+     - **No Partitions or Default Label**:
+       - Calls `queue.getHeadroom()` with the user, current queue limit, cluster resources, and application to calculate headroom.
+     - **Multiple Partitions**:
+       - Initializes headroom to zero resources.
+       - Iterates through each requested partition, calculating headroom for each using `queue.getHeadroom()` with the additional partition parameter.
+       - Accumulates headroom from all partitions.
+   - **Edge Case Handling**: Ensures the calculated headroom's memory size is not negative, setting it to zero if so.
+   - **Return Calculated Headroom**: Provides the determined available resources (headroom) as a `Resource` object.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs:**
+- `UsersManager.User user`: The user associated with the application.
+- `AbstractLeafQueue queue`: The queue in which the application is scheduled.
+- `FiCaSchedulerApp application`: The application for which headroom is calculated.
+- `AbstractLeafQueue.QueueResourceLimitsInfo queueResourceLimitsInfo`: Information on the queue's resource limits.
+
+**Primary Output:**
+- `Resource headroom`: The calculated available headroom for the application within the specified queue, represented as a `Resource` object containing memory size and potentially other resource dimensions (e.g., vCores).
+
+### **4. Dependencies:**
+**Key Classes, Interfaces, or External Libraries:**
+- `org.apache.hadoop.yarn.api.records.Resource`: Represents computational resources (e.g., memory, vCores).
+- `org.apache

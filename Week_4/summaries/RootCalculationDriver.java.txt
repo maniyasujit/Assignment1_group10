@@ -1,0 +1,39 @@
+**Analysis of the Provided Source Code**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+The `RootCalculationDriver` class is responsible for driving the resource calculation specifically for the root queue in a YARN (Yet Another Resource Negotiator) Resource Manager's capacity scheduler. It orchestrates the computation of minimum and maximum resource capacities for the root queue across various node labels and resources.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of the Main Algorithm/Business Logic:**
+
+1. **Initialization**:
+	* The class is instantiated with a `CSQueue` (root queue), a `QueueCapacityUpdateContext`, an `AbstractQueueCapacityCalculator` (for the root), and a collection of defined resource names.
+2. **Resource Calculation Loop**:
+	* **For each node label** configured for the root queue:
+		1. **Iterate over each capacity vector entry** for the current label:
+			* Extract the **resource name** from the entry.
+			2. **Create a Calculation Context** for the resource, specifying percentage as the capacity type.
+			3. **Calculate Minimum and Maximum Resources** using the `rootCalculator`:
+				+ `calculateMinimumResource` and `calculateMaximumResource` are called with the context and label.
+			4. **Round Resources** according to a rounding strategy:
+				+ Apply rounding to both minimum and maximum resource values.
+			5. **Update Queue Resource Quotas**:
+				+ Set the effective minimum and maximum resource values for the queue, specific to the label and resource.
+		2. **Post-Calculation Update**:
+			* Call `updateCapacitiesAfterCalculation` on the `rootCalculator` to perform any necessary updates after resource calculations for the label.
+3. **Final Calculation Step**:
+	* **Calculate Resource Prerequisites**:
+		+ Invoke `calculateResourcePrerequisites` on the `rootCalculator` to ensure all prerequisite resources are correctly calculated or updated.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs:**
+
+* `CSQueue rootQueue`: The root queue for which resource calculations are performed.
+* `QueueCapacityUpdateContext updateContext`: Context for updating queue capacities.
+* `AbstractQueueCapacityCalculator rootCalculator`: Calculator for the root queue's capacities.
+* `Collection<String> definedResources`: Names of defined resources.
+
+**Primary Outputs:**
+
+* **Updated Queue Resource Quotas**: The `RootCalculationDriver`

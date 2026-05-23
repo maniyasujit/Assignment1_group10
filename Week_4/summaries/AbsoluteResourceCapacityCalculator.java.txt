@@ -1,0 +1,54 @@
+**Class Overview**
+
+* **Name:** `AbsoluteResourceCapacityCalculator`
+* **Package:** `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity`
+* **License:** Apache License, Version 2.0 (open-source)
+* **Description:** This Java class is part of the Apache Hadoop YARN (Yet Another Resource Negotiator) project. It calculates resource capacities for queues in a YARN cluster, specifically for queues with **absolute** capacity type.
+
+**Key Functionality**
+
+1. **Resource Capacity Calculations**:
+	* **Minimum Resource**: Calculates the minimum resource capacity for a given queue, label, and resource name (e.g., memory).
+	* **Maximum Resource**: Returns the current maximum capacity entry for a queue and label.
+2. **Normalization**:
+	* **Normalized Resource Ratio**: Calculates a scaling factor to ensure a parent queue's effective resource doesn't exceed the aggregated configured absolute resource of its children.
+3. **Capacity Updates**:
+	* **Update Capacities After Calculation**: Updates queue capacities based on calculated values.
+
+**Method Explanations**
+
+### 1. `calculateMinimumResource`
+
+* **Input**:
+	+ `ResourceCalculationDriver` (driver)
+	+ `CalculationContext` (context)
+	+ `String` (label)
+* **Output**: `double` (minimum resource capacity)
+* **Logic**:
+	1. Retrieves the normalized resource ratio for the given label and resource name.
+	2. Calculates the remaining resource ratio for the label and resource name.
+	3. Returns the product of the normalized ratio, remaining ratio, and the current minimum capacity entry.
+
+### 2. `calculateMaximumResource`
+
+* **Input**:
+	+ `ResourceCalculationDriver` (driver)
+	+ `CalculationContext` (context)
+	+ `String` (label)
+* **Output**: `double` (maximum resource capacity)
+* **Logic**: Simply returns the current maximum capacity entry for the given queue and label.
+
+### 3. `updateCapacitiesAfterCalculation`
+
+* **Input**:
+	+ `ResourceCalculationDriver` (driver)
+	+ `CSQueue` (queue)
+	+ `String` (label)
+* **Output**: None
+* **Logic**: Updates the queue capacities using the `CapacitySchedulerQueueCapacityHandler` class.
+
+### 4. `setNormalizedResourceRatio` (static method)
+
+* **Input**: `ResourceCalculationDriver` (driver)
+* **Output**: None
+* **Logic

@@ -1,0 +1,38 @@
+**Analysis of `ConfigurationProperties` Class**
+
+### **1. Key Functionality:**
+**Trie-based Configuration Property Storage and Retrieval**
+The `ConfigurationProperties` class provides an efficient way to store and retrieve configuration properties using a trie (prefix tree) data structure. It enables fast filtering of properties by prefix, supporting both trimmed and fully qualified key retrieval.
+
+### **2. Core Logic:**
+
+1. **Initialization**:
+	* The class is instantiated with a `Map<String, String>` of configuration properties.
+	* Properties are stored in a trie structure using the `storePropertiesInPrefixNodes` method.
+2. **Property Storage**:
+	* Each property key is split into parts using a delimiter (`.`).
+	* A `PrefixNode` is created for each part, forming a trie structure.
+	* Property key-value pairs are stored in the node corresponding to the second-to-last key part.
+3. **Property Retrieval**:
+	* The `getPropertiesWithPrefix` method filters properties by a given prefix.
+	* The method recursively traverses the trie, collecting properties that match the prefix.
+	* Properties can be retrieved with either trimmed or fully qualified keys.
+
+### **3. Inputs/Outputs:**
+
+* **Inputs**:
+	+ `Map<String, String>` of configuration properties (constructor)
+	+ `String` prefix for filtering properties (`getPropertiesWithPrefix` method)
+	+ `boolean` flag for fully qualified key retrieval (`getPropertiesWithPrefix` method)
+* **Outputs**:
+	+ `Map<String, String>` of filtered configuration properties (`getPropertiesWithPrefix` method)
+
+### **4. Dependencies:**
+
+* **Classes/Interfaces**:
+	+ `org.slf4j.Logger` and `org.slf4j.LoggerFactory` for logging
+	+ `java.util` classes (e.g., `Map`, `List`, `Iterator`)
+* **External Libraries**:
+	+ SLF4J (Simple Logging Facade for Java)
+* **Apache-specific Dependencies**:
+	+ `CapacitySchedulerConfiguration` (mentioned in comments, but not directly used in this class)

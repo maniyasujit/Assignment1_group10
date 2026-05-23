@@ -1,0 +1,40 @@
+**Analysis of `CapacitySchedulerMetrics` Class**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+This Java class, `CapacitySchedulerMetrics`, is designed to collect and manage metrics for the YARN (Yet Another Resource Negotiator) Capacity Scheduler in Apache Hadoop. It provides a singleton instance to track various scheduler events, such as container allocations, commit successes/failures, node updates, and scheduler node heartbeat intervals.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of Main Algorithm/Business Logic:**
+
+1. **Initialization**:
+	* The class uses a singleton pattern with lazy initialization.
+	* `getMetrics()` method checks if the instance is initialized; if not, it creates a new instance and registers metrics.
+2. **Metrics Registration**:
+	* `registerMetrics()` method creates a `MetricsRegistry` instance with predefined `MetricsInfo`.
+	* It tags the registry with "ResourceManager" and registers the instance with the `DefaultMetricsSystem`.
+3. **Metric Updates**:
+	* Various methods (`addAllocate`, `addCommitSuccess`, `addCommitFailure`, `addNodeUpdate`, `addSchedulerNodeHBInterval`) allow updating different metrics by adding latency or interval values.
+4. **Metric Retrieval (for testing)**:
+	* Methods prefixed with `@VisibleForTesting` (e.g., `getNumOfNodeUpdate`, `getNumOfAllocates`) provide access to specific metric counts for testing purposes.
+5. **Destruction**:
+	* The `destroy()` method (also for testing) resets the instance, unregisters the metrics source, and sets the initialized flag to false.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs:**
+- **Latency/Interval Values**: Long values representing latency or intervals for various scheduler events (e.g., container allocation latency, node update latency, scheduler node heartbeat interval).
+
+**Primary Outputs:**
+- **Updated Metrics**: Internally updated metrics (rates and quantiles) reflecting the scheduler's performance.
+- **Metric Counts (for testing)**: Long values indicating the number of occurrences for specific metrics (e.g., number of node updates, allocates).
+
+### **4. Dependencies:**
+**Key Classes, Interfaces, or External Libraries:**
+- **`org.apache.hadoop.metrics2` package**:
+	+ `MetricsInfo`
+	+ `MetricsSystem`
+	+ `DefaultMetricsSystem`
+	+ `MetricsRegistry`
+	+ `MutableRate`
+	+ `MutableQuantiles`
+-

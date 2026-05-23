@@ -1,0 +1,43 @@
+**Analysis of WorkflowPriorityMappingsManager Class**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+The `WorkflowPriorityMappingsManager` class is responsible for managing workflow priority mappings in a YARN (Yet Another Resource Negotiator) resource management system. It enables overriding application priorities based on predefined workflow ID to priority mappings, facilitating customized resource allocation for specific workflows.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of Main Algorithm/Business Logic:**
+
+1. **Initialization**:
+	* The class is initialized with a `CapacityScheduler` instance.
+	* It loads configuration settings, including whether to override priorities with workflow mappings.
+	* It retrieves and stores workflow priority mappings from the configuration.
+2. **Workflow Priority Mapping Retrieval**:
+	* `getWorkflowPriorityMappings()`: Parses configuration strings into `WorkflowPriorityMapping` objects, mapping workflow IDs to priorities for each queue.
+3. **Priority Mapping Resolution**:
+	* `getMappedPriority(String workflowID, CSQueue queue)`:
+		+ Recursively searches for a matching workflow ID in the queue hierarchy, returning the associated priority if found.
+4. **Application Priority Override**:
+	* `mapWorkflowPriorityForApp(ApplicationId, CSQueue, String user, Priority)`:
+		1. Checks if override is enabled and if the application has a workflow tag.
+		2. Extracts the workflow ID from the application's tags.
+		3. Retrieves the mapped priority for the workflow ID in the given queue.
+		4. If a mapped priority is found, updates the application's priority accordingly.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs:**
+
+* `CapacityScheduler` instance (for initialization)
+* `ApplicationId`, `CSQueue`, `user`, and `Priority` (for `mapWorkflowPriorityForApp` method)
+* Workflow ID and queue (for `getMappedPriority` method)
+
+**Primary Outputs:**
+
+* Mapped `Priority` object (from `getMappedPriority` and `mapWorkflowPriorityForApp` methods)
+* A string representation of workflow priority mappings (from `getWorkflowPriorityMappingStr` method)
+
+### **4. Dependencies:**
+**Key Classes, Interfaces, or External Libraries:**
+
+* `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler`
+* `org.apache.hadoop.yarn.api.records.ApplicationId`, `Priority`
+* `org.apache.hadoop.yarn.server.resourcemanager.rmapp.RMApp`, `RMAppImpl

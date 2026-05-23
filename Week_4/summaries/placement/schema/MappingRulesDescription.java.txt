@@ -1,0 +1,39 @@
+**Analysis of `MappingRulesDescription` Class**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+This Java class, `MappingRulesDescription`, represents a data model for storing and managing mapping rules, likely used in the context of resource management and scheduling within the Apache Hadoop YARN (Yet Another Resource Negotiator) framework. It provides a structured way to handle a list of rules and additional, unspecified properties.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of Main Algorithm/Business Logic:**
+
+1. **Initialization**: The class initializes with an empty list of `Rule` objects (`rules`) and an empty map for additional properties (`additionalProperties`).
+2. **Rule Management**:
+   - **Get Rules**: Retrieves the current list of `Rule` objects.
+   - **Set Rules**: Replaces the current list of `Rule` objects with a new list.
+3. **Additional Property Management (for unspecified properties)**:
+   - **Get Additional Properties**: Retrieves the map of additional properties.
+   - **Set Additional Property**: Adds or updates a single additional property by key-value pair.
+4. **Utility Methods**:
+   - **toString()**: Generates a string representation of the object for debugging/logging purposes.
+   - **hashCode()**: Computes a hash code for the object, considering its `rules` and `additionalProperties`.
+   - **equals(Object)**: Checks for equality with another `MappingRulesDescription` object based on `rules` and `additionalProperties`.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs and Outputs:**
+
+- **Inputs**:
+  - `List<Rule>`: When setting the rules using `setRules()`.
+  - `String` and `Object`: When adding/updating additional properties using `setAdditionalProperty()`.
+- **Outputs**:
+  - `List<Rule>`: When retrieving the rules using `getRules()`.
+  - `Map<String, Object>`: When retrieving additional properties using `getAdditionalProperties()`.
+  - `String`: The string representation of the object from `toString()`.
+  - `int`: The hash code of the object from `hashCode()`.
+  - `boolean`: The result of equality check from `equals(Object)`.
+
+### **4. Dependencies:**
+**Key Classes, Interfaces, or External Libraries:**
+
+- **External Libraries:**
+  - **Jackson Annotations** (`com.fasterxml.jackson.annotation.*`): For JSON serialization and deserialization (e.g., `@JsonProperty`,

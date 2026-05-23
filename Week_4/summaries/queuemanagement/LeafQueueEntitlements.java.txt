@@ -1,0 +1,35 @@
+**Analysis of `LeafQueueEntitlements` Class**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+The `LeafQueueEntitlements` class manages and tracks the capacity entitlements of auto-created leaf queues in a YARN (Yet Another Resource Negotiator) resource manager's capacity scheduler. It provides methods for retrieving and manipulating these entitlements.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of Main Algorithm/Business Logic:**
+
+1. **Initialization**: An internal `HashMap` (`entitlements`) is initialized to store queue paths as keys and their corresponding `QueueCapacities` as values.
+2. **Queue Capacity Retrieval**:
+	* `getCapacityOfQueue(AutoCreatedLeafQueue)`:
+		1. Extracts the queue path from the provided `AutoCreatedLeafQueue`.
+		2. Calls `getCapacityOfQueueByPath` with the extracted path.
+	* `getCapacityOfQueueByPath(String leafQueuePath)`:
+		1. Checks if the `entitlements` map already contains the queue path.
+		2. If not, creates a new `QueueCapacities` instance (with `autoCreated` set to `false`) and adds it to the map.
+		3. Returns the `QueueCapacities` associated with the provided queue path.
+3. **Entitlements Management**:
+	* `getEntitlements()`: Returns the entire `entitlements` map.
+	* `mapToQueueManagementChanges(BiFunction)`:
+		1. Applies the provided `BiFunction` to each entry in the `entitlements` map, transforming them into `QueueManagementChange` objects.
+		2. Collects the results into a list, which is then returned.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs and Outputs:**
+
+* **Inputs:**
+	+ `AutoCreatedLeafQueue` objects (for `getCapacityOfQueue`)
+	+ `String` representing the queue path (for `getCapacityOfQueueByPath`)
+	+ `BiFunction<String, QueueCapacities, QueueManagementChange>` (for `mapToQueueManagementChanges`)
+* **Outputs:**
+	+ `QueueCapacities` objects (from `getCapacityOfQueue` and `getCapacityOfQueueByPath`)
+	+ `Map<String, QueueCapacities>` (from `getEntitlements`)
+	+ `List<QueueManagementChange>`

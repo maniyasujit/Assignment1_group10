@@ -1,0 +1,35 @@
+**Analysis of `CSQueuePreemptionSettings` Class**
+
+### **1. Key Functionality:**
+High-level overview of what this code does:
+
+* **Purpose:** Determines preemption settings for a specific queue in a YARN (Yet Another Resource Negotiator) Capacity Scheduler hierarchy.
+* **Functionality:** Evaluates whether cross-queue and intra-queue preemptions are enabled or disabled for a given queue, considering system-wide settings and queue hierarchy inheritance.
+
+### **2. Core Logic:**
+Step-by-step explanation of the main algorithm or business logic:
+
+1. **Initialization:**
+	* The class is instantiated with a `CSQueue` object and a `CapacitySchedulerConfiguration`.
+	* It sets two internal flags:
+		+ `preemptionDisabled`: Indicates if cross-queue preemption is disabled for the queue.
+		+ `intraQueuePreemptionDisabledInHierarchy`: Indicates if intra-queue preemption is disabled anywhere in the queue's hierarchy.
+2. **Cross-Queue Preemption Evaluation (`isQueueHierarchyPreemptionDisabled`):**
+	* Checks the system-wide preemption switch. If off, returns `true` (disabled).
+	* If the queue is the root, checks the explicit preemption setting for the root queue.
+	* For non-root queues, inherits the preemption setting from the parent queue, unless explicitly overridden.
+3. **Intra-Queue Preemption Evaluation (`isIntraQueueHierarchyPreemptionDisabled`):**
+	* Checks the system-wide intra-queue preemption switch. If off, returns `true` (disabled).
+	* If the queue is the root, checks the explicit intra-queue preemption disable switch for the root.
+	* For non-root queues, determines if intra-queue preemption is enabled down to this queue's level, considering the parent's setting.
+4. **Getter Methods:**
+	* Provide access to the evaluated preemption settings:
+		- `isIntraQueuePreemptionDisabled()`: Returns `true` if intra-queue preemption is disabled for the queue or in its hierarchy.
+		- `isIntraQueuePreemptionDisabledInHierarchy()`: Returns the specific hierarchy-related intra-queue preemption disable state.
+		- `isPreemptionDisabled()`: Returns the cross-queue preemption disabled state for the queue.
+
+### **3. Inputs/Outputs:**
+
+* **Inputs:**
+	+ `CSQueue queue`: The queue to evaluate preemption settings for.
+	+ `CapacitySchedulerConfiguration

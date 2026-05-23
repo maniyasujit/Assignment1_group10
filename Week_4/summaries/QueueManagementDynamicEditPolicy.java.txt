@@ -1,0 +1,46 @@
+**Analysis of `QueueManagementDynamicEditPolicy` Class**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+This Java class, `QueueManagementDynamicEditPolicy`, implements a scheduling policy for the Apache Hadoop YARN (Yet Another Resource Negotiator) Resource Manager. Specifically, it manages dynamic editing of queues, enabling auto-creation of child queues under designated parent queues, based on predefined capacity and resource utilization rules.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of Main Algorithm/Business Logic:**
+
+1. **Initialization**:
+	* Loads configuration and initializes dependencies (e.g., `RMContext`, `ResourceCalculator`, `CapacityScheduler`).
+	* Identifies managed parent queues that allow auto-creation of child queues.
+2. **Periodic Editing of Schedule (`editSchedule()`)**:
+	* Updates the list of managed parent queues.
+	* Manages auto-created leaf queues for each managed parent queue.
+3. **Managing Auto-Created Leaf Queues (`manageAutoCreatedLeafQueues()`)**:
+	* Iterates through managed parent queues.
+	* For each, computes queue management changes using the queue's auto-created queue management policy.
+	* Applies changes by dispatching a `QueueManagementChangeEvent` to the scheduler.
+4. **Computing Queue Management Changes (`computeQueueManagementChanges()`)**:
+	* Checks if auto-creation should proceed despite exceeded guaranteed capacity.
+	* Executes the policy to compute necessary changes (e.g., adding, removing, or updating queues).
+	* Handles errors and logs execution time and changes.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs:**
+
+* `Configuration` object for initialization
+* `RMContext`, `ResourceScheduler` (specifically `CapacityScheduler`) for dependencies
+* Periodic invocations of `editSchedule()` (driven by `monitoringInterval`)
+
+**Primary Outputs:**
+
+* Updated queue configurations through dispatched `QueueManagementChangeEvent`s
+* Logging information for debugging and monitoring purposes
+
+### **4. Dependencies:**
+**Key Classes, Interfaces, or External Libraries:**
+
+* **Apache Hadoop YARN Libraries:**
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler`
+	+ `org.apache.hadoop.yarn.server.resourcemanager.RMContext`
+	+ `org.apache.hadoop.yarn.util.resource.ResourceCalculator`
+* **Apache Logging Library (SLF4J):**
+	+ `org.slf4j.Logger`
+	+ `org.slf4j

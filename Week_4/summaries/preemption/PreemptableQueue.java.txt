@@ -1,0 +1,39 @@
+**Analysis of `PreemptableQueue` Class**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+The `PreemptableQueue` class manages a hierarchical structure of killable resources and containers, partitioned by node partitions, facilitating resource preemption in a YARN (Yet Another Resource Negotiator) scheduler. It enables tracking and updating of preemptable resources across a queue hierarchy.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of Main Algorithm/Business Logic:**
+
+1. **Initialization**:
+	* A `PreemptableQueue` can be initialized with a parent queue (establishing a hierarchy) or with predefined maps of killable resources and containers.
+2. **Adding Killable Containers**:
+	* **Partition Identification**: Identify the node partition for the incoming `KillableContainer`.
+	* **Initialization of Partition Data Structures (if needed)**: Create entries in `totalKillableResources` and `killableContainers` maps if the partition is new.
+	* **Update Resource and Container Maps**:
+		+ Add the container's allocated resource to the partition's total killable resources.
+		+ Store the container in the partition's container map.
+	* **Recursive Update (if applicable)**: If a parent queue exists, repeat the process to update the hierarchy.
+3. **Removing Killable Containers**:
+	* **Partition Identification**: Same as in adding containers.
+	* **Update Resource and Container Maps**:
+		+ Remove the container from the partition's container map.
+		+ Subtract the container's allocated resource from the partition's total killable resources if the removal was successful.
+	* **Recursive Update (if applicable)**: Update the parent queue, if present.
+4. **Resource and Container Retrieval**:
+	* **Get Killable Resource by Partition**: Returns the total killable resources for a specified partition.
+	* **Get Killable Containers**: Returns all killable containers, organized by partition.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs:**
+
+* `KillableContainer` objects (for `addKillableContainer` and `removeKillableContainer` methods)
+* `String` partition identifiers (for `getKillableResource` method)
+* Optionally, a `PreemptableQueue` parent during initialization
+
+**Primary Outputs:**
+
+* `Resource` objects representing total killable resources for a given partition (`getKillableResource`)
+* `Map<String, Map<ContainerId, RMContainer>>` representing

@@ -1,0 +1,35 @@
+**Overview**
+
+This Java code defines a class `CSQueueMetrics` that extends `QueueMetrics`. It's part of the Apache Hadoop YARN (Yet Another Resource Negotiator) project, specifically designed for managing metrics related to resource allocation in a capacity scheduler queue. The class provides a set of metrics for monitoring and managing resources, such as memory, CPU, and custom resources, within a queue.
+
+**Key Functionality**
+
+1. **Metrics Tracking**:
+	* **Resource Metrics**: Tracks various resource-related metrics, including:
+		+ AM (Application Master) resource limits (memory, CPU)
+		+ Used AM resources (memory, CPU)
+		+ Guaranteed and maximum capacity (memory, CPU, custom resources)
+		+ Used capacity (percentage of guaranteed and absolute capacity)
+	* **Custom Resource Metrics**: Supports tracking of custom resources (e.g., GPUs, FPGAs) with dynamic registration.
+
+2. **Queue and User Metrics Management**:
+	* **Queue Metrics**: Manages metrics for a specific queue, including registration with the MetricsSystem.
+	* **User Metrics**: Generates and manages metrics for individual users within a queue.
+
+3. **Configuration and Initialization**:
+	* **Constructor**: Initializes the `CSQueueMetrics` object with a `MetricsSystem`, queue name, parent queue, user metrics enablement, and configuration.
+	* **Static Factory Method**: Provides a convenient way to create a `CSQueueMetrics` instance for a given queue, handling configuration validation and MetricsSystem selection.
+
+**Important Methods and Fields**
+
+* **Metrics Fields** (e.g., `AMResourceLimitMB`, `usedCapacity`, `guaranteedMB`): These are annotated with `@Metric` and represent the various metrics tracked by the class.
+* **`registerCustomResources()`**: Registers custom resource metrics dynamically.
+* **`setAMResouceLimit()`**, **`incAMUsed()`**, **`decAMUsed()`**: Update AM resource limit and usage metrics.
+* **`setUsedCapacity()`**, **`setAbsoluteUsedCapacity()`**: Update used capacity metrics.
+* **`setGuaranteedResources()`**, **`setMaxCapacityResources()`**: Update guaranteed and maximum capacity metrics.
+* **`forQueue()`** (static factory method): Creates a `CSQueueMetrics` instance for a given queue.
+* **`getUserMetrics()`**: Returns or creates metrics for a specific user within the queue.
+
+**Context and Deployment**
+
+This code is likely deployed in a distributed computing environment, such as

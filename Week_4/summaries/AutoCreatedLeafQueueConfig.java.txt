@@ -1,0 +1,46 @@
+**Code Analysis: `AutoCreatedLeafQueueConfig` Class**
+
+**Overview**
+---------------
+
+The `AutoCreatedLeafQueueConfig` class is a Java component of the Apache Hadoop YARN (Yet Another Resource Negotiator) project, specifically designed for managing leaf queue configurations in a capacity scheduler. It encapsulates key settings for automatically created leaf queues.
+
+**Key Functionality**
+----------------------
+
+1. **Configuration Holder**: This class holds three primary configurations for auto-created leaf queues:
+	* **Queue Capacities** (`queueCapacities`): Contains both configured and derived capacities (e.g., absolute capacity) used for managing leaf queue capacities.
+	* **Leaf Queue Configurations** (`leafQueueConfigs`): Represents the configuration settings for the leaf queues, leveraging `CapacitySchedulerConfiguration`.
+	* **Resource Quotas** (`resourceQuotas`): Defines the quotas for resources within the queues, using `QueueResourceQuotas`.
+2. **Builder Pattern for Construction**: The class utilizes the Builder design pattern for its instantiation, ensuring a fluent and flexible construction process. This pattern allows for optional parameter setting during object creation.
+3. **Getter Methods for Access**: Provides getter methods for retrieving the configured `QueueCapacities`, `CapacitySchedulerConfiguration`, and `QueueResourceQuotas`.
+4. **String Representation**: Offers a `toString` method for a concise string representation of the object, including its `queueCapacities` and `leafQueueConfigs`.
+
+**Usage Example**
+-----------------
+
+To create an instance of `AutoCreatedLeafQueueConfig`, you would use its `Builder` class as follows:
+
+```java
+// Assuming you have instances of the required classes
+QueueCapacities capacities = ...;
+CapacitySchedulerConfiguration config = ...;
+QueueResourceQuotas quotas = ...;
+
+AutoCreatedLeafQueueConfig configInstance = new AutoCreatedLeafQueueConfig.Builder()
+    .capacities(capacities)
+    .configuration(config)
+    .resourceQuotas(quotas)
+    .build();
+
+// Accessing the configurations
+QueueCapacities retrievedCapacities = configInstance.getQueueCapacities();
+```
+
+**Design and Readability**
+---------------------------
+
+* **License and Package Information**: Clearly stated at the top, providing context and legal framework.
+* **Class and Method Documentation**: Well-documented with concise comments explaining the purpose of the class and its methods.
+* **Code Organization**: The use of a nested `Builder` class enhances readability and simplifies the construction process.
+* **Encapsulation**: Effectively encapsulates the configurations, controlling

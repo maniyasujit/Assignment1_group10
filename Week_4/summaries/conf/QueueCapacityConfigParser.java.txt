@@ -1,0 +1,41 @@
+**Analysis of `QueueCapacityConfigParser` Class**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+The `QueueCapacityConfigParser` class is responsible for parsing capacity configuration strings into `QueueCapacityVector` objects, which represent resource allocations for queues in a resource management system (e.g., Apache Hadoop YARN). It supports various capacity formats, including uniform (percentage/weight) and heterogeneous (mixed/absolute resources).
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of Main Algorithm/Business Logic:**
+
+1. **Initialization**: The parser is initialized with a list of predefined parsers, each consisting of a regular expression (regex) pattern and a corresponding parsing function.
+2. **Input Processing**:
+	* **Root Queue Handling**: If the queue is the root, returns a default `QueueCapacityVector` (100%).
+	* **Null Input Handling**: If the input capacity string is null, returns an empty `QueueCapacityVector`.
+	* **Input Sanitization**: Trims all spaces from the input capacity string.
+3. **Pattern Matching**:
+	* Iterates through the predefined parsers, attempting to match the input capacity string against each regex pattern.
+	* Upon finding a match, applies the associated parsing function to extract capacity information.
+4. **Capacity Vector Construction**:
+	* **Uniform Capacity** (`uniformParser`):
+		+ Extracts the value and optional suffix (e.g., percentage symbol).
+		+ Determines the `ResourceUnitCapacityType` based on the suffix (if present).
+		+ Creates a `QueueCapacityVector` with the parsed value and capacity type.
+	* **Heterogeneous Capacity** (`heterogeneousParser`):
+		+ Extracts key-value pairs from the input string (e.g., "memory=4Gi, vcores=2").
+		+ For each pair, sets the corresponding resource in the `QueueCapacityVector` using `setCapacityVector`.
+5. **Output**: Returns the constructed `QueueCapacityVector` object.
+
+### **3. Inputs/Outputs:**
+
+* **Primary Inputs:**
+	+ `capacityString`: The input capacity configuration string.
+	+ `queuePath`: The queue for which the capacity is being parsed.
+* **Primary Outputs:**
+	+ `QueueCapacityVector`: The parsed capacity vector object.
+
+### **4. Dependencies:**
+
+* **Key Classes/Interfaces:**
+	+ `QueueCapacityVector`
+	+ `ResourceUnitCapacityType`
+	+

@@ -1,0 +1,39 @@
+**Analysis of `CSQueueUsageTracker` Class**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+The `CSQueueUsageTracker` class monitors and manages resource usage and metrics for a specific queue in a YARN (Yet Another Resource Negotiator) resource management system, particularly in the context of Capacity Scheduling (CS).
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of Main Algorithm/Business Logic:**
+
+1. **Initialization**: The class is instantiated with `CSQueueMetrics`, initializing internal state for tracking queue usage, resource quotas, and metrics.
+2. **Container Management**:
+	* `increaseNumContainers()`: Atomically increments the container count.
+	* `decreaseNumContainers()`: Atomically decrements the container count.
+3. **Queue Usage Tracking**:
+	* `getQueueUsage()`: Returns the current resource usage (used/pending resources by label).
+	* (Implicit) Updating queue usage is not directly shown in this class but is likely managed through the `ResourceUsage` object, which might be updated externally based on the context.
+4. **Queue Metadata Management**:
+	* `setLastSubmittedTimestamp()`: Updates the timestamp of the last submitted application (relevant for dynamic queues).
+5. **Information Retrieval**:
+	* Various getter methods provide access to the queue's metrics, current container count, last submission timestamp, queue usage, and resource quotas.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs:**
+- `CSQueueMetrics` object (constructor input)
+- Method calls to update state (e.g., `increaseNumContainers()`, `setLastSubmittedTimestamp(long)`)
+
+**Primary Outputs:**
+- Queue metrics (`getMetrics()`)
+- Current number of containers (`getNumContainers()`)
+- Last application submission timestamp (`getLastSubmittedTimestamp()`)
+- Current queue resource usage (`getQueueUsage()`)
+- Queue resource quotas (`getQueueResourceQuotas()`)
+
+### **4. Dependencies:**
+**Key Classes/Interfaces/External Libraries:**
+- `org.apache.hadoop.yarn.server.resourcemanager.scheduler.CSQueueMetrics`
+- `org.apache.hadoop.yarn.server.resourcemanager.scheduler.ResourceUsage`
+- `org.apache.hadoop.yarn.server.resourcemanager.scheduler.QueueResourceQuotas`
+- **Implicit Dependency:** Apache YARN (for the overall resource management context)

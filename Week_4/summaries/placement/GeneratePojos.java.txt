@@ -1,0 +1,35 @@
+**Analysis of the Provided Source Code**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+This Java program, `GeneratePojos`, is a utility designed to automatically generate Java Plain Old Java Objects (POJOs) from a predefined JSON schema file named `MappingRulesDescription.json`. The generated POJOs are output as Java source files in a specified package.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of the Main Algorithm/Business Logic:**
+
+1. **Initialization**:
+	* A `JCodeModel` instance is created to manage the generated Java code.
+	* The URL of the `MappingRulesDescription.json` schema file is determined from a predefined path.
+2. **Configuration Setup**:
+	* A custom `GenerationConfig` is defined, inheriting from `DefaultGenerationConfig`.
+	* Two key configurations are overridden:
+		+ `isGenerateBuilders()`: Set to `false`, indicating that builder patterns for the POJOs should not be generated.
+		+ `isUsePrimitives()`: Set to `true`, specifying that primitive types should be used where possible in the generated POJOs.
+3. **Schema Mapping and Generation**:
+	* A `SchemaMapper` is instantiated with the custom `GenerationConfig`, a `Jackson2Annotator`, and a `SchemaStore`.
+	* The `generate()` method of the `SchemaMapper` is called, passing in the `JCodeModel`, a target package name (`TARGET_PACKAGE`), and the schema URL.
+	* This step translates the JSON schema into Java POJOs within the `JCodeModel`.
+4. **Code Output**:
+	* The `build()` method of the `JCodeModel` is invoked, outputting the generated Java source files to a specified directory (`src/main/java`).
+
+### **3. Inputs/Outputs:**
+**Primary Inputs and Outputs:**
+
+* **Inputs:**
+	+ `MappingRulesDescription.json`: The JSON schema file used as the basis for generating POJOs.
+	+ `TARGET_PACKAGE` String: Specifies the package name for the generated Java classes.
+	+ Configuration Options (implicitly through `GenerationConfig`):
+		- Decision to generate builders (`false` in this case)
+		- Preference for using primitive types (`true` in this case)
+* **Outputs:**
+	+ **Generated Java POJO Source Files**: Output to `src/main/java`, structured under the `TARGET_PACKAGE` (`org.apache

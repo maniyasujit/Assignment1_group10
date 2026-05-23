@@ -1,0 +1,41 @@
+**Analysis of the Provided Source Code**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+This Java class, `GuaranteedOrZeroCapacityOverTimePolicy`, implements a capacity management policy for auto-created leaf queues in a resource management system, specifically designed for Apache Hadoop YARN (Yet Another Resource Negotiator). The policy assigns capacity to leaf queues based on application submission order (First-Come-First-Served, FCFS) and updates capacities to zero when there are no pending or running applications under a queue.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of the Main Algorithm/Business Logic:**
+
+1. **Initialization**:
+   - Initializes the policy with a parent queue.
+   - Sets up a leaf queue template with predefined capacities.
+
+2. **Computing Queue Management Changes**:
+   - **Update Template Capacities**: Reflects any changes in the parent queue's capacities on the leaf queue template.
+   - **Sync Leaf Queue State**: Ensures the internal state of leaf queues is up-to-date with the actual queues.
+   - **Deactivate Inactive Leaf Queues**: Identifies and deactivates (sets capacity to zero) leaf queues without pending applications.
+   - **Activate New Leaf Queues**: Based on available capacity, activates new leaf queues for pending applications, following the FCFS principle.
+
+3. **Committing Changes**:
+   - Applies computed changes to the actual leaf queues, updating their capacities and states (active/inactive).
+
+4. **Additional Operations**:
+   - Provides methods for reinitializing the policy, obtaining initial configurations for new leaf queues, and checking queue states.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs:**
+- `AbstractParentQueue` instance for initialization
+- Periodic invocations of `computeQueueManagementChanges()` to reassess queue capacities
+- `commitQueueManagementChanges()` with computed changes to apply updates
+
+**Primary Outputs:**
+- List of `QueueManagementChange` objects suggesting capacity updates for leaf queues
+- Updated leaf queue configurations with adjusted capacities upon committing changes
+
+### **4. Dependencies:**
+**Key Classes, Interfaces, or External Libraries:**
+- `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity` package classes (e.g., `AbstractParentQueue`, `AutoCreatedLeafQueue`, `QueueCapacities`)
+- `org.apache.hadoop.yarn.api.records.Resource`
+- `org.slf4j` for logging
+- `java.util` and `java.util.concurrent

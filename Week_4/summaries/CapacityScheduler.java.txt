@@ -1,0 +1,48 @@
+**Key Functionality:**
+The provided Java code implements the `CapacityScheduler` class, which is a key component of the Apache Hadoop YARN (Yet Another Resource Negotiator) resource management system. The primary functionality of this class includes:
+
+1. **Resource Management**: Managing resources (e.g., memory, CPU) across a cluster of nodes.
+2. **Job Scheduling**: Scheduling applications (jobs) on available nodes based on resource availability, queue configurations, and priority.
+3. **Queue Management**: Handling multiple queues with different capacities, priorities, and access control lists (ACLs).
+4. **Application Lifecycle Management**: Managing the lifecycle of applications, including submission, execution, and completion.
+
+**Core Logic:**
+
+1. **Initialization**:
+	* Load configuration from a specified store (e.g., file, memory, or database).
+	* Initialize queues, node managers, and other internal data structures.
+2. **Scheduling Loop**:
+	* Periodically iterate through nodes and queues to allocate resources.
+	* Check for available resources, node heartbeats, and queue demands.
+	* Allocate containers (resources) to applications based on scheduling policies.
+3. **Event Handling**:
+	* Handle various events, such as:
+		+ Node additions/removals
+		+ Application submissions/completions
+		+ Container allocations/deallocations
+		+ Queue management changes
+4. **Resource Commitment**:
+	* Commit allocated resources to applications.
+	* Update internal state and notify relevant components.
+
+**Inputs/Outputs:**
+
+**Inputs:**
+
+1. **Configuration**: Loaded from a specified store (e.g., file, memory, or database).
+2. **Node Events**: Node additions, removals, and heartbeats.
+3. **Application Events**: Application submissions, completions, and updates.
+4. **Queue Management Events**: Queue creations, updates, and deletions.
+
+**Outputs:**
+
+1. **Resource Allocations**: Containers (resources) allocated to applications.
+2. **Application State Updates**: Application state changes (e.g., running, completed).
+3. **Queue State Updates**: Queue state changes (e.g., capacity, priority).
+4. **Logging and Metrics**: Logs and metrics for monitoring and debugging.
+
+**Dependencies:**
+
+1. **Apache Hadoop YARN**: The resource management system that this scheduler is a part of.
+2. **Apache Commons Lang**: For utility classes (e.g., `StringUtils`).
+3. **SLF4J

@@ -1,0 +1,30 @@
+**Analysis of `QueueResourceRoundingStrategy` Interface**
+
+### **1. Key Functionality:**
+**High-Level Overview:** 
+Defines a strategy for rounding calculated resource values from floating-point numbers to whole numbers in the context of YARN (Yet Another Resource Negotiator) Resource Manager's capacity scheduling.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of Main Algorithm/Business Logic:**
+
+1. **Input Receipt**: Receive two inputs:
+	* `resourceValue`: A calculated resource value (in floating-point format).
+	* `capacityVectorEntry`: A configured entry from a `QueueCapacityVector`, providing context for rounding.
+2. **Rounding Application**: Apply a rounding strategy (implementation-dependent, as this is an interface) to the `resourceValue`.
+3. **Output Generation**: Return the rounded resource value as a `double` (whole number, though returned as a `double` for consistency with input type).
+
+**Note:** The actual rounding logic (e.g., floor, ceiling, nearest integer) is not defined here, as this interface serves as a contract for various rounding strategy implementations.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs:**
+- **`resourceValue`**: `double`, the calculated resource value to be rounded.
+- **`capacityVectorEntry`**: `QueueCapacityVectorEntry`, providing context for the rounding operation.
+
+**Primary Output:**
+- **`roundedResourceValue`**: `double`, the rounded whole number representation of the input `resourceValue`.
+
+### **4. Dependencies:**
+**Key Dependencies:**
+- **`org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.QueueCapacityVector.QueueCapacityVectorEntry`**: An entry from a capacity vector, used for contextual rounding.
+- **Apache Hadoop YARN Framework**: Implicit dependency, as this interface is part of the YARN Resource Manager's scheduling component.
+- **Java Programming Language**: Given the syntax and the use of Java-specific types (e.g., `double`, `interface`).

@@ -1,0 +1,55 @@
+**Code Analysis: `AppPriorityACLGroup` Class**
+
+**Overview**
+---------------
+
+The `AppPriorityACLGroup` class is a Java implementation that stores and manages Access Control List (ACL) information related to priority settings for applications, likely within the context of the Apache Hadoop YARN (Yet Another Resource Negotiator) resource management framework.
+
+**Key Functionality**
+----------------------
+
+1. **Priority Management**:
+	* Stores two types of priorities:
+		+ `maxPriority`: The maximum priority allowed.
+		+ `defaultPriority`: The default priority assigned if none is specified.
+2. **Access Control List (ACL) Management**:
+	* Holds an `aclList` to define access permissions for the associated priorities.
+3. **Comparison and Equality Checks**:
+	* Implements `Comparable` for sorting based on `maxPriority`.
+	* Overrides `equals` and `hashCode` for object comparison, considering both `maxPriority` and `defaultPriority`.
+
+**Method Breakdown**
+----------------------
+
+### Constructors
+
+* **Parameterized Constructor**: Initializes the object with specified `maxPriority`, `defaultPriority`, and `aclList`.
+* **No-Arg Constructor**: Creates an empty object, requiring subsequent setter method calls to populate its fields.
+
+### Getters and Setters
+
+* **Getters**:
+	+ `getMaxPriority()`: Returns the maximum priority.
+	+ `getDefaultPriority()`: Returns the default priority.
+	+ `getACLList()`: Returns the access control list.
+* **Setters**:
+	+ `setMaxPriority(Priority)`: Sets the maximum priority.
+	+ `setDefaultPriority(Priority)`: Sets the default priority.
+	+ `setACLList(AccessControlList)`: Sets the access control list.
+
+### Comparison and Hashing
+
+* **`compareTo(AppPriorityACLGroup)`**: Compares two objects based on their `maxPriority` for sorting purposes.
+* **`equals(Object)`**: Checks if two objects are equal based on their `maxPriority` and `defaultPriority`.
+* **`hashCode()`**: Generates a hash code based on `maxPriority` and `defaultPriority` for efficient storage and retrieval in hash-based data structures.
+
+**Usage Scenario**
+-------------------
+
+1. **Initialization**:
+```java
+Priority maxPriority = Priority.newInstance(10);
+Priority defaultPriority = Priority.newInstance(5);
+AccessControlList aclList = new AccessControlList("user1,user2");
+
+AppPriorityACLGroup group = new AppPriorityACLGroup(maxPriority, defaultPriority, aclList

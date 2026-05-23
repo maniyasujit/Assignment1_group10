@@ -1,0 +1,37 @@
+**Analysis of `RootQueueCapacityCalculator` Class**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+The `RootQueueCapacityCalculator` class is responsible for calculating resource capacities for the root queue in a YARN (Yet Another Resource Negotiator) cluster, managed by the Apache Hadoop Resource Manager. It determines minimum, maximum, and normalized resource capacities for the root queue, ensuring proper resource allocation.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of Main Algorithm/Business Logic:**
+
+1. **Initialization**:
+	* `calculateResourcePrerequisites`: Sets the normalized resource ratio for the `resourceCalculationDriver`, ensuring resources are calculated in a standardized manner.
+2. **Resource Capacity Calculations**:
+	* `calculateMinimumResource` and `calculateMaximumResource`:
+		+ Both methods retrieve the updated cluster resource value for a given `label` (resource type, e.g., memory, CPU) from the `resourceCalculationDriver`.
+		+ **Key Insight**: For the root queue, minimum and maximum resource capacities are set to the same value, effectively making the root queue's capacity dynamic and dependent on the current cluster resource availability.
+3. **Post-Calculation Updates**:
+	* `updateCapacitiesAfterCalculation`:
+		1. Sets the absolute capacity of the queue to 1 for the specified `label`, indicating the queue can utilize up to the total available resource of that type.
+		2. If the queue's weight for the `label` is 1 (default or not explicitly set), sets the normalized weight to 1, ensuring equal weighting if no specific weights are defined.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs and Outputs:**
+
+* **Inputs**:
+	+ `ResourceCalculationDriver`: Provides context and methods for resource calculations.
+	+ `CalculationContext`: Offers additional calculation parameters.
+	+ `CSQueue`: The queue for which capacities are being calculated.
+	+ `String label`: Identifies the resource type (e.g., "memory", "cpu").
+* **Outputs**:
+	+ **Calculated Resource Capacities**: Minimum, maximum, and normalized capacities for the root queue, influencing resource allocation decisions.
+	+ **Updated Queue Capacities**: The `CSQueue` object's capacities are updated based on calculations.
+
+### **4. Dependencies:**
+**Key Classes, Interfaces, or External Libraries:**
+
+* **Classes**:
+	+ `AbstractQueueCapacityCalculator`:

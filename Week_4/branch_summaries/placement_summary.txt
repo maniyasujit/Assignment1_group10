@@ -1,0 +1,29 @@
+**Concise Summary of the 'placement' Sub-module's Role and Functionality**
+
+**Role:**
+The 'placement' sub-module is responsible for managing placement decisions within the Capacity Scheduler (CS) of Apache Hadoop YARN, focusing on translating predefined rules into actionable configurations for resource allocation.
+
+**Functionality:**
+
+1. **Rule Definition and Generation**:
+	* **JSON Schema to Java POJOs**: Automatically generates Java Plain Old Java Objects (POJOs) from a predefined `MappingRulesDescription.json` schema file using the `GeneratePojos` utility.
+2. **Rule Parsing and Conversion**:
+	* **JSON to MappingRule Objects**: The `MappingRuleCreator` class parses JSON files or strings into `MappingRule` objects, which encapsulate matchers and actions for placement decisions.
+3. **Placement Decision Support**:
+	* **MappingRule Objects**: These objects, containing matchers (e.g., USER, GROUP, APPLICATION) and actions (e.g., DEFAULT_QUEUE, REJECT, PRIMARY_GROUP), guide the Capacity Scheduler in making informed placement decisions.
+
+**Key Dependencies and Technologies:**
+
+* Apache Hadoop YARN
+* Jackson Library for JSON processing
+* Apache Commons Lang for utility functions
+* SLF4J Logging API for logging
+
+**Inputs and Outputs (Sub-module Level):**
+
+* **Inputs**:
+	+ `MappingRulesDescription.json` schema file
+	+ JSON files or strings containing mapping rules
+* **Outputs**:
+	+ Generated Java POJO source files for mapping rules
+	+ `MappingRule` objects for use in placement decisions within the Capacity Scheduler

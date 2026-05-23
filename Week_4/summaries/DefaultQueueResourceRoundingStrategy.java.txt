@@ -1,0 +1,34 @@
+**Analysis of `DefaultQueueResourceRoundingStrategy` Class**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+This Java class implements a default rounding strategy for resource calculations in the context of YARN (Yet Another Resource Negotiator) Resource Manager's capacity scheduler. It determines whether to round up or down resource values based on their type, with a special handling for the "WEIGHT" type.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of the Main Algorithm:**
+
+1. **Initialization**:
+	* The class is instantiated with an array of `ResourceUnitCapacityType`, which defines the precedence of resource types.
+	* The last element in this array is identified as `lastCapacityType`, assumed to be "WEIGHT" based on the context.
+2. **Rounding Decision (getRoundedResource method)**:
+	* **Input**: `resourceValue` (the value to be rounded) and `capacityVectorEntry` (containing the resource type).
+	* **Step 1**: Check if the resource type of `capacityVectorEntry` matches `lastCapacityType` (implicitly "WEIGHT").
+	* **Step 2**:
+		+ **If Match (WEIGHT)**: Round the `resourceValue` to the nearest integer using `Math.round()`.
+		+ **If Not Match (All Other Types)**: Round down the `resourceValue` to the nearest integer using `Math.floor()`.
+	* **Output**: The rounded `resourceValue`.
+
+### **3. Inputs/Outputs:**
+* **Primary Inputs:**
+	+ `capacityTypePrecedence`: An array of `ResourceUnitCapacityType` defining the order of resource types.
+	+ `resourceValue`: The double value to be rounded.
+	+ `capacityVectorEntry`: An object containing the resource type to determine the rounding strategy.
+* **Primary Outputs:**
+	+ `roundedResourceValue`: The input `resourceValue` rounded according to the defined strategy.
+
+### **4. Dependencies:**
+* **Key Classes/Interfaces:**
+	+ `QueueResourceRoundingStrategy`: The interface this class implements.
+	+ `ResourceUnitCapacityType`: An enumeration (not shown in the snippet) defining resource types (e.g., WEIGHT, MEMORY, CPU).
+	+ `QueueCapacityVector.QueueCapacityVectorEntry`: A class (not shown) representing an entry in a capacity vector, containing a resource type and possibly other capacity-related data.
+* **External Libraries:**

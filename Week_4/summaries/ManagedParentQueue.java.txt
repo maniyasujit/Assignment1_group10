@@ -1,0 +1,40 @@
+**1. Key Functionality:**
+==========================
+
+*   **Managed Parent Queue**: This Java class represents a parent queue in a YARN (Yet Another Resource Negotiator) resource management system, specifically designed for **auto-creating leaf queues**.
+*   **Primary Responsibilities**:
+    *   Manage the creation and configuration of auto-created leaf queues.
+    *   Enforce capacity constraints and queue management policies for leaf queues.
+    *   Provide access to scheduleable, pending, and all applications within the managed leaf queues.
+
+**2. Core Logic:**
+==================
+
+### **Step-by-Step Explanation of Main Algorithm/Business Logic:**
+
+1.  **Initialization**:
+    *   The `ManagedParentQueue` is initialized with a `CapacitySchedulerQueueContext`, queue name, parent queue, and an optional old queue configuration.
+    *   It sets up queue configurations based on the cluster resource and initializes the leaf queue template.
+2.  **Reinitialization**:
+    *   Upon reinitialization, the queue validates the new configuration, updates the leaf queue template, and reapplies queue management policies.
+    *   It ensures capacity constraints are respected across all auto-created leaf queues.
+3.  **Leaf Queue Auto-Creation**:
+    *   When adding a child queue, the system checks if the queue is an instance of `AutoCreatedLeafQueue` and if the parent queue's maximum child queue limit is not exceeded.
+    *   It updates the leaf queue's capacities based on the parent queue's configuration and ensures that the guaranteed capacity is not exceeded.
+4.  **Queue Management Policy Enforcement**:
+    *   The class applies queue management changes (e.g., updating queue configurations) based on the defined policy (`GuaranteedOrZeroCapacityOverTimePolicy`).
+    *   It validates changes to ensure they comply with the policy and the queue's configuration.
+5.  **Application Access**:
+    *   Provides methods to retrieve scheduleable, pending, and all applications across all managed leaf queues.
+
+**3. Inputs/Outputs:**
+=====================
+
+### **Primary Inputs:**
+
+*   `CapacitySchedulerQueueContext`: Context for the queue, including configuration and cluster resource information.
+*   `queueName`: Name of the managed parent queue.
+*   `CSQueue parent`: Parent queue (if applicable).
+*   `CSQueue old`: Optional old queue configuration for reinitialization.
+*   `CSQueue newlyParsedQueue`: New queue configuration for reinitialization.
+*   `

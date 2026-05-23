@@ -1,0 +1,39 @@
+**Analysis of the Provided Source Code**
+
+### **1. Key Functionality:**
+**Configuration Update Assembly for YARN Resource Manager**
+-----------------------------------------------
+
+This Java class, `ConfigurationUpdateAssembler`, is responsible for constructing updates to the configuration of a YARN (Yet Another Resource Negotiator) Resource Manager's Capacity Scheduler. It processes additions, removals, and updates of queues, as well as global parameter changes, and assembles these into a key-value map representing the configuration updates.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of the Main Algorithm**
+
+1. **Initialization**:
+	* The method `constructKeyValueConfUpdate` is called with a `CapacitySchedulerConfiguration` object (`proposedConf`) and a `SchedConfUpdateInfo` object (`mutationInfo`).
+	* An empty `Map<String, String>` (`confUpdate`) is created to store the configuration updates.
+2. **Processing Queue Removals**:
+	* For each queue to remove (from `mutationInfo.getRemoveQueueInfo()`):
+		+ Validate the queue path.
+		+ Remove the queue from the parent's queue list in `proposedConf`.
+		+ Update `confUpdate` with the new queue list for the parent or unset if the list becomes empty.
+		+ Unset any configuration keys specific to the removed queue.
+3. **Processing Queue Additions**:
+	* For each queue to add (from `mutationInfo.getAddQueueInfo()`):
+		+ Validate the queue path and ensure it doesn't already exist.
+		+ Add the queue to the parent's queue list in `proposedConf`.
+		+ Update `confUpdate` with the new queue list for the parent.
+		+ Set or unset configuration parameters for the new queue based on provided values.
+4. **Processing Queue Updates**:
+	* For each queue to update (from `mutationInfo.getUpdateQueueInfo()`):
+		+ Iterate through the updated parameters.
+		+ Set or unset each parameter in `proposedConf` and update `confUpdate` accordingly.
+5. **Processing Global Parameter Updates**:
+	* Directly update `confUpdate` with any global parameter changes from `mutationInfo.getGlobalParams()`.
+6. **Return the Assembled Configuration Updates**:
+	* The populated `confUpdate` map is returned, representing all configuration changes.
+
+### **3. Inputs/Outputs:**
+
+* **Inputs**:
+	+ `CapacitySchedulerConfiguration proposedConf`: The proposed configuration

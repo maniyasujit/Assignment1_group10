@@ -1,0 +1,45 @@
+**Analysis of the Provided Source Code**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+This Java class, `PercentageQueueCapacityCalculator`, is responsible for calculating the minimum and maximum resource capacities for a queue in a resource management system, specifically designed for Apache Hadoop YARN (Yet Another Resource Negotiator). The calculations are based on percentage values relative to parent capacities.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of the Main Algorithm/Business Logic:**
+
+* **Minimum Resource Calculation (`calculateMinimumResource`):**
+	1. Retrieves the parent's absolute minimum capacity for a given resource and label.
+	2. Obtains the remaining ratio of the resource for the label.
+	3. Calculates the absolute capacity by multiplying the parent's absolute minimum capacity by the remaining ratio and the current minimum capacity entry (as a percentage).
+	4. Returns the calculated absolute capacity scaled by the updated cluster resource value for the label and resource.
+
+* **Maximum Resource Calculation (`calculateMaximumResource`):**
+	1. Retrieves the parent's absolute maximum capacity for a given resource and label.
+	2. Calculates the absolute maximum capacity by multiplying the parent's absolute maximum capacity by the current maximum capacity entry (as a percentage).
+	3. Returns the calculated absolute maximum capacity scaled by the updated cluster resource value for the label and resource.
+
+* **Additional Methods:**
+	+ `calculateResourcePrerequisites`: Currently empty, implying no prerequisites are calculated.
+	+ `updateCapacitiesAfterCalculation`: Updates the absolute capacities of the queue after calculation.
+	+ `getCapacityType`: Returns the capacity type as `PERCENTAGE`.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs:**
+* `ResourceCalculationDriver` object
+* `CalculationContext` object
+* `String label` (queue or resource identifier)
+* Implicit inputs through the `ResourceCalculationDriver` and `CalculationContext`, such as:
+	- Parent absolute capacities (min and max)
+	- Remaining resource ratios
+	- Current capacity entries (min and max)
+	- Updated cluster resource values
+
+**Primary Outputs:**
+* Calculated minimum resource capacity (`double`)
+* Calculated maximum resource capacity (`double`)
+* Updated queue with new absolute capacities (via `updateCapacitiesAfterCalculation`)
+
+### **4. Dependencies:**
+**Key Classes, Interfaces, or External Libraries:**
+* `AbstractQueueCapacityCalculator` (parent class)
+* `ResourceCalculationDriver` (interface or

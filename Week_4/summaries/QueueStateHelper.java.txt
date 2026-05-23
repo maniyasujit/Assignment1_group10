@@ -1,0 +1,42 @@
+**Analysis of `QueueStateHelper` Class**
+
+### **1. Key Functionality:**
+High-level overview of what this code does:
+
+* Manages state transitions for queues in a resource management system (Apache Hadoop YARN).
+* Ensures valid state configurations (RUNNING or STOPPED) based on queue hierarchy and configured settings.
+
+### **2. Core Logic:**
+Step-by-step explanation of the main algorithm or business logic:
+
+1. **Queue State Setting**:
+	* Retrieve previous queue state, configured state, and parent queue state (if applicable).
+	* Validate configured state against allowed values (RUNNING or STOPPED).
+2. **State Initialization** (if previous state is null):
+	* Determine initial state based on configured state or default (RUNNING).
+	* Consider parent queue state for inheritance or compatibility checks.
+	* Update queue state accordingly.
+3. **State Reinitialization** (if previous state exists):
+	* Handle state transitions from RUNNING to STOPPED or vice versa based on configured state.
+	* Perform queue activation or stopping as necessary.
+
+### **3. Inputs/Outputs:**
+Description of primary inputs and outputs:
+
+* **Inputs:**
+	+ `AbstractCSQueue` object (`queue`) containing queue metadata and state.
+* **Outputs:**
+	+ **Updated Queue State**: The `queue` object's state is modified to reflect the determined or transitioned state.
+	+ **Exceptions**:
+		- `IllegalArgumentException` for invalid configured states or incompatible parent-child queue states.
+		- Wrapped `YarnException` (as `IllegalArgumentException`) during queue activation.
+
+### **4. Dependencies:**
+List of key classes, interfaces, or external libraries:
+
+* **Apache Hadoop YARN Classes:**
+	+ `AbstractCSQueue` (queue representation)
+	+ `QueueState` (enum for queue states)
+	+ `YarnException` (exception for YARN-related errors)
+* **Third-Party Library:**
+	+ **Google Guava** (`com.google.common.collect.ImmutableSet`) for creating an immutable set of valid queue states.

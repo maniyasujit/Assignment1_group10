@@ -1,0 +1,38 @@
+**Comprehensive Architectural Summary**
+
+**Overall Purpose:**
+The entire module, part of the Apache Hadoop YARN (Yet Another Resource Negotiator) project, is designed to manage resource allocation, queue configuration, and application lifecycle within a distributed computing environment, specifically focusing on the Capacity Scheduler. Its primary goal is to ensure efficient resource utilization, provide flexible queue management, and support various scheduling policies.
+
+**Sub-Module Interactions and Key Responsibilities:**
+
+1. **top_level** (Capacity Scheduler Core)
+	* **Responsibility:** Orchestrates the overall resource management and scheduling process.
+	* **Interactions:** Coordinates with all sub-modules to ensure cohesive functionality.
+2. **allocator** (Container Allocation Manager)
+	* **Responsibility:** Manages container allocation and deallocation, optimizing resource utilization.
+	* **Interactions:**
+		+ Receives resource requests from **top_level**.
+		+ Collaborates with **preemption** for container termination (if necessary).
+3. **conf** (Configuration Manager)
+	* **Responsibility:** Handles configuration storage, access control, and versioning for the Capacity Scheduler.
+	* **Interactions:**
+		+ Provides configuration data to **top_level** and other sub-modules.
+		+ Validates updates from **top_level** and **queuemanagement**.
+4. **placement** (Placement Decision Support)
+	* **Responsibility:** Translates predefined rules into actionable configurations for resource allocation.
+	* **Interactions:**
+		+ Supplies placement decisions to **allocator**.
+		+ Receives rule updates from **top_level** (indirectly, through configuration changes).
+5. **policy** (Queue Ordering Policy Manager)
+	* **Responsibility:** Determines the allocation order of queues based on predefined strategies.
+	* **Interactions:**
+		+ Provides queue ordering to **allocator**.
+		+ Integrates with **top_level** for queue management.
+6. **preemption** (Resource Preemption Manager)
+	* **Responsibility:** Identifies and terminates lower-priority containers to satisfy higher-priority applications.
+	* **Interactions:**
+		+ Collaborates with **allocator** for container termination.
+		+ Updates **queuemanagement** on resource availability.
+7. **queuemanagement** (Auto-Created Leaf Queue Manager)
+	* **Responsibility:** Dynamically adjusts capacities of auto-created leaf queues based on application demand and node labels.
+	* **Interactions:**

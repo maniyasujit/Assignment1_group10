@@ -1,0 +1,41 @@
+**1. Key Functionality:**
+**Queue Management Store for YARN Resource Manager**
+-----------------------------------------------
+
+The `CSQueueStore` class serves as a centralized repository for managing queues in the YARN (Yet Another Resource Negotiator) Resource Manager, specifically designed for the Capacity Scheduler. It handles queue additions, removals, lookups (by full or short names), and ambiguity checks for short names, ensuring thread safety through locking mechanisms.
+
+**2. Core Logic:**
+**Step-by-Step Explanation of Main Algorithm/Business Logic**
+---------------------------------------------------------
+
+1. **Initialization**:
+	* Three primary data structures are initialized:
+		+ `fullNameQueues`: A map storing all queues with their full path as the key.
+		+ `shortNameToLongNames`: A map to manage short name ambiguities, mapping short names to sets of corresponding full names.
+		+ `getMap`: A cache for quick lookups by both full and short names, updated on queue additions/removals.
+2. **Adding a Queue (`add(CSQueue queue)`)**:
+	* Acquire a write lock.
+	* Add the queue to `fullNameQueues` and `getMap` by its full name.
+	* Update `shortNameToLongNames` and `getMap` to reflect potential short name ambiguity changes.
+	* Release the write lock.
+3. **Removing a Queue (`remove(CSQueue queue)` or `remove(String name)`)**:
+	* Acquire a write lock.
+	* Remove the queue from `fullNameQueues` and `getMap`.
+	* Update `shortNameToLongNames` to reflect changes in short name ambiguity.
+	* If removing by name, first retrieve the queue object.
+	* Release the write lock.
+4. **Lookup and Ambiguity Check**:
+	* **Get Queue by Name (`get(String name)`)**: Use `getMap` for quick lookup, handling both full and short names, with a read lock.
+	* **Check for Ambiguity (`isAmbiguous(String shortName)`)**: Determine if a short name corresponds to more than one queue, using `shortNameToLongNames` with a read lock.
+
+**3. Inputs/Outputs:**
+**Primary Inputs and Outputs**
+---------------------------
+
+**Inputs:**
+
+* `CSQueue` objects for addition
+* Queue names (full or short) for removal, lookup, and ambiguity checks
+* `String` name for `remove(String name)` method
+
+**Outputs:**

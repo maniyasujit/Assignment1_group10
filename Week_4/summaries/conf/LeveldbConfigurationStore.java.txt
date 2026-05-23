@@ -1,0 +1,46 @@
+**1. Key Functionality:**
+**LevelDB-based Configuration Store for YARN (Yet Another Resource Negotiator)**
+====================================
+This Java class, `LeveldbConfigurationStore`, implements a configuration store for Apache YARN using LevelDB, a lightweight, embedded, key-value store. It manages the storage, retrieval, and versioning of YARN scheduler configurations.
+
+**2. Core Logic:**
+**Step-by-Step Explanation of Main Algorithm/Business Logic:**
+
+1. **Initialization**:
+	* Load configurations from `YarnConfiguration` and `RMContext`.
+	* Initialize two LevelDB instances: one for storing configurations (`db`) and another for versioning (`versionDb`).
+	* Set up compaction for the configuration database.
+2. **Configuration Storage**:
+	* **Store**: Serialize and store configuration updates in `db` using a write batch.
+	* **Retrieve**: Iterate through `db` to reconstruct the current configuration.
+3. **Versioning**:
+	* **Increase Version**: Increment the configuration version in `versionDb` after each confirmed update.
+	* **Get Version**: Retrieve the current configuration version from `versionDb`.
+4. **Logging**:
+	* **Log Mutation**: Store a limited history of configuration mutations in `db` (up to `maxLogs`).
+5. **Housekeeping**:
+	* **Format**: Close and delete the database storage directories.
+	* **Close**: Shut down the database managers.
+
+**3. Inputs/Outputs:**
+
+* **Inputs**:
+	+ `Configuration` objects (YARN configurations and scheduler configurations)
+	+ `RMContext` (Resource Manager context)
+	+ `LogMutation` objects (configuration update logs)
+* **Outputs**:
+	+ Stored configurations in LevelDB
+	+ Retrieved `Configuration` objects
+	+ Configuration version numbers (long)
+	+ Lists of `LogMutation` objects (configuration history)
+
+**4. Dependencies:**
+
+* **Key Classes/Interfaces:**
+	+ `YarnConfigurationStore` (interface, extended by this class)
+	+ `DBManager` (manages LevelDB instances)
+	+ `RMContext` (Resource Manager context)
+	+ `Configuration` (Apache Hadoop configuration class)
+* **External Libraries:**
+	+ **LevelDB**: `org.iq80.leveldb` (embedded key-value store)
+	+ **Apache Hadoop**: `org.apache.hadoop` (various classes for configuration, file systems, and logging)

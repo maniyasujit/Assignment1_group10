@@ -1,0 +1,22 @@
+**Concise Summary of the Preemption Sub-Module's Role and Functionality**
+
+**Role:** The preemption sub-module is a critical component within the Apache Hadoop YARN (Yet Another Resource Negotiator) Resource Manager, designed to manage resource preemption in a capacity scheduler environment. Its primary goal is to efficiently allocate resources by identifying and terminating (preempting) lower-priority containers to satisfy higher-priority applications or queues.
+
+**Functionality:**
+
+1. **Hierarchical Queue Management**: Maintains a hierarchical structure of preemptable resources and containers, partitioned by node partitions, using the `PreemptableQueue` class.
+2. **Container Lifecycle Management**:
+	* **Addition**: Incorporates killable containers into the hierarchy.
+	* **Removal**: Terminates containers to free resources.
+	* **(Planned) Updates and Moves**: Future development aims to include updating container resources and moving containers between queues.
+3. **Resource Tracking and Retrieval**:
+	* **Killable Resource Quantification**: Provides total preemptable resources by partition.
+	* **Killable Container Enumeration**: Offers iterators for containers eligible for preemption, filtered by queue and partition.
+4. **Concurrency and Safety**: Ensures thread safety through the use of read/write locks (`ReentrantReadWriteLock`) in the `PreemptionManager` class.
+5. **Data Encapsulation**: Utilizes the `KillableContainer` class to encapsulate attributes of preemptable containers, facilitating scheduling decisions.
+
+**Key Interactions and Dependencies:**
+
+* **Inputs**: `CSQueue` objects, `KillableContainer` instances, queue names, and partition identifiers.
+* **Outputs**: Iterators of killable containers, total killable resources, and shallow copies of the preemptable queue hierarchy.
+* **Dependencies**: Primarily relies on Apache Hadoop YARN, with key classes including `RMContainer` and `CSQueue`.

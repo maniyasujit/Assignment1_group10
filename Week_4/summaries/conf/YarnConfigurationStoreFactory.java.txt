@@ -1,0 +1,37 @@
+**Analysis of `YarnConfigurationStoreFactory` Class**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+The `YarnConfigurationStoreFactory` class is responsible for creating instances of `YarnConfigurationStore` based on configurations provided, essentially serving as a factory for different types of YARN (Yet Another Resource Negotiator) configuration stores.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of the Main Algorithm:**
+
+1. **Retrieve Configuration:** The method `getStore(Configuration conf)` takes a `Configuration` object as input.
+2. **Determine Store Type:** It extracts the store type from the configuration using the key `YarnConfiguration.SCHEDULER_CONFIGURATION_STORE_CLASS`. If not set, it defaults to `YarnConfiguration.MEMORY_CONFIGURATION_STORE`.
+3. **Switch-Based Instantiation:**
+	* For known store types (e.g., `MEMORY_CONFIGURATION_STORE`, `LEVELDB_CONFIGURATION_STORE`, etc.), it directly instantiates the corresponding store class (e.g., `InMemoryConfigurationStore`, `LeveldbConfigurationStore`, etc.).
+	* For unknown (custom) store types, it attempts to:
+		1. **Resolve the Class:** Using the provided configuration and `YarnConfiguration.SCHEDULER_CONFIGURATION_STORE_CLASS` key, it identifies the custom store class.
+		2. **Instantiate via Reflection:** Utilizes `ReflectionUtils.newInstance` to create an instance of the custom store class, passing the configuration object to its constructor.
+4. **Return Store Instance:** The method returns the instantiated `YarnConfigurationStore` object.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs:**
+- `Configuration conf`: A Hadoop `Configuration` object containing settings, notably the store type.
+
+**Primary Outputs:**
+- An instance of `YarnConfigurationStore` (or its subclasses, e.g., `InMemoryConfigurationStore`, `LeveldbConfigurationStore`, etc.) based on the input configuration.
+
+### **4. Dependencies:**
+**Key Classes, Interfaces, or External Libraries:**
+
+1. **Classes:**
+	* `YarnConfigurationStore` (interface, not shown in the provided code snippet)
+	* `InMemoryConfigurationStore`
+	* `LeveldbConfigurationStore`
+	* `ZKConfigurationStore`
+	* `FSSchedulerConfigurationStore`
+2. **Interfaces:**
+	* None explicitly mentioned besides the implied dependency on `YarnConfigurationStore`
+3. **External Libraries:**

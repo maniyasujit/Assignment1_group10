@@ -1,0 +1,32 @@
+**Analysis of `QueueCapacityVector` Class**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+The `QueueCapacityVector` class represents a container for storing and managing capacity values associated with different resources (e.g., memory, CPU) in a resource management system, specifically within the Apache Hadoop YARN (Yet Another Resource Negotiator) framework. It allows for various capacity types (absolute, percentage, weight) to be defined for each resource.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of Main Algorithm/Business Logic:**
+
+1. **Initialization**:
+	* The class can be initialized with a default constructor, creating an empty `ResourceVector`.
+	* Alternatively, `newInstance()` and `of(double value, ResourceUnitCapacityType capacityType)` provide pre-populated instances with default or uniform capacity settings.
+2. **Resource Management**:
+	* **Set Resource**: `setResource(String resourceName, double value, ResourceUnitCapacityType capacityType)` updates the value and capacity type of a specific resource.
+	* **Get Resource**: `getResource(String resourceName)` retrieves a `QueueCapacityVectorEntry` containing the capacity type, name, and value of a resource.
+3. **Capacity Type Management**:
+	* **Store Resource Type**: Internally, `storeResourceType(String resourceName, ResourceUnitCapacityType resourceType)` updates the capacity type for a resource, maintaining consistency across related data structures.
+4. **Query and Inspection**:
+	* Methods like `getResourceNames()`, `getResourceNamesByCapacityType(ResourceUnitCapacityType capacityType)`, `isResourceOfType(String resourceName, ResourceUnitCapacityType capacityType)`, and `isMixedCapacityVector()` enable querying the state of resources and their capacity types.
+5. **Iteration and Representation**:
+	* The class implements `Iterable<QueueCapacityVectorEntry>`, allowing iteration over its resource entries.
+	* `toString()` generates a string representation of the capacity vector, including resource names, values, and capacity type postfixes.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs:**
+
+* **Constructor and Factory Methods**:
+	+ `QueueCapacityVector()`: No inputs (default constructor).
+	+ `newInstance()`: No inputs (creates a zero capacity vector with default absolute capacity type).
+	+ `of(double value, ResourceUnitCapacityType capacityType)`: `value` and `capacityType` for a uniform capacity vector.
+* **Setter Methods**:
+	+ `setResource(String resourceName,

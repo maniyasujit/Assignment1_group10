@@ -1,0 +1,32 @@
+**Overview**
+
+The provided Java source code defines a class `AutoCreatedLeafQueue` which is a part of the Apache Hadoop YARN (Yet Another Resource Negotiator) project. Specifically, it's related to the Capacity Scheduler, a pluggable scheduler in YARN that allows for efficient and flexible management of resources (e.g., CPU, memory) across a Hadoop cluster.
+
+**Class Purpose**
+
+`AutoCreatedLeafQueue` represents a type of queue in the YARN Capacity Scheduler that is automatically created by a parent queue implementation (e.g., for reservations or dynamic queues). This class extends `AbstractAutoCreatedLeafQueue` and provides specific functionality for managing capacities, resources, and configurations of these auto-created leaf queues.
+
+**Key Functionality Explained in Simple Terms**
+
+1. **Initialization**:
+	* The constructor `AutoCreatedLeafQueue` initializes the queue with a given context, name, and parent queue.
+	* It sets up the queue's configurations and initially sets its capacities to zero to prevent overcommitting resources from the parent queue.
+
+2. **Reinitialization**:
+	* `reinitialize(CSQueue, Resource)`: Updates the queue's configuration from a newly parsed queue definition, ensuring capacities are reset to zero to avoid overcommitting.
+	* `reinitializeFromTemplate(AutoCreatedLeafQueueConfig)`: Specifically updates the queue's capacities from a provided template, useful for dynamic adjustments without fully reinitializing.
+
+3. **Capacity Management**:
+	* `mergeCapacities(QueueCapacities, QueueResourceQuotas)`: Updates the queue's capacities (minimum, maximum, absolute) for each node label, considering both absolute resource configurations and percentage-based allocations.
+	* `updateCapacitiesToZero()`: Resets all capacities to zero, typically to prevent resource overallocation when reinitializing.
+
+4. **Validation**:
+	* `validateConfigurations(AutoCreatedLeafQueueConfig)`: Checks if the capacity demands in a template are within the valid range (0 to 1).
+	* `validate(CSQueue)`: Ensures the queue being used for reinitialization is indeed an `AutoCreatedLeafQueue` with a matching path.
+
+5. **Dynamic Templates and Node Labels**:
+	* `parseAndSetDynamicTemplates()`: Configures node labels for the queue based on its parent's template, ensuring consistency in resource allocation across related queues.
+
+**Context for Use**
+
+- **Deployment**: This class is part of a larger Hadoop YARN deployment,

@@ -1,0 +1,43 @@
+**Analysis of the Provided Source Code**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+This Java class, `QueueAdminConfigurationMutationACLPolicy`, implements an Access Control List (ACL) policy for mutating (updating) configuration settings in a YARN (Yet Another Resource Negotiator) Resource Manager. Specifically, it ensures that users have administrative privileges for all queues they attempt to modify.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of the Main Algorithm:**
+
+1. **Initialization**:
+	* The `init` method sets up the policy with a `Configuration` object, an `RMContext`, and a `YarnAuthorizationProvider` instance.
+2. **Mutation Permission Check** (`isMutationAllowed` method):
+	* **Global Config Changes**:
+		+ Checks if there are any global configuration updates.
+		+ If so, verifies that the requesting user has admin privileges. If not, denies the mutation.
+	* **Queue-Specific Changes**:
+		+ Collects all queue names from the update info (added, removed, updated queues).
+		+ Iterates through each queue:
+			- **Queue Hierarchy Resolution**:
+				> Traverses up the queue hierarchy (if any) to find an existing queue configuration.
+				> Retrieves the `QueueInfo` for the resolved queue name.
+			- **ACL Check**:
+				> Retrieves the `Queue` object from the scheduler.
+				> Checks if the user has `ADMINISTER_QUEUE` access to the queue. If not, denies the mutation.
+3. **Outcome**:
+	* Returns `true` if the user is allowed to perform the configuration mutation; otherwise, returns `false`.
+
+### **3. Inputs/Outputs:**
+
+* **Primary Inputs:**
+	+ `UserGroupInformation user`: The user requesting the configuration mutation.
+	+ `SchedConfUpdateInfo confUpdate`: Contains details of the configuration updates (global params, queue additions, removals, updates).
+* **Primary Outputs:**
+	+ `boolean`: Indicates whether the user is allowed to perform the requested configuration mutation.
+
+### **4. Dependencies:**
+
+* **Key Classes/Interfaces:**
+	+ `Configuration` (Apache Hadoop)
+	+ `RMContext` (YARN Resource Manager)
+	+ `YarnAuthorizationProvider` (YARN Security)
+	+ `MutableConfScheduler` (YARN Scheduler)
+	+ `Queue` (YARN Scheduler)

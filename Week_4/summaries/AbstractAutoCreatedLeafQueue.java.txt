@@ -1,0 +1,44 @@
+**Code Analysis: `AbstractAutoCreatedLeafQueue` Class**
+
+**Overview**
+---------------
+
+This Java class, `AbstractAutoCreatedLeafQueue`, is part of the Apache Hadoop YARN (Yet Another Resource Negotiator) project, specifically designed for managing dynamically created queues in a resource management system. It extends `AbstractLeafQueue` and is intended for use with `AbstractManagedParentQueue`.
+
+**Key Functionality**
+----------------------
+
+1. **Queue Management**: This class represents a dynamically auto-created leaf queue, handling its configuration, capacity adjustments, and resource management.
+2. **Capacity Adjustment**: Provides methods to change a queue's capacity, ensuring it stays within valid ranges (0 to 1.0) and updates related configurations (absolute capacity, max capacity, etc.).
+3. **Resource Updates**: After capacity changes, it updates queue statistics, reflecting the new resource allocations.
+
+**Method Breakdown**
+---------------------
+
+### **Constructors**
+
+* **`AbstractAutoCreatedLeafQueue`**: Initializes the queue with a context, name, parent queue, and an optional old queue configuration.
+
+### **Capacity Management Methods**
+
+* **`setEntitlement(QueueEntitlement entitlement)`**:
+	+ Simplified method to change queue capacity without specifying a node label. Defaults to `NO_LABEL`.
+	+ Calls the overloaded `setEntitlement` method.
+* **`setEntitlement(String nodeLabel, QueueEntitlement entitlement)`**:
+	+ Changes the queue's capacity for a specified node label.
+	+ Validates capacity range (0 to 1.0).
+	+ Updates:
+		- Capacity
+		- Absolute Capacity (based on parent queue's absolute capacity)
+		- Max Capacity (currently set equal to capacity, but may change in future implementations)
+		- Configured Min and Max Capacity Vectors (in percentage)
+	+ Logs the change and updates queue statistics using `CSQueueUtils`.
+
+### **Resource Configuration Methods (Overrides)**
+
+* **`getMinimumAbsoluteResource(QueuePath queuePath, String label)`**:
+	+ Retrieves the minimum absolute resource for the queue, using a template configuration prefix for auto-created queues.
+* **`getMaximumAbsoluteResource(QueuePath queuePath, String label)`**:
+	+ Similar to the above, but for the maximum absolute resource.
+* **`checkConfigTypeIsAbsoluteResource(QueuePath queuePath, String label)`**:
+	+ Checks if the configuration type for the specified queue path and label is absolute resource, again utilizing the auto-created queue template prefix

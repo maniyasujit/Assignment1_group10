@@ -1,0 +1,39 @@
+**Analysis of the Provided Source Code**
+
+### **1. Key Functionality:**
+**High-Level Overview:**
+The `ParentQueue` class, part of the Apache Hadoop YARN (Yet Another Resource Negotiator) project, manages a parent queue in the Capacity Scheduler. It allows for the dynamic addition of child queues (either parent or leaf queues) while enforcing capacity constraints and configuration rules.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of the Main Algorithm/Business Logic (focusing on `addDynamicChildQueue` method):**
+
+1. **Acquire Write Lock**: Locks the queue for writing to ensure thread safety during modifications.
+2. **Check Queue Existence**:
+   - Verifies if the child queue to be added already exists.
+   - If it does, logs a warning (as this situation should be handled before this method is called) and returns the existing queue.
+3. **Validate Against Max Queue Limit**:
+   - Retrieves the maximum allowed child queues for the current queue path from the configuration.
+   - Checks if adding a new queue would exceed this limit.
+   - If exceeded, throws a `SchedulerDynamicEditException`.
+4. **Check Capacity Configuration Consistency**:
+   - Determines if weights are used for capacity configuration among existing child queues.
+   - If not, and the system is in legacy queue mode, throws a `SchedulerDynamicEditException` to enforce consistent capacity configuration.
+5. **Create New Queue**:
+   - Calls `createNewQueue` to instantiate a new child queue based on the provided path and whether it's a leaf queue.
+6. **Update Queue Structure and Timestamp**:
+   - Adds the new queue to the list of child queues.
+   - Updates the last submitted timestamp.
+7. **Recalculate Cluster Resources**:
+   - Triggers an update of the cluster's effective minimum and maximum resources by calling `updateClusterResource`, considering the new queue's resource limits.
+8. **Release Write Lock**: Unlocks the queue for writing in the `finally` block, ensuring it's always released regardless of the method's outcome.
+
+### **3. Inputs/Outputs:**
+
+**Inputs:**
+
+- `queueContext`: Context for the Capacity Scheduler queue.
+- `queueName`: Name of the queue.
+- `parent`: Parent queue (of type `CSQueue`).
+- `old`: Previous queue configuration (of type `CSQueue`), used for dynamic updates.
+- `isDynamic`: Flag indicating if the operation is dynamic.
+-

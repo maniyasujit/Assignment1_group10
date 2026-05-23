@@ -1,0 +1,58 @@
+**Code Analysis: AutoCreatedQueueTemplate Class**
+
+**Overview**
+---------------
+
+The `AutoCreatedQueueTemplate` class is part of the Apache Hadoop YARN (Yet Another Resource Negotiator) project, specifically designed for the Resource Manager's Capacity Scheduler. This class handles storing and setting template settings for automatically created queues.
+
+**Key Functionality**
+----------------------
+
+1. **Template Property Storage**:
+	* Stores template properties for auto-created queues in three categories:
+		+ **Common Template Properties** (`templateProperties`)
+		+ **Leaf Queue Specific Properties** (`leafOnlyProperties`)
+		+ **Parent Queue Specific Properties** (`parentOnlyProperties`)
+2. **Template Application**:
+	* Applies stored template properties to child queues based on their parent queue's settings.
+	* Supports both leaf and parent queue specific templates.
+
+**Important Methods**
+----------------------
+
+### Constructors and Initializers
+
+* **`AutoCreatedQueueTemplate(CapacitySchedulerConfiguration, QueuePath)`**:
+	+ Initializes the object with a `CapacitySchedulerConfiguration` and a `QueuePath`.
+	+ Calls `setTemplateConfigEntries` to populate template properties.
+
+### Template Property Accessors
+
+* **`getTemplateProperties()`**:
+	+ Returns the common template properties.
+* **`getLeafOnlyProperties()`**:
+	+ Returns the leaf queue specific template properties.
+* **`getParentOnlyProperties()`**:
+	+ Returns the parent queue specific template properties.
+
+### Template Application Methods
+
+* **`setTemplateEntriesForChild(CapacitySchedulerConfiguration, QueuePath)`**:
+	+ Applies common template properties to a child queue.
+	+ Optionally includes leaf or parent specific properties (see overloaded method).
+* **`setTemplateEntriesForChild(CapacitySchedulerConfiguration, QueuePath, boolean)`**:
+	+ Overloaded method to specify whether to include leaf (`true`) or parent (`false`) specific properties.
+
+### Internal Helper Methods
+
+* **`setTemplateConfigEntries(CapacitySchedulerConfiguration, QueuePath)`**:
+	+ Populates template properties from the configuration for a given queue path.
+	+ Handles wildcard queue paths up to a specified depth.
+* **`storeConfiguredTemplates(String, String)`**:
+	+ Stores a single template property, determining the appropriate property map (common, leaf, or parent) based on the key prefix.
+
+**Usage Scenario**
+-------------------
+
+1. Create a `CapacitySchedulerConfiguration` object, configuring auto-queue creation settings.
+2. Instantiate an `AutoCreatedQueueTemplate` object with the configuration and

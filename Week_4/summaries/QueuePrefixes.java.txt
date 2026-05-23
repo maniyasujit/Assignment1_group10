@@ -1,0 +1,34 @@
+**Analysis of `QueuePrefixes` Class**
+
+### **1. Key Functionality:**
+**Concise Overview:** 
+The `QueuePrefixes` class generates standardized prefix strings for various queue-related configurations in the Apache Hadoop YARN (Yet Another Resource Negotiator) Resource Manager's Capacity Scheduler. These prefixes are crucial for organizing and identifying queue configurations, including those related to node labels and auto-created leaf queues.
+
+### **2. Core Logic:**
+**Step-by-Step Explanation of Main Algorithm/Business Logic:**
+
+1. **Queue Prefix Generation (`getQueuePrefix`):**
+   - **Input:** `QueuePath` object (`queuePath`)
+   - **Process:** Appends the `PREFIX` constant with the full path of the `queuePath` and a trailing `DOT` (.) character.
+   - **Output:** A standardized queue prefix string (e.g., `<PREFIX><queuePath>.`)
+
+2. **Node Label Prefix Generation (`getNodeLabelPrefix`):**
+   - **Inputs:** `QueuePath` object (`queuePath`), `label` string
+   - **Process:**
+     - Checks if the `label` is the "no label" indicator.
+     - If so, returns the queue prefix (via `getQueuePrefix`).
+     - Otherwise, appends the queue prefix with `ACCESSIBLE_NODE_LABELS`, the `label`, and a trailing `DOT`.
+   - **Output:** A node label-specific prefix string (e.g., `<queuePrefix>ACCESSIBLE_NODE_LABELS.<label>.`)
+
+3. **Auto-Created Leaf Queue Template Configuration Prefix (`getAutoCreatedQueueTemplateConfPrefix`):**
+   - **Input:** `QueuePath` object (`queuePath`)
+   - **Process:** Concatenates the full path of `queuePath`, a `DOT`, and the `AUTO_CREATED_LEAF_QUEUE_TEMPLATE_PREFIX`.
+   - **Output:** A prefix for configuring auto-created leaf queues (e.g., `<queuePath>.AUTO_CREATED_LEAF_QUEUE_TEMPLATE_PREFIX`)
+
+4. **Auto-Created Queue Object Template Configuration Prefix (`getAutoCreatedQueueObjectTemplateConfPrefix`):**
+   - **Input:** `QueuePath` object (`queuePath`)
+   - **Process:** Wraps the result of `getAutoCreatedQueueTemplateConfPrefix` in a new `QueuePath` object.
+   - **Output:** A `QueuePath` object representing the prefix for auto-created leaf queue object templates.
+
+### **3. Inputs/Outputs:**
+**Primary

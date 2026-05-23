@@ -1,0 +1,53 @@
+**Analysis of `QueueConfigurationAutoRefreshPolicy` Class**
+
+### **1. Key Functionality:**
+**Queue Auto-Refresh Policy for Resource Manager (RM) in Apache Hadoop YARN**
+
+* Automatically refreshes queue configurations in the Resource Manager (RM) based on changes to the capacity scheduler configuration file.
+* Monitors the configuration file at regular intervals and updates the queues if the file has been modified since the last check.
+
+### **2. Core Logic:**
+
+1. **Initialization**:
+	* Sets up the policy with the provided `Configuration`, `RMContext`, and `ResourceScheduler` (expected to be a `CapacityScheduler`).
+	* Retrieves the monitoring interval from the capacity scheduler configuration.
+2. **Edit Schedule (Main Logic)**:
+	* Checks if the capacity scheduler configuration file has been modified since the last reload attempt.
+	* If modified and the monitoring interval has passed since the last attempt:
+		+ Attempts to refresh the queues using the `RMAdminService`.
+		+ Updates the last reload attempt timestamp and success/failure status.
+3. **Error Handling**:
+	* Logs errors if unable to refresh queues or access the configuration file.
+	* If a reload attempt fails, logs a warning if it's the first failure and updates the failure status.
+
+### **3. Inputs/Outputs:**
+
+* **Inputs**:
+	+ `Configuration` object for initialization.
+	+ `RMContext` and `ResourceScheduler` for setup.
+	+ Capacity scheduler configuration file (path determined at runtime).
+* **Outputs**:
+	+ Logs (INFO, ERROR, DEBUG) for operational updates and errors.
+	+ Updated queue configurations in the Resource Manager upon successful refresh.
+	+ Exposed methods for testing (e.g., `getLastReloadAttempt`, `getLastModified`).
+
+### **4. Dependencies:**
+
+* **Classes/Interfaces**:
+	+ `CapacityScheduler`
+	+ `RMContext`
+	+ `ResourceScheduler`
+	+ `RMAdminService`
+	+ `FileSystemBasedConfigurationProvider`
+	+ `YarnConfiguration`
+	+ `Configuration`
+	+ `Clock` (specifically `MonotonicClock`)
+	+ `ResourceCalculator`
+	+ `RMNodeLabelsManager`
+* **External Libraries**:
+	+ Apache Hadoop YARN
+	+ Apache Hadoop FileSystem
+	+ SLF4J for logging
+* **Apache Hadoop Configuration**:
+	+ `yarn-site.xml` or equivalent for YARN configurations.
+	+ Capacity scheduler configuration file

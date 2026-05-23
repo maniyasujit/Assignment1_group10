@@ -1,0 +1,50 @@
+Here is the analysis of the provided source code:
+
+**1. Key Functionality:**
+**High-Level Overview:** 
+This Java interface, `CapacitySchedulerContext`, provides a read-only access point to the context and configuration of the Apache Hadoop YARN (Yet Another Resource Negotiator) Capacity Scheduler. It exposes various scheduler-related information, settings, and managers without allowing modifications, ensuring a controlled and observable scheduler environment.
+
+**2. Core Logic:**
+**Step-by-Step Explanation of Main Algorithm/Business Logic:**
+Since this is an interface, it does not contain executable logic but rather defines a contract for classes implementing it. However, the core logic implied by this interface can be outlined as follows:
+
+1. **Initialization**: An implementing class would initialize with a `RMContext` (Resource Manager Context) and a `Configuration` (Hadoop configuration).
+2. **Provide Scheduler Context**:
+   - Offer read-only access to the Capacity Scheduler's configuration.
+   - Expose queue context, resource capabilities, and cluster resource information.
+3. **Manager and Utility Access**:
+   - Provide access to various managers (e.g., Preemption, Scheduler Health, Activities) and utilities (e.g., Resource Calculator, Clock).
+4. **Application and Node Information**:
+   - Allow retrieval of application attempts and node information through their respective IDs.
+
+**3. Inputs/Outputs:**
+**Primary Inputs:** 
+- **Implicit**: The inputs are more about the dependencies and the state of the scheduler at the time of querying, rather than explicit method parameters. However, if we consider the implementation:
+  - `RMContext`
+  - `Configuration` (Hadoop configuration)
+
+**Primary Outputs (Return Types of Methods):**
+- `CapacitySchedulerConfiguration`
+- `CapacitySchedulerQueueContext`
+- `Resource` (for various resource-related queries)
+- `RMContainerTokenSecretManager`
+- `RMContext`
+- `Configuration`
+- `ResourceCalculator`
+- `FiCaSchedulerNode`
+- `FiCaSchedulerApp`
+- `PreemptionManager`
+- `SchedulerHealth`
+- `long` (for `getLastNodeUpdateTime`)
+- `ResourceUsage`
+- `ActivitiesManager`
+- `CapacitySchedulerQueueManager`
+- `Priority`
+- `boolean` (for `isConfigurationMutable`)
+- `Clock`
+- `CapacityScheduler.PendingApplicationComparator`
+
+**4. Dependencies:**
+**Key Classes, Interfaces, or External Libraries:**
+- **Apache Hadoop YARN Libraries**:
+  - `org.apache.hadoop.yarn.api.records.*

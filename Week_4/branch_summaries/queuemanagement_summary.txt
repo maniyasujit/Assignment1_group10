@@ -1,0 +1,23 @@
+**Concise Summary of the 'queuemanagement' Sub-module**
+
+**Role:**
+The 'queuemanagement' sub-module is responsible for managing and optimizing the capacity allocation of auto-created leaf queues within a resource management system, specifically designed for Apache Hadoop YARN (Yet Another Resource Negotiator). It ensures efficient utilization of resources by dynamically adjusting queue capacities based on application demand, node labels, and predefined policies.
+
+**Key Functionalities:**
+
+1. **Capacity Management Policy**: Implements a First-Come-First-Served (FCFS) policy for assigning capacities to leaf queues, deactivating (setting to zero capacity) queues without pending applications (`GuaranteedOrZeroCapacityOverTimePolicy`).
+2. **Leaf Queue Entitlement Tracking**: Manages and provides access to capacity entitlements of auto-created leaf queues (`LeafQueueEntitlements`).
+3. **Deactivated Leaf Queue Management**: Calculates capacities and determines the feasibility of activating leaf queues based on node labels, ensuring optimal resource utilization (`DeactivatedLeafQueuesByLabel`).
+
+**Core Operations:**
+
+* **Queue Capacity Updates**: Dynamically adjusts leaf queue capacities based on application submissions, queue states, and available resources.
+* **Activation/Deactivation of Leaf Queues**: Makes informed decisions on activating or deactivating leaf queues to optimize resource allocation.
+* **Capacity Entitlement Management**: Tracks and provides access to leaf queue capacity entitlements.
+
+**Dependencies:**
+
+* **Apache Hadoop YARN** (project dependency)
+* **Java** (language dependency)
+* **Apache License, Version 2.0** (legal dependency)
+* **Specific YARN Classes** (e.g., `AbstractParentQueue`, `AutoCreatedLeafQueue`, `QueueCapacities`)

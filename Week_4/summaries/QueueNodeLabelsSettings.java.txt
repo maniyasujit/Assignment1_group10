@@ -1,0 +1,47 @@
+**Analysis of `QueueNodeLabelsSettings` Class**
+
+### **1. Key Functionality:**
+**Node Label Management for YARN Resource Manager Queues**
+This class determines and validates accessible node labels, configured node labels, and the default node label expression for a specific queue in the YARN (Yet Another Resource Negotiator) Resource Manager, based on the Capacity Scheduler Configuration and queue properties.
+
+### **2. Core Logic:**
+**Step-by-Step Algorithm:**
+
+1. **Initialization**:
+	* Receive `CapacitySchedulerConfiguration`, `CSQueue` (parent), `QueuePath`, and `ConfiguredNodeLabels` in the constructor.
+	* Call `initializeNodeLabels()` to set up node label settings.
+2. **Node Label Initialization** (`initializeNodeLabels()`):
+	1. **Accessible Labels** (`initializeAccessibleLabels()`):
+		+ Retrieve from `CapacitySchedulerConfiguration` based on `QueuePath`.
+		+ If not set, inherit from the parent queue if available.
+	2. **Default Label Expression** (`initializeDefaultLabelExpression()`):
+		+ Retrieve from `CapacitySchedulerConfiguration` based on `QueuePath`.
+		+ If not set and accessible labels match the parent's, copy the parent's default expression.
+	3. **Configured Node Labels** (`initializeConfiguredNodeLabels()`):
+		+ If `ConfiguredNodeLabels` is provided, extract labels based on `QueuePath` (all labels for root, specific labels for non-root).
+		+ Otherwise, fallback to retrieving from `CapacitySchedulerConfiguration`.
+3. **Validation** (`validateNodeLabels()`):
+	* For non-root queues, ensure accessible labels are a subset of the parent's, with specific checks for the "ANY" label.
+
+### **3. Inputs/Outputs:**
+
+**Inputs:**
+
+* `CapacitySchedulerConfiguration` object
+* `CSQueue` (parent queue)
+* `QueuePath` object
+* `ConfiguredNodeLabels` object (optional)
+
+**Outputs (Accessible via Getter Methods):**
+
+* `accessibleLabels`: Set of accessible node labels for the queue
+* `configuredNodeLabels`: Set of configured node labels for the queue
+* `defaultLabelExpression`: Default node label expression for the queue
+* `isAccessibleToPartition(String nodePartition)`: Boolean indicating if the queue can access a given node partition
+
+### **4. Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `CapacitySchedulerConfiguration`
+	+ `CSQueue`
+	+ `Queue

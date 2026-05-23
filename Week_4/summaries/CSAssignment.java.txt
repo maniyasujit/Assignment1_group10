@@ -1,0 +1,41 @@
+**Overview**
+
+The provided Java source code defines a class named `CSAssignment` which appears to be part of the Apache Hadoop YARN (Yet Another Resource Negotiator) project, specifically within the Resource Manager's Capacity Scheduler. This class represents an assignment of resources to an application or a request in a distributed computing environment.
+
+**Key Functionality**
+
+1. **Resource Representation**: The class holds a `Resource` object, which encapsulates the amount of resources (e.g., memory, CPU) assigned.
+2. **Locality Information**: It stores the `NodeType` (e.g., `NODE_LOCAL`, indicating the locality of the resource allocation) and a separate `requestLocalityType` for pending requests.
+3. **Application and Container References**: References to a `FiCaSchedulerApp` (the application being scheduled) and an `RMContainer` (for excess resource reservations) are maintained.
+4. **Assignment Status Tracking**:
+   - **Skipped Status**: Reasons for skipping an assignment (e.g., queue limits, other) are tracked via the `SkippedType` enum.
+   - **Fulfilled Reservation**: Flags whether a reservation has been fulfilled and stores the related container if so.
+5. **Additional Metadata**:
+   - **Assignment Information**: Detailed allocation and reservation counts/resources via `AssignmentInformation`.
+   - **Containers to Kill**: A list of containers marked for termination.
+   - **Scheduling Mode**: The mode under which scheduling is being performed (though the `SchedulingMode` enum is not defined in this snippet).
+
+**Constructors**
+
+- **Overloaded Constructors** allow for flexible initialization based on different scenarios:
+  1. **Basic Resource Assignment**: Initializes with a `Resource` and `NodeType`.
+  2. **Excess Reservation**: For assignments related to excess resource reservations.
+  3. **Skipped Assignment**: For tracking skipped assignments with a reason.
+  4. **Full Constructor**: Allows initialization of all fields.
+
+**Getters and Setters**
+
+Provide access to and modification of the class's fields, following standard JavaBean conventions.
+
+**toString() Method**
+
+Generates a human-readable string representation of the assignment, summarizing its key attributes.
+
+**Context of Use**
+
+This class is likely used within the YARN Resource Manager's scheduling logic, particularly with the Capacity Scheduler, to manage and track resource assignments to applications. It facilitates the scheduling process by encapsulating relevant information and providing a structured way to handle different assignment scenarios.
+
+**Example Usage**
+
+```java
+// Example of

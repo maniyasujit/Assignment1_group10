@@ -1,0 +1,56 @@
+**Analysis of `AbstractContainerAllocator` Class**
+
+### **1. Key Functionality:**
+**Container Allocation for YARN Applications**
+-----------------------------------------------
+
+This abstract class is responsible for deciding how to allocate containers for a YARN (Yet Another Resource Negotiator) application, considering resource limits, requests, and cluster availability. It provides a foundation for extensible application resource allocation logic.
+
+### **2. Core Logic:**
+**Step-by-Step Allocation Process**
+------------------------------------
+
+1. **Initialization**:
+	* Set up the allocator with a `FiCaSchedulerApp`, `ResourceCalculator`, `RMContext`, and optionally an `ActivitiesManager`.
+2. **Allocation** (`assignContainers` method, to be implemented by subclasses):
+	* **Select Request**: Choose a resource request based on criteria like requirement, priority, or locality.
+	* **Resource Availability Check**: Verify if the selected resource can be allocated given the current cluster resource availability.
+	* **Perform Allocation**:
+		+ Decide on allocated/reserved containers.
+		+ Update relevant metrics.
+3. **Assignment Construction** (`getCSAssignmentFromAllocateResult` method):
+	* Interpret the allocation result to construct a `CSAssignment` object.
+	* Handle different allocation states (e.g., allocated, reserved, skipped).
+	* Update assignment details, including resource, type, locality, and reservation information.
+
+### **3. Inputs/Outputs:**
+**Primary Inputs and Outputs**
+-----------------------------
+
+**Inputs:**
+
+* `FiCaSchedulerApp` (application context)
+* `ResourceCalculator` (for resource comparisons)
+* `RMContext` (Resource Manager context)
+* `ActivitiesManager` (optional, for activity logging)
+* `assignContainers` method specific inputs:
+	+ `Resource clusterResource` (current cluster resources)
+	+ `CandidateNodeSet<FiCaSchedulerNode> candidates` (potential nodes for allocation)
+	+ `SchedulingMode schedulingMode` (exclusive or non-exclusive mode)
+	+ `ResourceLimits resourceLimits` (constraints on resource allocation)
+	+ `RMContainer reservedContainer` (pre-reserved container, if any)
+
+**Outputs:**
+
+* `CSAssignment` object representing the allocation decision, including:
+	+ Allocation state (allocated, reserved, skipped)
+	+ Resource details (if allocated)
+	+ Reservation information (if reserved)
+	+ Skipped type (if skipped)
+
+### **4. Dependencies:**
+**Key Classes, Interfaces, and Libraries**
+------------------------------------------
+
+* **Classes/Interfaces:**
+	+ `FiCa
