@@ -1,0 +1,54 @@
+Algorithm: LIMBO
+Cluster ID: LIMBO_01
+Original cluster ID: 0
+Files:
+- CSAMContainerLaunchDiagnosticsConstants.java
+- SchedulingMode.java
+- allocator/AllocationState.java
+
+File-level summaries:
+
+===== FILE SUMMARY: CSAMContainerLaunchDiagnosticsConstants.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Defines diagnostic message constants for Container Launch failures in YARN Resource Manager's Capacity Scheduler, specifically for Application Master (AM) container launching.
+* **Core Logic**: None (purely declarative, defining constants with no computational logic).
+* **Inputs/Outputs**:
+	+ **Outputs**: Predefined error/message strings for logging or display.
+	+ **State Changes/Side Effects**: None (read-only constants).
+* **Dependencies**:
+	+ **Packages**: `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity` (implies dependency on Apache Hadoop YARN APIs).
+	+ **Interfaces/Libraries**: None (standalone interface defining constants).
+
+===== FILE SUMMARY: SchedulingMode.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Defines an enumeration for scheduling modes in the context of resource management and node partitioning.
+* **Core Logic**: None (purely declarative enum definition with explanatory comments); the logic for these modes is implied to be implemented elsewhere, using these enum values.
+* **Inputs/Outputs**:
+	+ Inputs: None (enum definition only)
+	+ Outputs: None (state changes or side effects)
+	+ State Changes/Side Effects: None; serves as a reference for scheduling decisions made elsewhere
+* **Dependencies**:
+	+ **Packages**: `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity` (implies dependency on Apache Hadoop YARN APIs)
+	+ **Libraries/Frameworks**: Apache Hadoop YARN (no direct library imports in this file, but implied by package naming)
+
+===== FILE SUMMARY: allocator/AllocationState.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Defines an enumeration for various states of resource allocation in a YARN (Yet Another Resource Negotiator) Resource Manager's capacity scheduler.
+* **Core Logic**: None (pure enumeration with no computational logic or control flow).
+* **Inputs/Outputs**:
+	+ **Inputs**: None
+	+ **Outputs**: None (state values for use elsewhere in the program)
+	+ **State Changes/Side Effects**: None (read-only enumeration values)
+* **Dependencies**:
+	+ **Packages**: `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.allocator` (internal to Apache Hadoop YARN)
+	+ **Libraries/Frameworks**: None (standard Java enum)
+	+ **Hadoop/YARN APIs**: Implicit (part of YARN Resource Manager's scheduler)

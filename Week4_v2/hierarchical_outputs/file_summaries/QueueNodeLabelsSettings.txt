@@ -1,0 +1,40 @@
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Key Functionality:**
+Determines and manages node label settings for a queue in a YARN (Yet Another Resource Negotiator) Capacity Scheduler, ensuring accessibility and configuration consistency.
+
+**Core Logic:**
+
+* Initializes node label settings (accessible, configured, and default expression) based on `CapacitySchedulerConfiguration` and queue properties.
+* Applies inheritance from parent queues when settings are not explicitly defined.
+* Validates that a queue's accessible labels are a subset of its parent's, unless the parent allows access to all labels (`*`).
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ `CapacitySchedulerConfiguration` object
+	+ `CSQueue` parent queue
+	+ `QueuePath` for the current queue
+	+ `ConfiguredNodeLabels` (optional)
+* **Outputs:**
+	+ `accessibleLabels` (Set of String)
+	+ `configuredNodeLabels` (Set of String)
+	+ `defaultLabelExpression` (String)
+	+ Validation exceptions (IOException) if label settings are inconsistent
+* **State Changes:**
+	+ Populates queue's node label settings
+* **Side Effects:**
+	+ Throws IOException if validation fails
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `CapacitySchedulerConfiguration`
+	+ `CSQueue`
+	+ `QueuePath`
+	+ `ConfiguredNodeLabels`
+	+ `RMNodeLabelsManager`
+* **Libraries/Frameworks:**
+	+ Apache Commons Lang (for `StringUtils`)
+	+ Apache Hadoop YARN (for Capacity Scheduler and node label management)
+	+ Java Standard Library (for `Sets`, `IOException`, etc.)

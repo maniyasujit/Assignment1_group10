@@ -1,0 +1,33 @@
+cluster_ID,original_cluster_ID,files
+LIMBO_01,0,CSAMContainerLaunchDiagnosticsConstants.java; SchedulingMode.java; allocator/AllocationState.java
+LIMBO_02,3,CSQueueMetrics.java; CapacitySchedulerMetrics.java
+LIMBO_03,9,CSMaxRunningAppsEnforcer.java
+LIMBO_04,11,policy/QueueOrderingPolicy.java
+LIMBO_05,14,AbsoluteResourceCapacityCalculator.java; AbstractQueueCapacityCalculator.java; CalculationContext.java; DefaultQueueResourceRoundingStrategy.java; PercentageQueueCapacityCalculator.java; ResourceCalculationDriver.java; RootCalculationDriver.java; RootQueueCapacityCalculator.java; WeightQueueCapacityCalculator.java
+LIMBO_06,15,AbstractAutoCreatedLeafQueue.java; AbstractManagedParentQueue.java; AutoCreatedLeafQueue.java; CapacitySchedulerConfigValidator.java; CapacitySchedulerQueueCapacityHandler.java; CapacitySchedulerQueueManager.java; ManagedParentQueue.java; ParentQueue.java; PlanQueue.java; ReservationQueue.java; queuemanagement/GuaranteedOrZeroCapacityOverTimePolicy.java
+LIMBO_07,17,AbstractCSQueue.java; AbstractLeafQueue.java; AbstractParentQueue.java; CSQueue.java; CapacityScheduler.java; CapacitySchedulerConfiguration.java
+LIMBO_08,18,CapacityHeadroomProvider.java; UsersManager.java
+LIMBO_09,19,AutoCreatedQueueManagementPolicy.java
+LIMBO_10,21,AppPriorityACLConfigurationParser.java; AppPriorityACLGroup.java
+LIMBO_11,22,AutoCreatedLeafQueueConfig.java
+LIMBO_12,23,AutoCreatedQueueDeletionPolicy.java; QueueConfigurationAutoRefreshPolicy.java; QueueManagementDynamicEditPolicy.java; WorkflowPriorityMappingsManager.java
+LIMBO_13,24,AutoCreatedQueueTemplate.java; UserWeights.java
+LIMBO_14,26,CSAssignment.java; allocator/AbstractContainerAllocator.java; allocator/ContainerAllocation.java; allocator/ContainerAllocator.java; allocator/RegularContainerAllocator.java
+LIMBO_15,28,CSQueueInfoProvider.java; CSQueueUsageTracker.java; CSQueueUtils.java; QueueAllocationSettings.java; QueueNodeLabelsSettings.java; ResourceVector.java; UserInfo.java
+LIMBO_16,29,CSQueuePreemptionSettings.java; QueueAppLifetimeAndLimitSettings.java; QueueStateHelper.java
+LIMBO_17,30,CSQueueStore.java; policy/PriorityUtilizationQueueOrderingPolicy.java
+LIMBO_18,32,ConfigurationProperties.java; ConfiguredNodeLabels.java; QueuePath.java
+LIMBO_19,33,CapacitySchedulerContext.java; CapacitySchedulerQueueContext.java
+LIMBO_20,34,QueueCapacities.java; conf/YarnConfStoreVersionIncompatibleException.java
+LIMBO_21,35,LeafQueue.java; QueueManagementChange.java; conf/package-info.java
+LIMBO_22,36,queuemanagement/DeactivatedLeafQueuesByLabel.java; queuemanagement/LeafQueueEntitlements.java
+LIMBO_23,37,QueueCapacityUpdateContext.java
+LIMBO_24,38,QueueResourceRoundingStrategy.java
+LIMBO_25,39,QueueCapacityVector.java; QueueUpdateWarning.java; conf/QueueCapacityConfigParser.java; placement/converter/LegacyMappingRuleToJson.java
+LIMBO_26,40,QueuePrefixes.java
+LIMBO_27,41,conf/CSConfigurationProvider.java; conf/FSSchedulerConfigurationStore.java; conf/FileBasedCSConfigurationProvider.java; conf/LeveldbConfigurationStore.java; conf/MutableCSConfigurationProvider.java; conf/YarnConfigurationStoreFactory.java; conf/ZKConfigurationStore.java
+LIMBO_28,42,conf/ConfigurationUpdateAssembler.java; conf/QueueAdminConfigurationMutationACLPolicy.java
+LIMBO_29,43,conf/InMemoryConfigurationStore.java; conf/YarnConfigurationStore.java
+LIMBO_30,44,placement/GeneratePojos.java
+LIMBO_31,45,placement/MappingRuleCreator.java
+LIMBO_32,47,preemption/KillableContainer.java; preemption/PreemptableQueue.java; preemption/PreemptionManager.java

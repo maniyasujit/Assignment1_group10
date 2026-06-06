@@ -1,0 +1,25 @@
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Manages user-specific weights for resource allocation in a YARN (Yet Another Resource Negotiator) capacity scheduler.
+* **Core Logic**:
+	+ Parses configuration properties to extract user weights.
+	+ Validates user weights against defined constraints (non-negative, within a queue's user limit).
+	+ Provides weight retrieval by username with a default weight fallback.
+* **Inputs/Outputs**:
+	+ **Inputs**: 
+		- `CapacitySchedulerConfiguration`
+		- `ConfigurationProperties`
+		- `QueuePath`
+		- Username (for weight retrieval)
+	+ **Outputs**:
+		- User weight (float) for a given username
+		- **State Changes**:
+			- Validation exceptions (`IOException`) if weights are invalid
+			- Updated internal weight map via `addFrom` method
+		- **Side Effects**: None explicit beyond internal state changes
+* **Dependencies**:
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity` package (e.g., `CapacitySchedulerConfiguration`, `QueuePrefixes`)
+	+ Apache Hadoop `ConfigurationProperties`
+	+ Java Standard Library (e.g., `java.util.HashMap`, `java.util.regex.Matcher`)

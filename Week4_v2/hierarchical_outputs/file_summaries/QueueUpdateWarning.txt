@@ -1,0 +1,14 @@
+Here is a concise file-level semantic summary:
+
+**Summary for `QueueUpdateWarning.java`**
+
+1. **Key Functionality**: Represents and formats warning events occurring during YARN Resource Manager queue capacity updates.
+2. **Core Logic**: Encapsulates warning types with parameterized templates, allowing for dynamic message construction based on queue names and optional additional information.
+3. **Inputs/Outputs**:
+	* **Inputs**: `QueueUpdateWarningType`, `queue` name (String), optional `info` (String)
+	* **Outputs**: Formatted warning message (String) via `toString()`
+	* **State Changes**: None (immutable object)
+	* **Side Effects**: None
+4. **Dependencies**:
+	* **None external** (self-contained within Apache Hadoop YARN project)
+	* **Internal**: Assumes integration with YARN Resource Manager scheduler capacity update logic (not explicitly depended on in this file)

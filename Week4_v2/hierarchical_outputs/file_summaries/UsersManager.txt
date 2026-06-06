@@ -1,0 +1,42 @@
+Here is a concise file-level semantic summary of the provided Java source file:
+
+**Key Functionality:**
+This file implements the `UsersManager` class, which is responsible for managing users and their resource usage within a YARN (Yet Another Resource Negotiator) queue. It tracks user-specific data structures, computes user limits, and updates resource usage.
+
+**Core Logic:**
+
+1. **User Management**: Adds, removes, and retrieves users, maintaining a map of users with their respective resource usage and application details.
+2. **User Limit Computation**: Calculates user limits based on queue capacity, user weights, and resource usage, considering both active and non-active users.
+3. **Resource Usage Updates**: Synchronizes user resource usage during container allocation and release, updating usage ratios and triggering user limit recomputations as needed.
+
+**Inputs/Outputs:**
+
+* **Inputs**:
+	+ User names and resource updates (e.g., container allocations)
+	+ Queue metrics and configuration (e.g., user limits, weights)
+	+ Cluster resource information
+* **Outputs**:
+	+ Computed user limits for active and non-active users
+	+ Updated user resource usage and usage ratios
+	+ Notifications for active user changes (e.g., user added/removed)
+* **State Changes**:
+	+ User additions/removals
+	+ Resource usage updates for users and queues
+	+ User limit recomputations
+* **Side Effects**:
+	+ Logging of user and resource usage updates
+	+ Notifications for active user changes (e.g., metrics updates)
+
+**Dependencies:**
+
+* **Classes/Interfaces**:
+	+ `AbstractLeafQueue`
+	+ `RMNodeLabelsManager`
+	+ `ResourceCalculator`
+	+ `QueueMetrics`
+	+ `ApplicationId`
+	+ `Resource`
+* **Libraries/Frameworks**:
+	+ Apache YARN
+	+ Apache Hadoop (for logging and resource management utilities)
+	+ Java Concurrency Utilities (e.g., `ReentrantReadWriteLock`)

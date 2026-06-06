@@ -1,0 +1,53 @@
+Algorithm: LIMBO
+Cluster ID: LIMBO_22
+Original cluster ID: 36
+Files:
+- queuemanagement/DeactivatedLeafQueuesByLabel.java
+- queuemanagement/LeafQueueEntitlements.java
+
+File-level summaries:
+
+===== FILE SUMMARY: queuemanagement/DeactivatedLeafQueuesByLabel.java =====
+Here is a concise file-level semantic summary:
+
+**Summary for `DeactivatedLeafQueuesByLabel.java`**
+
+1. **Key Functionality**: Manages deactivated leaf queues by node label in a YARN (Yet Another Resource Negotiator) capacity scheduler, tracking capacities and determining activation eligibility.
+2. **Core Logic**:
+	* Calculates total deactivated capacity by summing absolute capacities of deactivated leaf queues.
+	* Determines available capacity based on parent queue capacity, activated child queues, and deactivated capacity.
+	* Evaluates whether leaf queues can be activated based on available capacity.
+3. **Inputs/Outputs**:
+	* **Inputs**:
+		+ `deactivatedLeafQueues` (map of queue names to capacities)
+		+ `parentQueuePath`, `nodeLabel`, `sumOfChildQueueActivatedCapacity`, `parentAbsoluteCapacity`, `leafQueueTemplateAbsoluteCapacity` (constructor parameters)
+	* **Outputs**:
+		+ `availableCapacity` (calculated)
+		+ `totalDeactivatedCapacity` (calculated)
+		+ Eligibility for leaf queue activation (boolean)
+		+ Debug logging (optional)
+	* **State Changes**:
+		+ Updates `availableCapacity` and `leafQueueTemplateAbsoluteCapacity` (for testing)
+4. **Dependencies**:
+	* `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.QueueCapacities`
+	* `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CSQueueUtils` (for `EPSILON` constant)
+	* `org.slf4j.Logger` (for debug logging)
+	* Apache Hadoop YARN APIs (implicitly, as part of the `org.apache.hadoop` package)
+
+===== FILE SUMMARY: queuemanagement/LeafQueueEntitlements.java =====
+Here is a concise file-level semantic summary:
+
+**Summary for `LeafQueueEntitlements.java`**
+
+1. **Key Functionality**: Manages capacity entitlements for auto-created leaf queues in a YARN Resource Manager, providing access to queue capacities.
+2. **Core Logic**: 
+	* Lazily initializes queue capacities on demand (when a queue path is first accessed).
+	* Stores and retrieves queue capacities using a `Map` (queue path → `QueueCapacities`).
+3. **Inputs/Outputs**:
+	* **Inputs**: `AutoCreatedLeafQueue` objects or leaf queue paths (strings).
+	* **Outputs**: `QueueCapacities` objects for given queues, or a `Map` of all entitlements.
+	* **State Changes**: Entitlements map is updated when a new queue path is encountered.
+	* **Side Effects**: None explicit, aside from internal state updates.
+4. **Dependencies**:
+	* **Classes**: `AutoCreatedLeafQueue`, `QueueCapacities`, `QueueManagementChange` (all from `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity` package).
+	* **Libraries/Frameworks**: Java Standard Library (util, function), Apache Hadoop YARN (Resource Manager, Scheduler).

@@ -1,0 +1,37 @@
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+Enforces access control for configuration mutations in YARN (Yet Another Resource Negotiator) queues, ensuring users have admin privileges for affected queues.
+
+**Core Logic:**
+1. Checks global config changes: verifies user is admin if changes are made.
+2. Iterates through modified queues (added, removed, updated):
+	* Traverses queue hierarchy upwards to find existing queue information.
+	* Verifies user has ADMINISTER_QUEUE access for each identified queue.
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ `UserGroupInformation` (user credentials)
+	+ `SchedConfUpdateInfo` (configuration update details)
+* **Outputs:**
+	+ `boolean` indicating whether the configuration mutation is allowed
+* **State Changes/Side Effects:**
+	+ None explicit, but influences authorization decisions for YARN queue configuration updates
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `YarnAuthorizationProvider`
+	+ `RMContext`
+	+ `MutableConfScheduler`
+	+ `Queue`
+	+ `QueueInfo`
+	+ `QueueACL`
+	+ `UserGroupInformation`
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ Apache Hadoop Security
+* **Hadoop/YARN APIs:**
+	+ YARN Authorization API
+	+ YARN Resource Manager (RM) API

@@ -1,0 +1,39 @@
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+Automatically refreshes YARN queue configurations at regular intervals if changes are detected in the underlying configuration file.
+
+**Core Logic:**
+
+1. Periodically checks the modification time of the queue configuration file.
+2. If the file has been modified since the last check and the monitoring interval has passed, attempts to refresh the queues using the `RMAdminService`.
+3. Handles refresh failures, logging errors and updating failure state.
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ YARN configuration (`YarnConfiguration`)
+	+ Resource Manager context (`RMContext`)
+	+ Resource Scheduler instance (`ResourceScheduler`)
+	+ Configuration file modifications (implicit input)
+* **Outputs:**
+	+ Refreshed queue configurations (via `RMAdminService`)
+	+ Log messages (info, error, debug)
+	+ Updated internal state (e.g., `lastReloadAttempt`, `lastReloadAttemptFailed`)
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `CapacityScheduler`
+	+ `RMContext`
+	+ `ResourceScheduler`
+	+ `RMAdminService`
+	+ `FileSystemBasedConfigurationProvider`
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ Apache Hadoop FileSystem
+	+ SLF4J (logging)
+* **Hadoop/YARN APIs:**
+	+ `YarnConfiguration`
+	+ `ResourceCalculator`
+	+ `RMNodeLabelsManager`

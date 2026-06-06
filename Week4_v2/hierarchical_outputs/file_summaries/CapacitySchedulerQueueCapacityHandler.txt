@@ -1,0 +1,34 @@
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+Manages capacity and resource value calculations for queues in a YARN (Yet Another Resource Negotiator) Resource Manager, ensuring effective minimum and maximum resource values are set for each label and resource.
+
+**Core Logic:**
+
+* Recursively updates resource and metrics values for queues and their children based on cluster resources and queue configurations.
+* Employs different capacity calculators (Absolute, Percentage, Weight) depending on the queue's capacity type.
+* Handles legacy queue mode with distinct update logic.
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ Cluster resource information
+	+ Queue configurations (capacity types, node labels, resource limits)
+	+ YARN Resource Manager settings (e.g., legacy queue mode)
+* **Outputs/State Changes:**
+	+ Updated queue capacities (minimum, maximum, absolute) for each node label
+	+ Refreshed queue resource quotas and limits
+	+ Updated cluster resource information (if applicable)
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `org.apache.hadoop.yarn.api.records.Resource`
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CSQueue`
+	+ `org.apache.hadoop.yarn.server.resourcemanager.nodelabels.RMNodeLabelsManager`
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ Apache Commons Collections (4)
+	+ SLF4J (for logging)
+* **Hadoop/YARN APIs:**
+	+ YARN Resource Manager APIs (e.g., `ResourceLimits`, `ResourceCalculator`)

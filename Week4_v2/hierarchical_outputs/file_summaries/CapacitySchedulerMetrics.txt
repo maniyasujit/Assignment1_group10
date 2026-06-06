@@ -1,0 +1,18 @@
+Here is a concise file-level semantic summary:
+
+**Summary for `CapacitySchedulerMetrics.java`**
+
+1. **Key Functionality**: Provides a singleton metrics collector for the YARN Capacity Scheduler, tracking various scheduler events and latency metrics.
+2. **Core Logic**: 
+	* Singleton initialization with lazy loading and synchronization.
+	* Registration of metrics with the Hadoop Metrics System (Metrics2).
+	* Simple, thread-safe incrementing of metric counters (e.g., allocate, commit, node updates) with optional latency tracking.
+3. **Inputs/Outputs**:
+	* **Inputs**: Latency values for various scheduler events (e.g., `addAllocate(long latency)`).
+	* **Outputs**: Metric values (e.g., counts, rates, quantiles) accessible via getter methods (mostly for testing).
+	* **State Changes**: Metrics registration/unregistration, singleton initialization/destruction.
+	* **Side Effects**: Updates to the Hadoop Metrics System.
+4. **Dependencies**:
+	* **Libraries/Frameworks**: Hadoop Metrics2 (org.apache.hadoop.metrics2)
+	* **Hadoop/YARN APIs**: DefaultMetricsSystem, MetricsRegistry, MutableRate, MutableQuantiles
+	* **Java**: java.util.concurrent.atomic (AtomicBoolean)

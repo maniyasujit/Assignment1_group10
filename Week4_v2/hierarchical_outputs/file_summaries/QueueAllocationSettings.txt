@@ -1,0 +1,21 @@
+Here is a concise file-level semantic summary:
+
+**QueueAllocationSettings.java Summary**
+
+1. **Key Functionality**: Determines minimum and maximum resource allocation settings for a queue in a YARN (Yet Another Resource Negotiator) cluster based on CapacitySchedulerConfiguration and queue properties.
+2. **Core Logic**: 
+	* Initializes with a minimum allocation resource.
+	* Calculates maximum allocation by comparing queue settings with cluster settings, ensuring queue limits do not exceed cluster maximums. Handles backward compatibility for older queue settings.
+3. **Inputs/Outputs**:
+	* **Inputs**:
+		+ `minimumAllocation` Resource (constructor)
+		+ `CapacitySchedulerConfiguration`, `QueuePath`, and `CSQueue` (for `setupMaximumAllocation`)
+	* **Outputs**:
+		+ `minimumAllocation` Resource (getter)
+		+ `maximumAllocation` Resource (getter, calculated in `setupMaximumAllocation`)
+	* **State Changes**: `maximumAllocation` is set in `setupMaximumAllocation`
+	* **Side Effects**: Throws `IllegalArgumentException` if queue maximum allocation exceeds cluster settings
+4. **Dependencies**:
+	* **Classes/Interfaces**: `Resource`, `ResourceInformation`, `CapacitySchedulerConfiguration`, `QueuePath`, `CSQueue`
+	* **Libraries/Frameworks**: Apache Hadoop YARN, Apache License 2.0
+	* **Hadoop/YARN APIs**: `org.apache.hadoop.yarn.api.records`, `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity`

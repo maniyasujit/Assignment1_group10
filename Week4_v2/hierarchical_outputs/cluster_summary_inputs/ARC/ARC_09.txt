@@ -1,0 +1,40 @@
+Algorithm: ARC
+Cluster ID: ARC_09
+Original cluster ID: cluster_8
+Files:
+- QueueCapacityUpdateContext.java
+- QueueUpdateWarning.java
+
+File-level summaries:
+
+===== FILE SUMMARY: QueueCapacityUpdateContext.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Stores and manages intermediate calculation values for a full queue capacity update phase in a YARN Resource Manager.
+* **Core Logic**: Encapsulates cluster resource updates and warning collection, with label-based resource filtering using an external manager.
+* **Inputs/Outputs**:
+	+ Inputs: `updatedClusterResource`, `RMNodeLabelsManager` instance
+	+ Outputs: Label-filtered `Resource` objects, collected `QueueUpdateWarning` instances
+	+ State Changes: Warning collection updates
+	+ Side Effects: None explicit
+* **Dependencies**:
+	+ Classes: `Resource` (YARN API), `RMNodeLabelsManager` (YARN RM), `QueueUpdateWarning` (not shown in this code snippet)
+	+ Libraries/Frameworks: Apache Hadoop YARN, Apache License (for licensing terms)
+
+===== FILE SUMMARY: QueueUpdateWarning.java =====
+Here is a concise file-level semantic summary:
+
+**Summary for `QueueUpdateWarning.java`**
+
+1. **Key Functionality**: Represents and formats warning events occurring during YARN Resource Manager queue capacity updates.
+2. **Core Logic**: Encapsulates warning types with parameterized templates, allowing for dynamic message construction based on queue names and optional additional information.
+3. **Inputs/Outputs**:
+	* **Inputs**: `QueueUpdateWarningType`, `queue` name (String), optional `info` (String)
+	* **Outputs**: Formatted warning message (String) via `toString()`
+	* **State Changes**: None (immutable object)
+	* **Side Effects**: None
+4. **Dependencies**:
+	* **None external** (self-contained within Apache Hadoop YARN project)
+	* **Internal**: Assumes integration with YARN Resource Manager scheduler capacity update logic (not explicitly depended on in this file)

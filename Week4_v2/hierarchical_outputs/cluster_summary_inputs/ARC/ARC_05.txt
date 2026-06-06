@@ -1,0 +1,88 @@
+Algorithm: ARC
+Cluster ID: ARC_05
+Original cluster ID: cluster_4
+Files:
+- placement/GeneratePojos.java
+- placement/MappingRuleCreator.java
+- placement/converter/LegacyMappingRuleToJson.java
+
+File-level summaries:
+
+===== FILE SUMMARY: placement/GeneratePojos.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Regenerates Java POJOs (Plain Old Java Objects) from a JSON schema definition for the YARN Resource Manager's Capacity Scheduler Placement module.
+* **Core Logic**: Utilizes the `jsonschema2pojo` library to map a JSON schema (`MappingRulesDescription.json`) to Java classes, configuring the generation to use primitives and disabling builder generation.
+* **Inputs/Outputs**:
+	+ **Input**: `MappingRulesDescription.json` schema file (located in `src/main/json_schema/`)
+	+ **Output**: Generated Java POJO classes (written to `src/main/java/` with the package `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.placement.schema`)
+	+ **Side Effect**: Overwrites existing POJO classes in the target package, if any.
+* **Dependencies**:
+	+ **Libraries**: `jsonschema2pojo`, `Jackson2` (for annotations)
+	+ **Frameworks**: None explicit (besides the Apache Hadoop YARN ecosystem context)
+	+ **Hadoop/YARN APIs**: None direct (utility class for internal YARN component development)
+
+===== FILE SUMMARY: placement/MappingRuleCreator.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary for `MappingRuleCreator.java`**
+
+1. **Key Functionality**: 
+   * Creates `MappingRule` objects from JSON files or strings, which define placement rules for YARN (Yet Another Resource Negotiator) resource management.
+
+2. **Core Logic**: 
+   * Parses JSON input to extract rule definitions (`Rule` objects)
+   * Creates `MappingRuleMatcher` and `MappingRuleAction` objects based on rule types (e.g., USER, GROUP, APPLICATION) and policies (e.g., DEFAULT_QUEUE, REJECT, PRIMARY_GROUP)
+   * Combines matchers and actions into `MappingRule` objects, handling fallback behaviors
+
+3. **Inputs/Outputs**: 
+   * **Inputs**:
+     + JSON files (via file path) or JSON strings containing rule definitions
+   * **Outputs**:
+     + Lists of `MappingRule` objects
+   * **State Changes/Side Effects**:
+     + Logging of rule processing details (e.g., default values used)
+
+4. **Dependencies**: 
+   * **Classes/Interfaces**:
+     + `MappingRule`, `MappingRuleMatcher`, `MappingRuleAction` (custom YARN placement rule classes)
+     + `Rule`, `MappingRulesDescription` (generated schema classes for JSON parsing)
+   * **Libraries/Frameworks**:
+     + Apache Hadoop YARN
+     + Jackson (for JSON parsing via `ObjectMapper`)
+     + Apache Commons Lang (for utility functions like `StringUtils`)
+     + SLF4J (for logging)
+
+===== FILE SUMMARY: placement/converter/LegacyMappingRuleToJson.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+This Java class, `LegacyMappingRuleToJson`, converts legacy mapping rules (for user groups and application names) from a string format to a JSON format, compatible with the Capacity Scheduler in Apache Hadoop YARN.
+
+**Core Logic:**
+
+1. Parsing legacy rules into their constituent parts (match, target, etc.)
+2. Identifying rule types (user, group, application) and applying corresponding conversion logic
+3. Creating JSON nodes for each rule, setting common fields (e.g., type, fallbackResult, create) and type-specific fields (e.g., policy, matches, customPlacement)
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ Legacy user group mapping rules (string or string collection)
+	+ Legacy application name mapping rules (string or string collection)
+* **Outputs:**
+	+ JSON string representing the converted mapping rules (or null if no rules are set)
+	+ Side effect: none (no external state changes)
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.QueuePath`
+	+ `com.fasterxml.jackson.databind.ObjectMapper` (for JSON creation)
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ Jackson (for JSON processing)
+* **Hadoop/YARN APIs:**
+	+ Capacity Scheduler (implicit, through QueuePath usage)

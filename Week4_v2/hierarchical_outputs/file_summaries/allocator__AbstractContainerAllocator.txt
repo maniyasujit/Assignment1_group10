@@ -1,0 +1,48 @@
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+This abstract class, `AbstractContainerAllocator`, is responsible for deciding how to allocate containers for an application in a YARN (Yet Another Resource Negotiator) cluster, making application resource allocation logic extensible.
+
+**Core Logic:**
+The core logic revolves around the `assignContainers` method, which:
+1. Selects a resource request to allocate based on requirements, priority, and locality.
+2. Checks resource availability for allocation.
+3. Performs allocation, creating/update allocated/reserved containers and updating metrics.
+The `getCSAssignmentFromAllocateResult` method processes allocation results, handling skipped, reserved, and allocated containers, and updates assignment information and activity logs.
+
+**Inputs/Outputs:**
+* **Inputs:**
+	+ `FiCaSchedulerApp` (application context)
+	+ `ResourceCalculator` and `RMContext` (cluster resource information)
+	+ `CandidateNodeSet` (node candidates for allocation)
+	+ `SchedulingMode` (exclusive or non-exclusive)
+	+ `ResourceLimits` (resource constraints)
+	+ `RMContainer` (reserved container, if any)
+* **Outputs:**
+	+ `CSAssignment` (container allocation proposal)
+	+ **State Changes:**
+		- Updates application's unconfirmed resources
+		- Increments allocation/reservation metrics
+		- Logs activity records (allocation, skipping, etc.)
+	+ **Side Effects:**
+		- Creates/updates containers in the YARN cluster
+		- Updates cluster resource utilization metrics
+
+**Dependencies:**
+* **Classes/Interfaces:**
+	+ `FiCaSchedulerApp`
+	+ `ResourceCalculator`
+	+ `RMContext`
+	+ `ActivitiesManager`
+	+ `CSAssignment`
+	+ `SchedulingMode`
+	+ `ResourceLimits`
+	+ `RMContainer`
+	+ `FiCaSchedulerNode`
+	+ `CandidateNodeSet`
+* **Libraries/Frameworks:**
+	+ Apache YARN
+	+ SLF4J (logging)
+* **Hadoop/YARN APIs:**
+	+ YARN Resource Management (RM) APIs
+	+ YARN Container Management APIs

@@ -1,0 +1,674 @@
+Algorithm: ARC
+Cluster ID: ARC_01
+Original cluster ID: cluster_0
+Files:
+- AbstractLeafQueue.java
+- AppPriorityACLConfigurationParser.java
+- AppPriorityACLGroup.java
+- CSAMContainerLaunchDiagnosticsConstants.java
+- CSAssignment.java
+- CSMaxRunningAppsEnforcer.java
+- CapacityHeadroomProvider.java
+- CapacityScheduler.java
+- CapacitySchedulerConfiguration.java
+- CapacitySchedulerContext.java
+- CapacitySchedulerMetrics.java
+- CapacitySchedulerQueueContext.java
+- SchedulingMode.java
+- UserInfo.java
+- UsersManager.java
+- WorkflowPriorityMappingsManager.java
+- allocator/AbstractContainerAllocator.java
+- allocator/AllocationState.java
+- allocator/ContainerAllocation.java
+- allocator/ContainerAllocator.java
+- allocator/RegularContainerAllocator.java
+
+File-level summaries:
+
+===== FILE SUMMARY: AbstractLeafQueue.java =====
+**File-Level Semantic Summary**
+
+**1. Key Functionality:**
+This Java class, `AbstractLeafQueue`, represents a leaf queue in a resource management system, specifically designed for Hadoop YARN (Yet Another Resource Negotiator). It manages application submissions, resource allocation, and deallocation for a single queue, enforcing capacity, user limits, and priority constraints.
+
+**2. Core Logic:**
+
+* **Application Management:** Handles application submission, activation, and completion, updating queue and user metrics accordingly.
+* **Resource Allocation:** Assigns containers to applications based on availability, user limits, and queue capacity, using a pluggable ordering policy.
+* **Capacity and User Limit Enforcement:** Computes and updates queue and user capacities, ensuring adherence to configured limits and weights.
+* **State Transitions:** Manages queue state (e.g., RUNNING, STOPPED, DRAINING) and application state (e.g., pending, active, completed).
+
+**3. Inputs/Outputs, State Changes, or Side Effects:**
+
+* **Inputs:**
+	+ Application submissions and updates
+	+ Resource availability changes (cluster resource updates)
+	+ Configuration updates (e.g., capacity, user limits, priorities)
+* **Outputs:**
+	+ Allocation decisions (container assignments or rejections)
+	+ Updated queue and user metrics
+	+ Logging and debugging information
+* **State Changes:**
+	+ Queue state (e.g., RUNNING → STOPPED)
+	+ Application state (e.g., PENDING → ACTIVE)
+	+ User and queue resource usage and limits
+* **Side Effects:**
+	+ Updates to parent queue and scheduler state
+	+ Notifications to preemption manager and scheduler health
+
+**4. Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `CapacitySchedulerQueueContext`
+	+ `CSQueue` (parent class)
+	+ `FiCaSchedulerApp` (application representation)
+	+ `FiCaSchedulerNode` (node representation)
+	+ `OrderingPolicy` (pluggable ordering strategy)
+	+ `UsersManager` (user management and limit enforcement)
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ Apache Commons Lang
+	+ SLF4J (logging)
+* **Hadoop/YARN APIs:**
+	+ `ApplicationAttemptId`
+	+ `ApplicationId`
+	+ `Container`
+	+ `ContainerExitStatus`
+	+ `ContainerStatus`
+	+ `Priority`
+	+ `QueueACL`
+	+ `QueueInfo`
+
+===== FILE SUMMARY: AppPriorityACLConfigurationParser.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary for `AppPriorityACLConfigurationParser.java`**
+
+1. **Key Functionality**: 
+   * Parses Application Priority ACL (Access Control List) configurations from `capacity-scheduler.xml`.
+   * Maps users/groups to priority settings (max/default priority) for YARN Resource Manager.
+
+2. **Core Logic**: 
+   * Regular expression-based parsing of ACL configuration strings.
+   * Iterative processing of ACL groups, validating and normalizing priority settings against the cluster's maximum priority.
+   * Construction of `AppPriorityACLGroup` objects to store parsed ACL configurations.
+
+3. **Inputs/Outputs**: 
+   * **Inputs**:
+     + `clusterMaxPriority` (Priority object)
+     + `aclString` (configuration string from `capacity-scheduler.xml`)
+   * **Outputs**:
+     + `List<AppPriorityACLGroup>` (parsed ACL configurations)
+   * **State Changes/Side Effects**:
+     + Logging of configuration warnings (e.g., when ACL max priority exceeds cluster max priority)
+
+4. **Dependencies**: 
+   * **Classes/Interfaces**:
+     + `org.apache.hadoop.yarn.api.records.Priority`
+     + `org.apache.hadoop.security.authorize.AccessControlList`
+     + `org.apache.hadoop.util.StringUtils`
+     + `org.slf4j.Logger` (for logging)
+   * **Libraries/Frameworks**:
+     + Apache Hadoop YARN
+     + SLF4J (for logging)
+   * **Hadoop/YARN APIs**:
+     + YARN Resource Manager APIs (implicitly, through Priority and AccessControlList classes)
+
+===== FILE SUMMARY: AppPriorityACLGroup.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Represents a group of Access Control List (ACL) settings tied to application priority, facilitating authorization in a YARN Resource Manager scheduler.
+* **Core Logic**: 
+	+ Holds and manages three key attributes: maximum priority, default priority, and associated ACL list.
+	+ Implements comparison, equality, and hashing based on maximum and default priority values.
+* **Inputs/Outputs**:
+	+ **Inputs**: Priority objects (max, default), AccessControlList object (via constructors or setters)
+	+ **Outputs**: Priority objects, AccessControlList object (via getters)
+	+ **State Changes**: Attribute updates via setter methods
+	+ **Side Effects**: None explicit (e.g., no I/O, networking, or external system interactions)
+* **Dependencies**:
+	+ **Classes/Interfaces**: `org.apache.hadoop.security.authorize.AccessControlList`, `org.apache.hadoop.yarn.api.records.Priority`
+	+ **Libraries/Frameworks**: Apache Hadoop YARN
+	+ **Hadoop/YARN APIs**: Utilizes YARN's Priority and ACL APIs for authorization in the Resource Manager scheduler.
+
+===== FILE SUMMARY: CSAMContainerLaunchDiagnosticsConstants.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Defines diagnostic message constants for Container Launch failures in YARN Resource Manager's Capacity Scheduler, specifically for Application Master (AM) container launching.
+* **Core Logic**: None (purely declarative, defining constants with no computational logic).
+* **Inputs/Outputs**:
+	+ **Outputs**: Predefined error/message strings for logging or display.
+	+ **State Changes/Side Effects**: None (read-only constants).
+* **Dependencies**:
+	+ **Packages**: `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity` (implies dependency on Apache Hadoop YARN APIs).
+	+ **Interfaces/Libraries**: None (standalone interface defining constants).
+
+===== FILE SUMMARY: CSAssignment.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+This Java class, `CSAssignment`, represents a container assignment in the context of the Apache Hadoop YARN (Yet Another Resource Negotiator) Resource Manager's Capacity Scheduler. It encapsulates various attributes and metadata related to container allocation, scheduling, and resource management.
+
+**Core Logic:**
+The core logic revolves around managing the state of a container assignment, including:
+	* Tracking resource allocation (CPU, memory) and locality types (e.g., node local, rack local)
+	* Handling excess resource reservations and fulfilled reservations
+	* Maintaining assignment information (allocations, reservations)
+	* Supporting scheduling modes and container lifecycle (kill, increase allocation)
+
+**Inputs/Outputs:**
+* **Inputs:**
+	+ Resource (CPU, memory) requirements
+	+ Locality types (NodeType)
+	+ FiCaSchedulerApp instances (representing applications)
+	+ RMContainer instances (representing containers)
+* **Outputs:**
+	+ Assignment state (e.g., fulfilled reservation, skipped type)
+	+ Assignment information (allocations, reservations)
+	+ Container lifecycle decisions (containers to kill)
+* **State Changes:**
+	+ Updates to assignment attributes (e.g., resource, type, skipped type)
+	+ Modifications to assignment information and container lists
+
+**Dependencies:**
+* **Classes/Interfaces:**
+	+ `org.apache.hadoop.yarn.api.records.Resource`
+	+ `org.apache.hadoop.yarn.server.resourcemanager.rmcontainer.RMContainer`
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.NodeType`
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.common.AssignmentInformation`
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.common.fica.FiCaSchedulerApp`
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ Apache Hadoop common utilities (e.g., `Resources`)
+
+===== FILE SUMMARY: CSMaxRunningAppsEnforcer.java =====
+Here is a concise file-level semantic summary of the provided Java source file:
+
+**Key Functionality:**
+Enforces user and queue-level constraints on the maximum number of concurrently running applications (maxRunningApps) in a YARN (Yet Another Resource Negotiator) Capacity Scheduler environment.
+
+**Core Logic:**
+
+1. Tracks running and non-running application counts per user and queue.
+2. Checks if making an application runnable would exceed user or queue maxRunningApps limits.
+3. Updates runnability of applications when:
+	* Configuration is reloaded.
+	* An application is removed.
+	* Queue or user constraints change.
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ `FiCaSchedulerApp` instances (application attempts).
+	+ `CapacityScheduler` instance (for configuration and queue hierarchy).
+* **Outputs:**
+	+ Updated `runnable` flag on `FiCaSchedulerApp` instances.
+	+ Logged messages (INFO, ERROR).
+	+ State changes:
+		- `usersNumRunnableApps` map (user → running app count).
+		- `usersNonRunnableApps` multimap (user → non-running app list).
+		- Queue-level running app counts.
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.common.fica.FiCaSchedulerApp`.
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler`.
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.AbstractCSQueue` (and subclasses).
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN.
+	+ SLF4J (logging).
+	+ Google Guava (collections, e.g., `ArrayListMultimap`, `PriorityQueue`).
+
+===== FILE SUMMARY: CapacityHeadroomProvider.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Calculates the available "headroom" resources (e.g., memory, vCores) for a given application in a YARN (Yet Another Resource Negotiator) capacity scheduler queue.
+* **Core Logic**: 
+	+ Retrieves current queue limits and cluster resources.
+	+ Determines headroom based on application's requested partitions (if any); otherwise, uses queue's default headroom calculation.
+	+ Aggregates headroom from multiple partitions (if requested).
+	+ Handles edge case where calculated headroom exceeds limits (sets to 0).
+* **Inputs/Outputs**:
+	+ **Inputs**: `UsersManager.User`, `AbstractLeafQueue`, `FiCaSchedulerApp`, `QueueResourceLimitsInfo`
+	+ **Outputs**: `Resource` object representing available headroom (memory, vCores)
+	+ **State Changes**: None (read-only calculation)
+	+ **Side Effects**: None
+* **Dependencies**:
+	+ **Classes/Interfaces**: `UsersManager.User`, `AbstractLeafQueue`, `FiCaSchedulerApp`, `QueueResourceLimitsInfo`, `RMNodeLabelsManager`
+	+ **Libraries/Frameworks**: Apache Hadoop YARN, Apache License 2.0
+	+ **Hadoop/YARN APIs**: YARN Resource Model (`Resource`, `Resources`)
+
+===== FILE SUMMARY: CapacityScheduler.java =====
+**File-Level Semantic Summary**
+
+**1. Key Functionality:**
+The `CapacityScheduler` class is a core component of the Apache Hadoop YARN (Yet Another Resource Negotiator) framework, responsible for managing resource allocation and scheduling of applications (jobs) across a cluster of nodes. It implements the `PreemptableResourceScheduler` and `Configurable` interfaces, enabling dynamic configuration and resource preemption.
+
+**2. Core Logic:**
+The scheduler's primary logic revolves around:
+
+* **Queue Management:** Hierarchical queue structure with capacity and priority settings.
+* **Resource Allocation:** Allocates containers (resources) to applications based on availability, queue priorities, and preemption rules.
+* **Scheduling Modes:** Supports synchronous and asynchronous scheduling, with optional multi-node placement.
+* **Event Handling:** Responds to various events, such as node additions/removals, application submissions, and container completions.
+
+**3. Inputs/Outputs, State Changes, or Side Effects:**
+
+* **Inputs:**
+	+ Configuration updates (e.g., queue settings, scheduling policies)
+	+ Application submission requests
+	+ Node addition/removal events
+	+ Container completion events
+* **Outputs:**
+	+ Allocation decisions (container assignments to applications)
+	+ Queue and application state updates
+	+ Logging and metrics for scheduling and resource utilization
+* **State Changes:**
+	+ Queue and application states (e.g., running, pending, finished)
+	+ Node and container states (e.g., allocated, reserved, released)
+* **Side Effects:**
+	+ Updates to the underlying resource management system (e.g., NodeManager interactions)
+
+**4. Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `AbstractYarnScheduler`
+	+ `PreemptableResourceScheduler`
+	+ `Configurable`
+	+ `RMContext` (Resource Manager Context)
+	+ `CapacitySchedulerConfiguration`
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ Apache Commons Lang
+	+ SLF4J (logging)
+* **Hadoop/YARN APIs:**
+	+ `ResourceManager` (RM) APIs for node and application management
+	+ `NodeManager` (NM) APIs for container management
+
+===== FILE SUMMARY: CapacitySchedulerConfiguration.java =====
+**Concise File-Level Semantic Summary**
+
+**1. Key Functionality:**
+This Java file, `CapacitySchedulerConfiguration`, primarily manages and provides configurations for the Capacity Scheduler in Apache Hadoop YARN (Yet Another Resource Negotiator). It handles queue settings, resource allocation, preemption, and various policies for efficient resource management.
+
+**2. Core Logic:**
+- **Queue Management:** Parses and sets configurations for queues, including capacity, maximum capacity, user limits, and ACLs.
+- **Resource Allocation:** Deals with absolute resource configurations, minimum and maximum resource requirements, and resource calculators.
+- **Policies and Ordering:** Implements logic for app ordering policies (e.g., FIFO, Fair), queue ordering policies (e.g., utilization, priority-utilization), and preemption configurations.
+- **Auto Queue Creation and Management:** Handles configurations for automatically created queues, including management policies and expiration settings.
+
+**3. Inputs/Outputs, State Changes, or Side Effects:**
+- **Inputs:** Configuration files (e.g., `capacity-scheduler.xml`), queue paths, user names, node labels, resource types.
+- **Outputs:** Configured queue settings, resource allocation details, policy implementations, and auto-created queue configurations.
+- **State Changes:** Updates to queue configurations, resource allocations, and policy settings.
+- **Side Effects:** Affects the behavior of the YARN Capacity Scheduler, influencing how resources are allocated to applications and queues.
+
+**4. Dependencies:**
+- **Classes/Interfaces:**
+  - `ReservationSchedulerConfiguration`
+  - `QueueCapacityConfigParser`
+  - `MappingRuleCreator`
+  - `OrderingPolicy`
+  - `QueueOrderingPolicy`
+  - `ResourceCalculator`
+  - `AutoCreatedQueueManagementPolicy`
+  - `MultiNodeLookupPolicy`
+- **Libraries/Frameworks:**
+  - Apache Hadoop YARN
+  - Apache Commons (for base and Guava utilities)
+  - SLF4J (for logging)
+- **Hadoop/YARN APIs:**
+  - Utilizes various YARN Configuration and API classes (e.g., `YarnConfiguration`, `ResourceUtils`).
+
+===== FILE SUMMARY: CapacitySchedulerContext.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Defines a read-only interface (`CapacitySchedulerContext`) for accessing the context and configuration of the Capacity Scheduler in Apache Hadoop YARN (Yet Another Resource Negotiator).
+* **Core Logic**: None (interface only, no implementation; provides access to various scheduler components and configurations without defining their behavior).
+* **Inputs/Outputs**:
+	+ **Inputs**: None (query-based interface)
+	+ **Outputs**:
+		- Scheduler configurations and settings
+		- Cluster and node resource information
+		- Application and queue contexts
+		- Various manager instances (e.g., Preemption, Scheduler Health, Activities)
+	+ **State Changes/Side Effects**: None (read-only interface)
+* **Dependencies**:
+	+ **Classes/Interfaces**: 
+		- `CapacitySchedulerConfiguration`
+		- `RMContext`
+		- `ResourceCalculator`
+		- `FiCaSchedulerApp`
+		- `FiCaSchedulerNode`
+		- `PreemptionManager`
+		- `SchedulerHealth`
+		- `ActivitiesManager`
+		- `CapacitySchedulerQueueManager`
+	+ **Libraries/Frameworks**: Apache Hadoop YARN, Apache License 2.0
+	+ **Hadoop/YARN APIs**: Utilizes various YARN API records (e.g., `ApplicationAttemptId`, `NodeId`, `Priority`, `Resource`)
+
+===== FILE SUMMARY: CapacitySchedulerMetrics.java =====
+Here is a concise file-level semantic summary:
+
+**Summary for `CapacitySchedulerMetrics.java`**
+
+1. **Key Functionality**: Provides a singleton metrics collector for the YARN Capacity Scheduler, tracking various scheduler events and latency metrics.
+2. **Core Logic**: 
+	* Singleton initialization with lazy loading and synchronization.
+	* Registration of metrics with the Hadoop Metrics System (Metrics2).
+	* Simple, thread-safe incrementing of metric counters (e.g., allocate, commit, node updates) with optional latency tracking.
+3. **Inputs/Outputs**:
+	* **Inputs**: Latency values for various scheduler events (e.g., `addAllocate(long latency)`).
+	* **Outputs**: Metric values (e.g., counts, rates, quantiles) accessible via getter methods (mostly for testing).
+	* **State Changes**: Metrics registration/unregistration, singleton initialization/destruction.
+	* **Side Effects**: Updates to the Hadoop Metrics System.
+4. **Dependencies**:
+	* **Libraries/Frameworks**: Hadoop Metrics2 (org.apache.hadoop.metrics2)
+	* **Hadoop/YARN APIs**: DefaultMetricsSystem, MetricsRegistry, MutableRate, MutableQuantiles
+	* **Java**: java.util.concurrent.atomic (AtomicBoolean)
+
+===== FILE SUMMARY: CapacitySchedulerQueueContext.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:** 
+Stores and provides access to common queue-related information, manager classes, and configuration for the CapacityScheduler in a YARN Resource Manager.
+
+**Core Logic:**
+Initialization and reinitialization of queue context based on the CapacitySchedulerContext, providing a unified access point to various manager classes and configuration settings. No complex algorithms or control flows are present, primarily focusing on encapsulation and delegation.
+
+**Inputs/Outputs:**
+* **Inputs:** `CapacitySchedulerContext` (constructor), configuration updates (`reinitialize()`, `setConfigurationEntry()`)
+* **Outputs:** 
+	+ Manager classes (e.g., `QueueManager`, `LabelManager`, `PreemptionManager`)
+	+ Configuration settings (e.g., `CapacitySchedulerConfiguration`, `minimumAllocation`)
+	+ Cluster and queue resource information (e.g., `ClusterResource`, `ClusterResourceUsage`)
+	+ Scheduler health and node/application information (delegated from `CapacitySchedulerContext`)
+
+**Dependencies:**
+* **Classes/Interfaces:**
+	+ `CapacitySchedulerContext`
+	+ `CapacitySchedulerQueueManager`
+	+ `RMNodeLabelsManager`
+	+ `PreemptionManager`
+	+ `ActivitiesManager`
+	+ `ResourceCalculator`
+	+ `CapacitySchedulerConfiguration`
+	+ `FiCaSchedulerNode` and `FiCaSchedulerApp` (from `CapacitySchedulerContext`)
+* **Libraries/Frameworks:** Apache Hadoop YARN (Resource Manager, CapacityScheduler)
+
+===== FILE SUMMARY: SchedulingMode.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Defines an enumeration for scheduling modes in the context of resource management and node partitioning.
+* **Core Logic**: None (purely declarative enum definition with explanatory comments); the logic for these modes is implied to be implemented elsewhere, using these enum values.
+* **Inputs/Outputs**:
+	+ Inputs: None (enum definition only)
+	+ Outputs: None (state changes or side effects)
+	+ State Changes/Side Effects: None; serves as a reference for scheduling decisions made elsewhere
+* **Dependencies**:
+	+ **Packages**: `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity` (implies dependency on Apache Hadoop YARN APIs)
+	+ **Libraries/Frameworks**: Apache Hadoop YARN (no direct library imports in this file, but implied by package naming)
+
+===== FILE SUMMARY: UserInfo.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Represents user information in the context of YARN (Yet Another Resource Negotiator) Resource Manager, encapsulating resource usage, application status, and configuration.
+* **Core Logic**: None (primarily a data container with getters; initialization logic is straightforward, mapping inputs to object state).
+* **Inputs/Outputs**:
+	+ **Inputs**: Constructor parameters (username, resource usage, application counts, resource limits, weight, and activity status).
+	+ **Outputs**: Getter methods for all input parameters, providing access to user information.
+	+ **State Changes**: None (immutable once constructed, except for potential external modifications via getters' returned object references).
+	+ **Side Effects**: None.
+* **Dependencies**:
+	+ **Classes/Interfaces**: 
+		- `org.apache.hadoop.yarn.api.records.Resource`
+		- `org.apache.hadoop.yarn.server.resourcemanager.scheduler.ResourceUsage`
+		- Custom DAO (Data Access Object) classes: `ResourceInfo`, `ResourcesInfo`
+	+ **Libraries/Frameworks**: 
+		- `javax.xml.bind.annotation` (for XML serialization)
+		- Apache Hadoop YARN (for resource management context)
+
+===== FILE SUMMARY: UsersManager.java =====
+Here is a concise file-level semantic summary of the provided Java source file:
+
+**Key Functionality:**
+This file implements the `UsersManager` class, which is responsible for managing users and their resource usage within a YARN (Yet Another Resource Negotiator) queue. It tracks user-specific data structures, computes user limits, and updates resource usage.
+
+**Core Logic:**
+
+1. **User Management**: Adds, removes, and retrieves users, maintaining a map of users with their respective resource usage and application details.
+2. **User Limit Computation**: Calculates user limits based on queue capacity, user weights, and resource usage, considering both active and non-active users.
+3. **Resource Usage Updates**: Synchronizes user resource usage during container allocation and release, updating usage ratios and triggering user limit recomputations as needed.
+
+**Inputs/Outputs:**
+
+* **Inputs**:
+	+ User names and resource updates (e.g., container allocations)
+	+ Queue metrics and configuration (e.g., user limits, weights)
+	+ Cluster resource information
+* **Outputs**:
+	+ Computed user limits for active and non-active users
+	+ Updated user resource usage and usage ratios
+	+ Notifications for active user changes (e.g., user added/removed)
+* **State Changes**:
+	+ User additions/removals
+	+ Resource usage updates for users and queues
+	+ User limit recomputations
+* **Side Effects**:
+	+ Logging of user and resource usage updates
+	+ Notifications for active user changes (e.g., metrics updates)
+
+**Dependencies:**
+
+* **Classes/Interfaces**:
+	+ `AbstractLeafQueue`
+	+ `RMNodeLabelsManager`
+	+ `ResourceCalculator`
+	+ `QueueMetrics`
+	+ `ApplicationId`
+	+ `Resource`
+* **Libraries/Frameworks**:
+	+ Apache YARN
+	+ Apache Hadoop (for logging and resource management utilities)
+	+ Java Concurrency Utilities (e.g., `ReentrantReadWriteLock`)
+
+===== FILE SUMMARY: WorkflowPriorityMappingsManager.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+This Java class, `WorkflowPriorityMappingsManager`, manages workflow priority mappings for YARN (Yet Another Resource Negotiator) applications, enabling override of application priorities based on predefined workflow ID to priority mappings.
+
+**Core Logic:**
+
+1. **Initialization**: Loads workflow priority mappings from configuration.
+2. **Recursive Priority Mapping**: Traces up the queue hierarchy to find the first matching workflow ID to priority mapping.
+3. **Priority Override**: Updates application priority based on matched workflow ID, if override is enabled.
+
+**Inputs/Outputs:**
+
+* **Inputs**:
+	+ `WorkflowPriorityMapping` configurations
+	+ `ApplicationId`, `CSQueue`, `user`, and `Priority` for priority mapping
+* **Outputs**:
+	+ Updated `Priority` for applications with matching workflow IDs
+	+ Logging of priority mapping and override operations
+* **State Changes**:
+	+ Updates `RMApp` (Resource Manager Application) priority
+
+**Dependencies:**
+
+* **Classes/Interfaces**:
+	+ `CapacityScheduler`
+	+ `CapacitySchedulerConfiguration`
+	+ `CSQueue`
+	+ `RMApp` (Resource Manager Application)
+	+ `UserGroupInformation`
+* **Libraries/Frameworks**:
+	+ Apache Hadoop YARN
+	+ Apache Commons (e.g., `StringUtils`)
+	+ SLF4J (for logging)
+
+===== FILE SUMMARY: allocator/AbstractContainerAllocator.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+This abstract class, `AbstractContainerAllocator`, is responsible for deciding how to allocate containers for an application in a YARN (Yet Another Resource Negotiator) cluster, making application resource allocation logic extensible.
+
+**Core Logic:**
+The core logic revolves around the `assignContainers` method, which:
+1. Selects a resource request to allocate based on requirements, priority, and locality.
+2. Checks resource availability for allocation.
+3. Performs allocation, creating/update allocated/reserved containers and updating metrics.
+The `getCSAssignmentFromAllocateResult` method processes allocation results, handling skipped, reserved, and allocated containers, and updates assignment information and activity logs.
+
+**Inputs/Outputs:**
+* **Inputs:**
+	+ `FiCaSchedulerApp` (application context)
+	+ `ResourceCalculator` and `RMContext` (cluster resource information)
+	+ `CandidateNodeSet` (node candidates for allocation)
+	+ `SchedulingMode` (exclusive or non-exclusive)
+	+ `ResourceLimits` (resource constraints)
+	+ `RMContainer` (reserved container, if any)
+* **Outputs:**
+	+ `CSAssignment` (container allocation proposal)
+	+ **State Changes:**
+		- Updates application's unconfirmed resources
+		- Increments allocation/reservation metrics
+		- Logs activity records (allocation, skipping, etc.)
+	+ **Side Effects:**
+		- Creates/updates containers in the YARN cluster
+		- Updates cluster resource utilization metrics
+
+**Dependencies:**
+* **Classes/Interfaces:**
+	+ `FiCaSchedulerApp`
+	+ `ResourceCalculator`
+	+ `RMContext`
+	+ `ActivitiesManager`
+	+ `CSAssignment`
+	+ `SchedulingMode`
+	+ `ResourceLimits`
+	+ `RMContainer`
+	+ `FiCaSchedulerNode`
+	+ `CandidateNodeSet`
+* **Libraries/Frameworks:**
+	+ Apache YARN
+	+ SLF4J (logging)
+* **Hadoop/YARN APIs:**
+	+ YARN Resource Management (RM) APIs
+	+ YARN Container Management APIs
+
+===== FILE SUMMARY: allocator/AllocationState.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Defines an enumeration for various states of resource allocation in a YARN (Yet Another Resource Negotiator) Resource Manager's capacity scheduler.
+* **Core Logic**: None (pure enumeration with no computational logic or control flow).
+* **Inputs/Outputs**:
+	+ **Inputs**: None
+	+ **Outputs**: None (state values for use elsewhere in the program)
+	+ **State Changes/Side Effects**: None (read-only enumeration values)
+* **Dependencies**:
+	+ **Packages**: `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.allocator` (internal to Apache Hadoop YARN)
+	+ **Libraries/Frameworks**: None (standard Java enum)
+	+ **Hadoop/YARN APIs**: Implicit (part of YARN Resource Manager's scheduler)
+
+===== FILE SUMMARY: allocator/ContainerAllocation.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Represents a container allocation request in a YARN (Yet Another Resource Negotiator) resource management context, encapsulating allocation state, resources, and container metadata.
+* **Core Logic**: Manages allocation state transitions (e.g., locality skipped, priority skipped) and tracks container updates, reservations, and deallocations. No complex algorithms; primarily a data container with accessor/mutator methods.
+* **Inputs/Outputs**:
+	+ Inputs: `RMContainer` (container to be unreserved), `Resource` (to be allocated), `AllocationState` (initial state)
+	+ Outputs: Getter methods for allocation state, resources, containers (to be unreserved, updated, or killed)
+	+ State Changes: Updates to `updatedContainer`, `toKillContainers` lists
+	+ Side Effects: None explicit, but likely influences YARN resource management decisions
+* **Dependencies**:
+	+ Classes: `RMContainer`, `Resource` (from `org.apache.hadoop.yarn.api.records`), `NodeType` (from `org.apache.hadoop.yarn.server.resourcemanager.scheduler`)
+	+ Libraries/Frameworks: Apache Hadoop YARN
+	+ APIs: Implicitly uses YARN Resource Management APIs through dependent classes
+
+===== FILE SUMMARY: allocator/ContainerAllocator.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: This file (`ContainerAllocator`) extends container allocation logic for YARN (Yet Another Resource Negotiator) Resource Manager, specifically for Capacity Scheduler, delegating to a `RegularContainerAllocator` instance.
+* **Core Logic**: The primary algorithm is essentially a **delegation pattern**, where the `assignContainers` method redirects to an instance of `RegularContainerAllocator`, which is responsible for the actual container assignment logic.
+* **Inputs/Outputs**:
+	+ **Inputs**: 
+		- `clusterResource` (available resources)
+		- `candidates` (set of candidate nodes for allocation)
+		- `schedulingMode` (mode of scheduling)
+		- `resourceLimits` (constraints for resource allocation)
+		- `reservedContainer` (pre-reserved container, if any)
+	+ **Outputs**: `CSAssignment` object (result of container assignment)
+	+ **State Changes/Side Effects**: Depends on the implementation of `RegularContainerAllocator`
+* **Dependencies**:
+	+ **Classes/Interfaces**: 
+		- `AbstractContainerAllocator` (parent class)
+		- `RegularContainerAllocator` (delegated allocator)
+		- `FiCaSchedulerApp`, `ResourceCalculator`, `RMContext`, `ActivitiesManager` (constructor dependencies)
+	+ **Libraries/Frameworks**: Apache Hadoop YARN, Apache License 2.0
+	+ **Hadoop/YARN APIs**: Resource Manager (RM) and Capacity Scheduler APIs
+
+===== FILE SUMMARY: allocator/RegularContainerAllocator.java =====
+Here is a concise file-level semantic summary of the provided Java source file:
+
+**Key Functionality:**
+This Java class, `RegularContainerAllocator`, is responsible for allocating containers to applications in a YARN (Yet Another Resource Negotiator) cluster, considering factors like locality, label, and resource availability. It implements a delayed scheduling mechanism to improve locality allocation.
+
+**Core Logic:**
+
+1. **Pre-checks**: Verify if a pending resource request can be allocated to a given node or set of nodes, considering exclusivity, pending resources, node partitions, headroom, and placement constraints.
+2. **Locality-based Allocation**: Attempt to allocate containers in order of locality preference (Node Local, Rack Local, Off-Switch) while respecting scheduling opportunities and delays.
+3. **Resource Management**: Handle container allocation, reservation, and deallocation, ensuring resource limits and availability are respected.
+
+**Inputs/Outputs:**
+
+* **Inputs**:
+	+ `Resource` cluster resource
+	+ `CandidateNodeSet` of `FiCaSchedulerNode` objects
+	+ `SchedulingMode` (e.g., IGNORE_PARTITION_EXCLUSIVITY)
+	+ `ResourceLimits` object
+	+ `SchedulerRequestKey` object
+	+ Optional `RMContainer` (reserved container)
+* **Outputs**:
+	+ `ContainerAllocation` object (representing allocation result)
+	+ `CSAssignment` object (container assignment result)
+	+ Side effects: updates to application scheduling opportunities, node reservations, and container allocations
+
+**Dependencies:**
+
+* **Classes/Interfaces**:
+	+ `FiCaSchedulerApp`
+	+ `ResourceCalculator`
+	+ `RMContext`
+	+ `ActivitiesManager`
+	+ `AppPlacementAllocator`
+	+ `CapacityScheduler` (optional)
+* **Libraries/Frameworks**:
+	+ Apache Hadoop YARN
+	+ Apache Commons Lang
+	+ SLF4J (logging)
+* **Hadoop/YARN APIs**:
+	+ `ResourceScheduler`
+	+ `SchedulerNode`
+	+ `RMContainer`

@@ -1,0 +1,14 @@
+Here is a concise file-level semantic summary:
+
+**Summary for `DefaultQueueResourceRoundingStrategy.java`**
+
+1. **Key Functionality**: Implements a rounding strategy for resource calculations in YARN Resource Manager's Capacity Scheduler.
+2. **Core Logic**: Rounds resource values based on their type; uses `Math.floor()` for all types except the last one in the precedence order (typically WEIGHT), which uses `Math.round()`.
+3. **Inputs/Outputs**:
+	* **Inputs**: `resourceValue` (double), `capacityVectorEntry` (QueueCapacityVectorEntry)
+	* **Outputs**: Rounded `resourceValue` (double)
+	* **State Changes/Side Effects**: None
+4. **Dependencies**:
+	* **Classes/Interfaces**: `QueueResourceRoundingStrategy`, `QueueCapacityVector.QueueCapacityVectorEntry`, `ResourceUnitCapacityType` (all from `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity`)
+	* **Libraries/Frameworks**: Apache Hadoop YARN
+	* **Hadoop/YARN APIs**: Utilizes YARN Resource Manager's Capacity Scheduler APIs indirectly through dependencies.

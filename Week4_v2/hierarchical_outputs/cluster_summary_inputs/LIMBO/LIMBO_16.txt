@@ -1,0 +1,79 @@
+Algorithm: LIMBO
+Cluster ID: LIMBO_16
+Original cluster ID: 29
+Files:
+- CSQueuePreemptionSettings.java
+- QueueAppLifetimeAndLimitSettings.java
+- QueueStateHelper.java
+
+File-level summaries:
+
+===== FILE SUMMARY: CSQueuePreemptionSettings.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: This class, `CSQueuePreemptionSettings`, determines the preemption settings for a given queue in a YARN (Yet Another Resource Negotiator) Capacity Scheduler hierarchy.
+* **Core Logic**: The class evaluates two types of preemption:
+	1. **Cross-Queue Preemption**: Checks if system-wide preemption is enabled and not explicitly disabled in the queue's hierarchy.
+	2. **Intra-Queue Preemption**: Verifies if system-wide intra-queue preemption is enabled and not disabled in the queue's hierarchy. Both settings are inherited from parent queues unless overridden.
+* **Inputs/Outputs**:
+	+ **Inputs**: `CSQueue` object, `CapacitySchedulerConfiguration` object
+	+ **Outputs**: Boolean values indicating preemption status (disabled or not) for:
+		- Cross-Queue Preemption (`isPreemptionDisabled()`)
+		- Intra-Queue Preemption (`isIntraQueuePreemptionDisabled()`, `isIntraQueuePreemptionDisabledInHierarchy()`)
+	+ **State Changes**: None (read-only settings evaluation)
+	+ **Side Effects**: None
+* **Dependencies**:
+	+ **Classes/Interfaces**: `CSQueue`, `CapacitySchedulerConfiguration`
+	+ **Libraries/Frameworks**: Apache Hadoop YARN, Apache Hadoop Configuration (for `YarnConfiguration`)
+
+===== FILE SUMMARY: QueueAppLifetimeAndLimitSettings.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:** 
+Determines application lifetime and maximum parallel applications settings for a YARN (Yet Another Resource Negotiator) queue based on Capacity Scheduler configurations and queue properties.
+
+**Core Logic:**
+1. Inheritance-based resolution of queue settings from parent queues (if applicable) or configuration defaults.
+2. Validation and adjustment of default application lifetime to ensure it doesn't exceed the maximum allowed lifetime.
+
+**Inputs/Outputs:**
+* **Inputs:**
+	+ `CapacitySchedulerConfiguration` object
+	+ `AbstractCSQueue` object (`q`) and its `QueuePath` (`queuePath`)
+* **Outputs:**
+	+ Resolved `maxApplicationLifetime`
+	+ Resolved `defaultApplicationLifetime`
+	+ `maxParallelApps` setting
+	+ Indication if `defaultAppLifetimeWasSpecifiedInConfig`
+* **State Changes/Side Effects:**
+	+ Throws `YarnRuntimeException` if default lifetime exceeds maximum lifetime
+
+**Dependencies:**
+* `org.apache.hadoop.yarn.exceptions.YarnRuntimeException`
+* `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity` package classes:
+	+ `CapacitySchedulerConfiguration`
+	+ `AbstractCSQueue` (and its subclasses)
+	+ `QueuePath`
+
+===== FILE SUMMARY: QueueStateHelper.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary for `QueueStateHelper.java`**
+
+1. **Key Functionality**: Manages state transitions for YARN (Yet Another Resource Negotiator) queues in a Hadoop cluster, ensuring valid state configurations and hierarchical consistency.
+2. **Core Logic**:
+	* Determines queue state based on previous state, parent queue state, and configured state.
+	* Enforces valid state transitions (RUNNING → STOPPED, STOPPED → RUNNING) with considerations for parent-child queue relationships.
+3. **Inputs/Outputs**:
+	* **Inputs**: `AbstractCSQueue` object, queue configuration, parent queue state (if applicable)
+	* **Outputs**:
+		+ Updated queue state (`QueueState`)
+		+ Side effects: `stopQueue()` or `activateQueue()` calls on the queue object
+		+ Exceptions: `IllegalArgumentException` for invalid state configurations or parent-child inconsistencies
+4. **Dependencies**:
+	* `org.apache.hadoop.yarn.api.records.QueueState`
+	* `org.apache.hadoop.yarn.exceptions.YarnException`
+	* `org.apache.hadoop.thirdparty.com.google.common.collect.ImmutableSet` (for set operations)
+	* `AbstractCSQueue` (assumed to be part of the Hadoop YARN framework, not shown in the import list)

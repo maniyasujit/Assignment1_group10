@@ -1,0 +1,264 @@
+Algorithm: ARC
+Cluster ID: ARC_04
+Original cluster ID: cluster_3
+Files:
+- conf/CSConfigurationProvider.java
+- conf/FSSchedulerConfigurationStore.java
+- conf/FileBasedCSConfigurationProvider.java
+- conf/InMemoryConfigurationStore.java
+- conf/LeveldbConfigurationStore.java
+- conf/YarnConfigurationStore.java
+- conf/YarnConfigurationStoreFactory.java
+- conf/ZKConfigurationStore.java
+
+File-level summaries:
+
+===== FILE SUMMARY: conf/CSConfigurationProvider.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Defines an interface for providing configuration to the `CapacityScheduler` in a YARN Resource Manager.
+* **Core Logic**: Initializes with a `Configuration` object and loads a `CapacitySchedulerConfiguration` instance based on it.
+* **Inputs/Outputs**:
+	+ Inputs: `Configuration` object (Hadoop configuration)
+	+ Outputs: `CapacitySchedulerConfiguration` object
+	+ Exceptions: `IOException` (on initialization or loading failures)
+	+ State Changes: Initializes the provider with a given configuration
+* **Dependencies**:
+	+ Classes: `Configuration`, `CapacitySchedulerConfiguration`
+	+ Frameworks: Apache Hadoop (YARN Resource Manager, specifically `CapacityScheduler`)
+
+===== FILE SUMMARY: conf/FSSchedulerConfigurationStore.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Key Functionality:**
+This Java class, `FSSchedulerConfigurationStore`, provides a file system-based implementation for storing and managing YARN (Yet Another Resource Negotiator) scheduler configurations, extending the `YarnConfigurationStore` class.
+
+**Core Logic:**
+
+1. **Initialization**: Sets up the file system directory for storing configurations, checks for existing configurations, and initializes the current configuration.
+2. **Configuration Management**:
+	* **Log Mutation**: Temporarily updates the configuration, writing changes to a temporary file.
+	* **Confirm Mutation**: Finalizes or rolls back the temporary configuration update based on validation.
+	* **Retrieve**: Loads the current configuration from the file system.
+3. **Housekeeping**:
+	* **Versioning**: Tracks and updates a configuration version file.
+	* **File Cleanup**: Removes excess configuration files to maintain a specified maximum version count.
+
+**Inputs/Outputs, State Changes, or Side Effects:**
+
+* **Inputs**:
+	+ `Configuration` objects (file system, YARN scheduler)
+	+ `LogMutation` objects
+	+ `RMContext` object
+* **Outputs**:
+	+ Loaded `Configuration` objects
+	+ Updated configuration files in the file system
+* **State Changes**:
+	+ Updates to the `schedConf` and `oldConf` instance variables
+	+ Creation, renaming, or deletion of configuration files in the file system
+* **Side Effects**:
+	+ File system operations (read, write, delete, rename)
+	+ Logging of various operations and errors
+
+**Dependencies:**
+
+* **Classes/Interfaces**:
+	+ `YarnConfigurationStore` (extended)
+	+ `Configuration` (Apache Hadoop)
+	+ `FileSystem` (Apache Hadoop)
+	+ `RMContext` (Apache Hadoop YARN)
+	+ `LogMutation` (Apache Hadoop YARN)
+* **Libraries/Frameworks**:
+	+ Apache Hadoop
+	+ Apache Hadoop YARN
+	+ Google Gson (for JSON serialization)
+	+ SLF4J (for logging)
+
+===== FILE SUMMARY: conf/FileBasedCSConfigurationProvider.java =====
+Here is a concise file-level semantic summary:
+
+**Summary for `FileBasedCSConfigurationProvider.java`**
+
+1. **Key Functionality**: Provides `CapacityScheduler` configuration based on a local `capacity-scheduler.xml` file for the YARN Resource Manager.
+2. **Core Logic**: Loads configuration from `capacity-scheduler.xml` into a `CapacitySchedulerConfiguration` object if the file is present, otherwise returns a default configuration.
+3. **Inputs/Outputs**:
+	* **Inputs**: `RMContext`, `Configuration` (Hadoop/YARN config)
+	* **Outputs**: `CapacitySchedulerConfiguration` object (loaded from file or default)
+	* **State Changes**: None explicit, but influences `CapacityScheduler` behavior
+	* **Side Effects**: Reads from local file system (for `capacity-scheduler.xml`)
+4. **Dependencies**:
+	* **Classes/Interfaces**: `RMContext`, `CapacityScheduler`, `CSConfigurationProvider`, `CapacitySchedulerConfiguration`
+	* **Libraries/Frameworks**: Apache Hadoop, Apache YARN (specifically `hadoop-conf` and `hadoop-yarn-common` modules)
+	* **Hadoop/YARN APIs**: `YarnConfiguration`, `Configuration` (Hadoop Config API)
+
+===== FILE SUMMARY: conf/InMemoryConfigurationStore.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:** 
+In-memory storage for YARN (Yet Another Resource Negotiator) configuration, implementing a non-persistent `YarnConfigurationStore`.
+
+**Core Logic:**
+Stores configuration in RAM, applying updates directly to the in-memory store without logging or persisting changes. Versioning is simplistic, incrementing with each confirmed mutation.
+
+**Inputs/Outputs:**
+* **Inputs:** 
+	+ Initial configuration (`initialize` method)
+	+ Configuration updates (`confirmMutation` method)
+* **Outputs:**
+	+ Current in-memory configuration (`retrieve` method)
+	+ Configuration version (`getConfigVersion` method)
+* **State Changes:**
+	+ In-memory configuration updates
+	+ Incrementing configuration version
+* **Side Effects:** None (no persistence or external interactions)
+
+**Dependencies:**
+* **Classes/Interfaces:**
+	+ `YarnConfigurationStore` (extended)
+	+ `Configuration` (Apache Hadoop)
+	+ `RMContext` (Apache Hadoop YARN)
+	+ `LogMutation` (Apache Hadoop YARN)
+* **Libraries/Frameworks:**
+	+ Apache Hadoop
+	+ Apache Hadoop YARN
+* **Hadoop/YARN APIs:**
+	+ YARN Resource Manager (RM) Context
+	+ YARN Configuration Management
+
+===== FILE SUMMARY: conf/LeveldbConfigurationStore.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Key Functionality:**
+This file implements a LevelDB-based store for YARN (Yet Another Resource Negotiator) configuration, providing persistent storage and retrieval of configuration data.
+
+**Core Logic:**
+
+* Initializes two LevelDB instances: one for configuration data and another for version tracking.
+* Stores and retrieves configuration data as key-value pairs, with support for logging mutations (changes) and confirming valid updates.
+* Manages configuration versioning, incrementing the version on each confirmed update.
+* Provides methods for retrieving the current configuration, configuration version, and (unimplemented) configuration history.
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ YARN Configuration (`Configuration` object)
+	+ Log Mutations (`LogMutation` objects)
+	+ Version updates
+* **Outputs:**
+	+ Stored configuration data
+	+ Retrieved configuration data (`Configuration` object)
+	+ Configuration version (long)
+	+ (Unimplemented) Configuration history
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `YarnConfigurationStore` (extended by this class)
+	+ `DBManager`
+	+ `LevelDB` (via `org.iq80.leveldb` package)
+	+ `YarnConfiguration`
+	+ `RMContext`
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ LevelDB (via `org.iq80.leveldb` package)
+	+ SLF4J (for logging)
+
+===== FILE SUMMARY: conf/YarnConfigurationStore.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+This Java file defines an abstract class `YarnConfigurationStore` for managing and persisting YARN (Yet Another Resource Negotiator) configuration, specifically for the Capacity Scheduler, using a write-ahead logging approach.
+
+**Core Logic:**
+The core logic revolves around logging, confirming, and retrieving configuration mutations (updates) in a fault-tolerant manner. This involves:
+1. Initializing the store with an initial configuration.
+2. Logging mutations (updates) to a backing store.
+3. Confirming logged mutations, optionally merging them with the persisted configuration.
+4. Retrieving the current persisted configuration.
+
+**Inputs/Outputs:**
+* **Inputs:**
+	+ Initial configuration (`Configuration` objects)
+	+ Logged mutations (`LogMutation` objects)
+	+ Confirmation status for mutations (boolean)
+* **Outputs:**
+	+ Persisted configuration (`Configuration` object)
+	+ List of confirmed configuration mutations (`LogMutation` objects)
+	+ Configuration version information (`Version` object)
+* **State Changes:**
+	+ Updates to the persisted configuration store
+	+ Logging and confirmation of mutations
+* **Side Effects:**
+	+ I/O operations for storing and retrieving configuration data
+
+**Dependencies:**
+* **Classes/Interfaces:**
+	+ `org.apache.hadoop.conf.Configuration`
+	+ `org.apache.hadoop.yarn.server.records.Version`
+	+ `org.apache.hadoop.yarn.server.resourcemanager.RMContext`
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler`
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ SLF4J (for logging)
+* **Hadoop/YARN APIs:**
+	+ Utilizes various YARN APIs for configuration management and versioning.
+
+===== FILE SUMMARY: conf/YarnConfigurationStoreFactory.java =====
+Here is a concise file-level semantic summary:
+
+**Summary for `YarnConfigurationStoreFactory.java`**
+
+1. **Key Functionality**: Creates instances of `YarnConfigurationStore` based on configuration settings, serving as a factory for various store implementations.
+2. **Core Logic**: Examines the `YarnConfiguration` to determine the chosen store type, using a switch statement for known types and reflection for custom types specified in the configuration.
+3. **Inputs/Outputs**:
+	* **Input**: `Configuration` object (`conf`)
+	* **Output**: Instance of `YarnConfigurationStore` (e.g., `InMemoryConfigurationStore`, `LeveldbConfigurationStore`, etc.)
+	* **State Change/Side Effect**: None explicit, but the created store instance may have its own state and side effects.
+4. **Dependencies**:
+	* **Classes/Interfaces**: `YarnConfigurationStore`, `YarnConfiguration`, `Configuration`
+	* **Libraries/Frameworks**: Apache Hadoop, SLF4J (for logging), Apache Commons ( ReflectionUtils)
+
+===== FILE SUMMARY: conf/ZKConfigurationStore.java =====
+Here is a concise file-level semantic summary of the provided Java source file:
+
+**Key Functionality:**
+This Java class, `ZKConfigurationStore`, implements a ZooKeeper-based storage system for YARN (Yet Another Resource Negotiator) configuration data, providing methods for storing, retrieving, and managing configuration versions, logs, and mutations.
+
+**Core Logic:**
+
+1. **Initialization**: Sets up ZooKeeper connections, creates necessary znodes, and initializes configuration storage.
+2. **Configuration Management**: Stores, retrieves, and updates YARN configuration data in ZooKeeper, handling versioning and concurrency.
+3. **Logging and Mutation Tracking**: Stores and manages logs of configuration changes (mutations) with a configurable maximum log size.
+4. **Concurrency and Fault Tolerance**: Employs retry mechanisms and safe update operations to handle ZooKeeper connection issues and concurrent access.
+
+**Inputs/Outputs:**
+
+* **Inputs**:
+	+ YARN configuration data (key-value pairs)
+	+ Log mutations (configuration change records)
+	+ Version information
+* **Outputs**:
+	+ Stored configuration data
+	+ Retrieved configuration versions
+	+ Logs of configuration changes
+	+ Updated configuration versions
+* **State Changes**:
+	+ ZooKeeper znode creations and updates
+	+ Configuration version increments
+* **Side Effects**:
+	+ ZooKeeper connection establishment and closure
+	+ Logging of errors and warnings
+
+**Dependencies:**
+
+* **Classes/Interfaces**:
+	+ `YarnConfigurationStore` (extended by this class)
+	+ `ZKCuratorManager` (for ZooKeeper interactions)
+	+ `Configuration` (Apache Hadoop configuration class)
+	+ `RMContext` (YARN Resource Manager context)
+* **Libraries/Frameworks**:
+	+ Apache ZooKeeper
+	+ Apache Hadoop (YARN, Commons IO)
+	+ SLF4J (logging)

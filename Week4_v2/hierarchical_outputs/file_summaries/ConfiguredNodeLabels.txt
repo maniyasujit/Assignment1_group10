@@ -1,0 +1,26 @@
+Here is a concise file-level semantic summary:
+
+**Key Functionality:** 
+Manages node labels for YARN (Yet Another Resource Negotiator) queues, extracting configurations from provided settings.
+
+**Core Logic:**
+1. Initializes a queue-node label mapping from a `CapacitySchedulerConfiguration` object.
+2. Provides default behavior for queues without explicitly set labels (returns an "empty label").
+3. Aggregates node labels across all queues.
+
+**Inputs/Outputs:**
+* **Inputs:**
+	+ `CapacitySchedulerConfiguration` object (optional, for initialization)
+	+ Queue path (`String`)
+	+ Node labels (`Collection<String>`) for setting
+* **Outputs:**
+	+ Configured node labels for a specific queue (`Set<String>`)
+	+ All aggregated node labels across queues (`Set<String>`)
+* **State Changes:**
+	+ Queue-node label mappings can be updated using `setLabelsByQueue`
+
+**Dependencies:**
+* `CapacitySchedulerConfiguration` (Hadoop YARN API)
+* `RMNodeLabelsManager` (Hadoop YARN API, for constants)
+* `com.google.common.collect.ImmutableSet` (Guava library, for immutable collections)
+* Java Standard Library (e.g., `java.util` for collections and streaming)

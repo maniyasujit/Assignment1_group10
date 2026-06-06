@@ -1,0 +1,18 @@
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Manages a parent queue in a capacity-based scheduler for Apache Hadoop YARN, enabling dynamic addition of child queues (parent or leaf).
+* **Core Logic**: `addDynamicChildQueue` method handles adding new child queues, ensuring:
+	1. Queue non-existence (warning if exists)
+	2. Adherence to max child queue limits
+	3. Compatibility with weight-based capacity or legacy queue mode
+	4. Updates to cluster resources and queue configurations
+* **Inputs/Outputs**:
+	+ Inputs: `queuePath`, `isLeaf` (indicating queue type), `queueContext`
+	+ Outputs: Newly created `CSQueue` object (either `ParentQueue` or `LeafQueue`)
+	+ State Changes: Updates to `childQueues`, `lastSubmittedTimeStamp`, and cluster resources
+	+ Side Effects: Logging warnings/errors, potential exceptions (e.g., `SchedulerDynamicEditException`)
+* **Dependencies**:
+	+ Classes: `AbstractParentQueue`, `CSQueue`, `CapacitySchedulerQueueContext`, `ResourceLimits`
+	+ Interfaces/Libraries: `org.slf4j` (logging), Apache Hadoop YARN APIs (`org.apache.hadoop.yarn.server.resourcemanager.scheduler`)

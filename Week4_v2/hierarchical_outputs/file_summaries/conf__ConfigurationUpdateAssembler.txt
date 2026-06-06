@@ -1,0 +1,33 @@
+Here is a concise file-level semantic summary:
+
+**Key Functionality:** 
+This Java class, `ConfigurationUpdateAssembler`, generates configuration updates for the Capacity Scheduler in Apache Hadoop YARN, based on provided scheduling configuration changes (add, remove, update queues, and global parameters).
+
+**Core Logic:**
+The main algorithm iterates through scheduling configuration changes, applying each to a proposed configuration:
+1. Remove queues: Validate, update sibling queues, and remove queue-specific configurations.
+2. Add queues: Validate, add to sibling queues, and set queue configurations.
+3. Update queues: Update queue-specific configurations.
+4. Apply global parameter changes.
+
+**Inputs/Outputs:**
+* **Inputs:**
+	+ `CapacitySchedulerConfiguration` (proposed configuration)
+	+ `SchedConfUpdateInfo` (configuration change metadata)
+* **Outputs:**
+	+ `Map<String, String>` (configuration updates, where keys are configuration properties and values are new property values or `null` for unsets)
+* **State Changes:**
+	+ Modifications to the proposed `CapacitySchedulerConfiguration` object
+* **Side Effects:**
+	+ None explicit, but the returned configuration updates are likely applied to the actual scheduler configuration.
+
+**Dependencies:**
+* **Classes/Interfaces:**
+	+ `CapacitySchedulerConfiguration`
+	+ `SchedConfUpdateInfo`
+	+ `QueueConfigInfo`
+	+ `QueuePath`
+	+ `QueuePrefixes`
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ Google Guava (for `Joiner`)

@@ -1,0 +1,35 @@
+**Title:**
+YARN Capacity Scheduler Cluster: Resource Management and Queue Administration
+
+**Description:**
+This architectural cluster, built on Apache Hadoop YARN, manages resource allocation and queue administration for efficient job scheduling. **Main Components:**
+
+1. **Capacity Scheduler (CS):** Core scheduler for resource allocation and queue management.
+2. **Queue Hierarchy:** Hierarchical structure of parent and leaf queues for organized resource allocation.
+3. **Resource Calculators:** Various calculators (Absolute, Percentage, Weight) for determining queue capacities.
+4. **Preemption Manager:** Handles container preemption for resource reallocation.
+
+**Component Interactions:**
+
+* The CS interacts with the queue hierarchy to allocate resources based on queue capacities calculated by resource calculators.
+* The Preemption Manager works with the CS and queue hierarchy to preempt containers for resource rebalancing.
+
+**Quality Attributes:**
+
+* **Maintainability:** Modular design with clear component responsibilities facilitates updates and debugging.
+* **Scalability:** Hierarchical queue structure and dynamic resource allocation support growing workloads.
+* **Reliability:** Redundancy in resource calculation and preemption ensures consistent resource availability.
+* **Configurability:** Extensive configuration options for queues, resources, and preemption policies.
+* **Performance:** Optimized resource allocation and preemption minimize idle resources and maximize throughput.
+* **Security:** Integration with YARN's security features ensures authenticated and authorized access to resources.
+
+**Technologies, Frameworks, Languages, or Libraries:**
+
+* **Apache Hadoop YARN**
+* **Apache Commons**
+* **SLF4J (for logging)**
+* **Java Standard Library**
+* **Jackson (for JSON processing in LegacyMappingRuleToJson)**
+
+**Architectural Role of the Cluster:**
+This cluster serves as the central resource management and job scheduling system for a Hadoop ecosystem, ensuring efficient utilization of cluster resources across various applications and users.

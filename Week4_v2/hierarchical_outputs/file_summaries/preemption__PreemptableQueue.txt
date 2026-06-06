@@ -1,0 +1,17 @@
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Manages preemptable resources and containers for a queue in a YARN (Yet Another Resource Negotiator) capacity scheduler, enabling hierarchical resource preemption.
+* **Core Logic**: 
+	+ Tracks killable resources and containers by partition.
+	+ Propagates container additions/removals to parent queue (if exists), maintaining a hierarchical structure.
+	+ Updates resource allocations accordingly.
+* **Inputs/Outputs**:
+	+ **Inputs**: `KillableContainer` objects for addition/removal, partition names for resource queries.
+	+ **Outputs**: Killable resources by partition, killable containers by partition.
+	+ **State Changes**: Updates to `totalKillableResources` and `killableContainers` maps.
+	+ **Side Effects**: None explicit, but potentially influences YARN scheduler decisions.
+* **Dependencies**:
+	+ **Classes/Interfaces**: `KillableContainer`, `RMContainer`, `ContainerId`, `Resource` (from YARN API).
+	+ **Libraries/Frameworks**: Apache Hadoop YARN, Java Util (ConcurrentSkipListMap, HashMap).

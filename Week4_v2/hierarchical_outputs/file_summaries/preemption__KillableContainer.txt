@@ -1,0 +1,13 @@
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Represents a container that can be killed (preempted) in the context of YARN Resource Manager's Capacity Scheduler, encapsulating relevant metadata.
+* **Core Logic**: None (primarily a data holder class with simple getters; no complex algorithms or control flows).
+* **Inputs/Outputs**:
+	+ **Inputs**: `RMContainer`, `partition`, and `leafQueueName` (via constructor).
+	+ **Outputs**: Container metadata via getter methods (`getRMContainer`, `getNodePartition`, `getLeafQueueName`).
+	+ **State Changes/Side Effects**: None (read-only accessors).
+* **Dependencies**:
+	+ **Classes**: `org.apache.hadoop.yarn.server.resourcemanager.rmcontainer.RMContainer`
+	+ **Frameworks/Libraries**: Apache Hadoop YARN (specifically, Resource Manager APIs)

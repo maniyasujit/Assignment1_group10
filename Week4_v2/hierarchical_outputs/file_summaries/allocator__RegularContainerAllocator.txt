@@ -1,0 +1,42 @@
+Here is a concise file-level semantic summary of the provided Java source file:
+
+**Key Functionality:**
+This Java class, `RegularContainerAllocator`, is responsible for allocating containers to applications in a YARN (Yet Another Resource Negotiator) cluster, considering factors like locality, label, and resource availability. It implements a delayed scheduling mechanism to improve locality allocation.
+
+**Core Logic:**
+
+1. **Pre-checks**: Verify if a pending resource request can be allocated to a given node or set of nodes, considering exclusivity, pending resources, node partitions, headroom, and placement constraints.
+2. **Locality-based Allocation**: Attempt to allocate containers in order of locality preference (Node Local, Rack Local, Off-Switch) while respecting scheduling opportunities and delays.
+3. **Resource Management**: Handle container allocation, reservation, and deallocation, ensuring resource limits and availability are respected.
+
+**Inputs/Outputs:**
+
+* **Inputs**:
+	+ `Resource` cluster resource
+	+ `CandidateNodeSet` of `FiCaSchedulerNode` objects
+	+ `SchedulingMode` (e.g., IGNORE_PARTITION_EXCLUSIVITY)
+	+ `ResourceLimits` object
+	+ `SchedulerRequestKey` object
+	+ Optional `RMContainer` (reserved container)
+* **Outputs**:
+	+ `ContainerAllocation` object (representing allocation result)
+	+ `CSAssignment` object (container assignment result)
+	+ Side effects: updates to application scheduling opportunities, node reservations, and container allocations
+
+**Dependencies:**
+
+* **Classes/Interfaces**:
+	+ `FiCaSchedulerApp`
+	+ `ResourceCalculator`
+	+ `RMContext`
+	+ `ActivitiesManager`
+	+ `AppPlacementAllocator`
+	+ `CapacityScheduler` (optional)
+* **Libraries/Frameworks**:
+	+ Apache Hadoop YARN
+	+ Apache Commons Lang
+	+ SLF4J (logging)
+* **Hadoop/YARN APIs**:
+	+ `ResourceScheduler`
+	+ `SchedulerNode`
+	+ `RMContainer`

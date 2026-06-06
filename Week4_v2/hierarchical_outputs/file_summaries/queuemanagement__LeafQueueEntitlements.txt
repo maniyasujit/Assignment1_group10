@@ -1,0 +1,16 @@
+Here is a concise file-level semantic summary:
+
+**Summary for `LeafQueueEntitlements.java`**
+
+1. **Key Functionality**: Manages capacity entitlements for auto-created leaf queues in a YARN Resource Manager, providing access to queue capacities.
+2. **Core Logic**: 
+	* Lazily initializes queue capacities on demand (when a queue path is first accessed).
+	* Stores and retrieves queue capacities using a `Map` (queue path → `QueueCapacities`).
+3. **Inputs/Outputs**:
+	* **Inputs**: `AutoCreatedLeafQueue` objects or leaf queue paths (strings).
+	* **Outputs**: `QueueCapacities` objects for given queues, or a `Map` of all entitlements.
+	* **State Changes**: Entitlements map is updated when a new queue path is encountered.
+	* **Side Effects**: None explicit, aside from internal state updates.
+4. **Dependencies**:
+	* **Classes**: `AutoCreatedLeafQueue`, `QueueCapacities`, `QueueManagementChange` (all from `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity` package).
+	* **Libraries/Frameworks**: Java Standard Library (util, function), Apache Hadoop YARN (Resource Manager, Scheduler).

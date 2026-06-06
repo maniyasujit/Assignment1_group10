@@ -1,0 +1,384 @@
+Algorithm: ACDC
+Cluster ID: ACDC_04
+Original cluster ID: org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.queuemanagement.ss
+Files:
+- AbstractAutoCreatedLeafQueue.java
+- AutoCreatedLeafQueue.java
+- AutoCreatedLeafQueueConfig.java
+- AutoCreatedQueueManagementPolicy.java
+- CSQueueUtils.java
+- ConfiguredNodeLabels.java
+- ManagedParentQueue.java
+- QueueManagementChange.java
+- QueuePrefixes.java
+- queuemanagement/DeactivatedLeafQueuesByLabel.java
+- queuemanagement/GuaranteedOrZeroCapacityOverTimePolicy.java
+- queuemanagement/LeafQueueEntitlements.java
+
+File-level summaries:
+
+===== FILE SUMMARY: AbstractAutoCreatedLeafQueue.java =====
+Here is a concise file-level semantic summary:
+
+**Summary for `AbstractAutoCreatedLeafQueue.java`**
+
+1. **Key Functionality**: Manages dynamic auto-created leaf queues in a YARN Capacity Scheduler, handling queue capacity adjustments and entitlements.
+2. **Core Logic**:
+	* `setEntitlement()` methods update queue capacity, absolute capacity, and maximum capacity, ensuring capacity values are within valid ranges (0 to 1.0).
+	* Overridden methods (`getMinimum/MaximumAbsoluteResource`, `checkConfigTypeIsAbsoluteResource`) delegate to parent class with modified configuration prefix for auto-created queues.
+3. **Inputs/Outputs**:
+	* **Inputs**:
+		+ `QueueEntitlement` objects (capacity, maxCapacity, etc.)
+		+ `nodeLabel` (optional)
+	* **Outputs**:
+		+ Updated queue capacities (absolute, maximum, and configured minimum/maximum vectors)
+		+ Updated queue statistics (used capacity, etc.)
+	* **State Changes**:
+		+ Queue capacity and entitlement settings
+		+ Queue statistics
+	* **Side Effects**:
+		+ Logging (debug level) for capacity changes
+4. **Dependencies**:
+	* **Classes/Interfaces**:
+		+ `AbstractManagedParentQueue`
+		+ `CapacitySchedulerQueueContext`
+		+ `QueueEntitlement`
+		+ `Resource` (from `org.apache.hadoop.yarn.api.records`)
+	* **Libraries/Frameworks**:
+		+ Apache YARN (Capacity Scheduler)
+		+ SLF4J (logging)
+	* **Hadoop/YARN APIs**:
+		+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler` package
+		+ `org.apache.hadoop.yarn.nodelabels` package (for node labels)
+
+===== FILE SUMMARY: AutoCreatedLeafQueue.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Key Functionality:**
+Manages auto-created leaf queues in a YARN (Yet Another Resource Negotiator) Capacity Scheduler, handling queue configuration, capacity updates, and validation.
+
+**Core Logic:**
+
+* Initializes and reinitializes queue configurations based on parent queues and templates
+* Updates queue capacities to zero to prevent resource overcommitment
+* Merges capacities from templates, considering absolute resource configurations and node labels
+* Validates capacity demands and queue configurations to ensure correctness
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ `CapacitySchedulerQueueContext`
+	+ `CSQueue` objects (for reinitialization)
+	+ `AutoCreatedLeafQueueConfig` templates
+	+ Node labels and resource quotas
+* **Outputs/State Changes:**
+	+ Updated queue configurations and capacities
+	+ Effective resource quotas for node labels
+	+ Exceptions (e.g., `SchedulerDynamicEditException`, `IOException`) on validation errors
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `AbstractAutoCreatedLeafQueue`
+	+ `CapacitySchedulerQueueContext`
+	+ `CSQueue`
+	+ `AutoCreatedLeafQueueConfig`
+	+ `QueueResourceQuotas`
+	+ `Resources` (from `org.apache.hadoop.yarn.util.resource`)
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ SLF4J (for logging)
+* **Hadoop/YARN APIs:**
+	+ Capacity Scheduler APIs
+	+ Resource Management APIs (e.g., `Resources`, `QueueResourceQuotas`)
+
+===== FILE SUMMARY: AutoCreatedLeafQueueConfig.java =====
+Here is a concise file-level semantic summary:
+
+**Summary for `AutoCreatedLeafQueueConfig.java`**
+
+1. **Key Functionality**: Holds configuration settings for auto-created leaf queues in a YARN (Yet Another Resource Negotiator) Capacity Scheduler, managing their capacities and resource quotas.
+2. **Core Logic**: No complex algorithms; primarily a data container with a builder pattern for constructing instances, ensuring structured configuration setup.
+3. **Inputs/Outputs**:
+	* **Inputs**: 
+		+ `QueueCapacities` (template queue capacities)
+		+ `CapacitySchedulerConfiguration` (leaf queue configs)
+		+ `QueueResourceQuotas` (resource quotas)
+	* **Outputs**:
+		+ Exposed configurations via getter methods
+		+ String representation of the config (toString())
+	* **State Changes/Side Effects**: None (read-only configuration holder)
+4. **Dependencies**:
+	* **Classes/Interfaces**:
+		+ `QueueCapacities`
+		+ `CapacitySchedulerConfiguration`
+		+ `QueueResourceQuotas` (all part of the Apache Hadoop YARN project)
+	* **Libraries/Frameworks**: Apache Hadoop YARN
+	* **Hadoop/YARN APIs**: Utilizes YARN scheduler and resource management APIs indirectly through dependent classes.
+
+===== FILE SUMMARY: AutoCreatedQueueManagementPolicy.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Defines a policy for managing auto-created queues in a YARN (Yet Another Resource Negotiator) Resource Manager, specifically handling initialization, queue configuration, and capacity adjustments.
+* **Core Logic**: 
+	+ Initializes policy with parent queue context
+	+ Generates initial configurations for auto-created leaf queues
+	+ Computes and adjusts capacities for auto-created leaf queues (without direct state updates)
+	+ Commits validated queue management changes to update queue state
+* **Inputs/Outputs**:
+	+ **Inputs**: `AbstractParentQueue`, `AbstractAutoCreatedLeafQueue`, `List<QueueManagementChange>`
+	+ **Outputs**: `AutoCreatedLeafQueueConfig`, `List<QueueManagementChange>` (suggested changes)
+	+ **State Changes**: Updates `LeafQueueState` upon successful `commitQueueManagementChanges`
+	+ **Side Effects**: May throw `IOException` or `SchedulerDynamicEditException` on failures
+* **Dependencies**:
+	+ **Classes/Interfaces**: `AbstractParentQueue`, `AbstractAutoCreatedLeafQueue`, `QueueManagementChange`, `AutoCreatedLeafQueueConfig`
+	+ **Libraries/Frameworks**: Apache Hadoop YARN
+	+ **Specific APIs**: Scheduler Dynamic Edit API (for exceptions)
+
+===== FILE SUMMARY: CSQueueUtils.java =====
+Here is a concise file-level semantic summary for the provided Java source file `CSQueueUtils`:
+
+**1. Key Functionality:**
+Utility class for Capacity Scheduler (CS) queue management in Apache Hadoop YARN, providing methods for calculating and updating queue capacities, usage, and statistics.
+
+**2. Core Logic:**
+Algorithms for:
+
+* Calculating absolute capacities and maximum capacities based on parent queue settings
+* Updating used capacity, reserved capacity, and available resources for queues and their partitions
+* Normalizing weights and capacities for legacy queue mode
+* Integrating with Resource Calculator for resource comparisons and operations
+
+**3. Inputs/Outputs:**
+**Inputs:**
+
+* Queue configurations (e.g., `QueuePath`, `QueueCapacities`, `CapacitySchedulerConfiguration`)
+* Resource information (e.g., `ResourceCalculator`, `Resource`, `cluster` resources)
+* Node labels and partitions (e.g., `String nodePartition`, `Set<String> nodeLabels`)
+
+**Outputs/State Changes:**
+
+* Updated `QueueCapacities` and `CSQueueMetrics` objects
+* Modified queue statistics (e.g., used capacity, available resources)
+* Configured capacity and maximum capacity metrics for queues
+
+**4. Dependencies:**
+* Apache Hadoop YARN APIs (e.g., `org.apache.hadoop.yarn.api.records.Resource`)
+* Apache Hadoop utilities (e.g., `org.apache.hadoop.util.Sets`)
+* Capacity Scheduler configuration and classes (e.g., `CapacitySchedulerConfiguration`, `AbstractCSQueue`)
+* Resource Calculator (e.g., `ResourceCalculator`)
+* Node Labels Manager (e.g., `RMNodeLabelsManager`)
+
+===== FILE SUMMARY: ConfiguredNodeLabels.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:** 
+Manages node labels for YARN (Yet Another Resource Negotiator) queues, extracting configurations from provided settings.
+
+**Core Logic:**
+1. Initializes a queue-node label mapping from a `CapacitySchedulerConfiguration` object.
+2. Provides default behavior for queues without explicitly set labels (returns an "empty label").
+3. Aggregates node labels across all queues.
+
+**Inputs/Outputs:**
+* **Inputs:**
+	+ `CapacitySchedulerConfiguration` object (optional, for initialization)
+	+ Queue path (`String`)
+	+ Node labels (`Collection<String>`) for setting
+* **Outputs:**
+	+ Configured node labels for a specific queue (`Set<String>`)
+	+ All aggregated node labels across queues (`Set<String>`)
+* **State Changes:**
+	+ Queue-node label mappings can be updated using `setLabelsByQueue`
+
+**Dependencies:**
+* `CapacitySchedulerConfiguration` (Hadoop YARN API)
+* `RMNodeLabelsManager` (Hadoop YARN API, for constants)
+* `com.google.common.collect.ImmutableSet` (Guava library, for immutable collections)
+* Java Standard Library (e.g., `java.util` for collections and streaming)
+
+===== FILE SUMMARY: ManagedParentQueue.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Key Functionality:**
+This file implements `ManagedParentQueue`, a type of queue in the Apache Hadoop YARN (Yet Another Resource Negotiator) resource management system. It enables auto-creation of leaf queues under a parent queue, managing their capacities and configurations.
+
+**Core Logic:**
+
+1. **Auto-Queue Creation**: Dynamically creates leaf queues under the parent queue based on predefined templates and configurations.
+2. **Capacity Management**: Computes and enforces capacity limits for the parent queue and its auto-created leaf queues, ensuring guaranteed capacities are not exceeded.
+3. **Queue Management Policy**: Applies a configurable policy (e.g., `GuaranteedOrZeroCapacityOverTimePolicy`) to manage queue capacities and updates over time.
+4. **Validation and Update**: Validates and applies changes to queue configurations and capacities, ensuring consistency and correctness.
+
+**Inputs/Outputs, State Changes, or Side Effects:**
+
+* **Inputs**:
+	+ `CapacitySchedulerQueueContext`
+	+ `QueueName`
+	+ `Parent Queue (CSQueue)`
+	+ `Old Queue (CSQueue)` (for reinitialization)
+	+ `Cluster Resource` information
+* **Outputs**:
+	+ Auto-created `LeafQueue` instances
+	+ Updated `Queue` configurations and capacities
+* **State Changes**:
+	+ Parent queue's capacity and configuration
+	+ Auto-created leaf queues' capacities and configurations
+* **Side Effects**:
+	+ Updates to the underlying YARN resource management system
+	+ Logging of significant events and errors
+
+**Dependencies:**
+
+* **Classes/Interfaces**:
+	+ `AbstractManagedParentQueue`
+	+ `CSQueue`
+	+ `AutoCreatedLeafQueue`
+	+ `CapacitySchedulerQueueContext`
+	+ `AutoCreatedQueueManagementPolicy` (e.g., `GuaranteedOrZeroCapacityOverTimePolicy`)
+* **Libraries/Frameworks**:
+	+ Apache Hadoop YARN
+	+ Apache Logging (SLF4J)
+* **Hadoop/YARN APIs**:
+	+ `org.apache.hadoop.yarn.api.records.Resource`
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler` package
+
+===== FILE SUMMARY: QueueManagementChange.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+Encapsulates changes for dynamic capacity adjustments in YARN (Yet Another Resource Negotiator) queue management, specifically for updating queue entitlements and states.
+
+**Core Logic:**
+The class manages updates through a defined `QueueAction` (currently only `UPDATE_QUEUE`) and tracks changes to queue state (`QueueState`) and template configurations (`AutoCreatedLeafQueueConfig`). The update process is facilitated through constructors and getter methods, with overridden `equals`, `hashCode`, and `toString` methods for object comparison and representation.
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ `CSQueue` object (queue to be updated)
+	+ `QueueAction` (update type)
+	+ Optional: `QueueState` (target state) and `AutoCreatedLeafQueueConfig` (template updates)
+* **Outputs:**
+	+ Updated `QueueState` (if applicable)
+	+ Access to updated `AutoCreatedLeafQueueConfig` (if provided)
+* **State Changes:**
+	+ Internal state of the `QueueManagementChange` object reflecting the intended updates
+* **Side Effects:**
+	+ None explicitly defined within this class; intended for use within a larger YARN Resource Manager context
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `CSQueue`
+	+ `QueueState`
+	+ `AutoCreatedLeafQueueConfig`
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN (for `CSQueue`, `QueueState`, and other YARN-specific types)
+* **Hadoop/YARN APIs:**
+	+ Implicit dependency on YARN Resource Manager APIs for queue management (not directly invoked within this class)
+
+===== FILE SUMMARY: QueuePrefixes.java =====
+Here is a concise file-level semantic summary:
+
+**File:** `QueuePrefixes.java`
+
+**Summary:**
+
+1. **Key Functionality:** Generates prefix strings for YARN Resource Manager's Capacity Scheduler, specifically for queue paths, node labels, and auto-created leaf queue templates.
+2. **Core Logic:**
+	* Appends predefined constants (e.g., `PREFIX`, `DOT`, `ACCESSIBLE_NODE_LABELS`) to input `QueuePath` and node label strings to form unique prefixes.
+	* Handles special case for "no label" node labels.
+3. **Inputs/Outputs:**
+	* **Inputs:** `QueuePath` objects, node label strings
+	* **Outputs:** Prefix strings for queue paths, node labels, and auto-created leaf queue templates
+	* **State Changes:** None
+	* **Side Effects:** None
+4. **Dependencies:**
+	* **Classes:** `QueuePath`, `CommonNodeLabelsManager`
+	* **Interfaces/Libraries:** None
+	* **Frameworks/Hadoop/YARN APIs:** YARN Resource Manager's Capacity Scheduler ( implicit, via package and imports)
+
+===== FILE SUMMARY: queuemanagement/DeactivatedLeafQueuesByLabel.java =====
+Here is a concise file-level semantic summary:
+
+**Summary for `DeactivatedLeafQueuesByLabel.java`**
+
+1. **Key Functionality**: Manages deactivated leaf queues by node label in a YARN (Yet Another Resource Negotiator) capacity scheduler, tracking capacities and determining activation eligibility.
+2. **Core Logic**:
+	* Calculates total deactivated capacity by summing absolute capacities of deactivated leaf queues.
+	* Determines available capacity based on parent queue capacity, activated child queues, and deactivated capacity.
+	* Evaluates whether leaf queues can be activated based on available capacity.
+3. **Inputs/Outputs**:
+	* **Inputs**:
+		+ `deactivatedLeafQueues` (map of queue names to capacities)
+		+ `parentQueuePath`, `nodeLabel`, `sumOfChildQueueActivatedCapacity`, `parentAbsoluteCapacity`, `leafQueueTemplateAbsoluteCapacity` (constructor parameters)
+	* **Outputs**:
+		+ `availableCapacity` (calculated)
+		+ `totalDeactivatedCapacity` (calculated)
+		+ Eligibility for leaf queue activation (boolean)
+		+ Debug logging (optional)
+	* **State Changes**:
+		+ Updates `availableCapacity` and `leafQueueTemplateAbsoluteCapacity` (for testing)
+4. **Dependencies**:
+	* `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.QueueCapacities`
+	* `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CSQueueUtils` (for `EPSILON` constant)
+	* `org.slf4j.Logger` (for debug logging)
+	* Apache Hadoop YARN APIs (implicitly, as part of the `org.apache.hadoop` package)
+
+===== FILE SUMMARY: queuemanagement/GuaranteedOrZeroCapacityOverTimePolicy.java =====
+Here is a concise file-level semantic summary of the provided Java source file:
+
+**Key Functionality:**
+This Java class, `GuaranteedOrZeroCapacityOverTimePolicy`, implements a capacity management policy for auto-created leaf queues in a YARN (Yet Another Resource Negotiator) resource manager. It dynamically assigns capacities to leaf queues based on application submission order, ensuring guaranteed capacity when available or zero capacity when idle.
+
+**Core Logic:**
+
+1. **Queue State Management**: Maintains a state of leaf queues (active/inactive) and their capacities across node labels.
+2. **Capacity Computation**:
+	* Deactivates idle leaf queues (no pending/running apps) by setting their capacities to zero.
+	* Activates new leaf queues based on application submission order, assigning guaranteed capacities when available.
+3. **State Updates**: Commits computed capacity changes to leaf queues and updates the internal state.
+
+**Inputs/Outputs:**
+
+* **Inputs**:
+	+ `AbstractParentQueue` instance (initialized in `init()` method)
+	+ Application submission events (implicit, driving the capacity computations)
+* **Outputs**:
+	+ `List<QueueManagementChange>` (computed capacity changes for leaf queues)
+	+ Updated leaf queue configurations (committed in `commitQueueManagementChanges()` method)
+	+ Logging information (debug, info, error)
+
+**Dependencies:**
+
+* **Classes/Interfaces**:
+	+ `AbstractParentQueue`
+	+ `ManagedParentQueue`
+	+ `AutoCreatedLeafQueue`
+	+ `AutoCreatedLeafQueueConfig`
+	+ `QueueCapacities`
+	+ `FiCaSchedulerApp`
+* **Libraries/Frameworks**:
+	+ Apache Hadoop YARN
+	+ Apache Commons Logging (SLF4J)
+	+ Java Concurrency Utilities (e.g., `ReentrantReadWriteLock`)
+
+===== FILE SUMMARY: queuemanagement/LeafQueueEntitlements.java =====
+Here is a concise file-level semantic summary:
+
+**Summary for `LeafQueueEntitlements.java`**
+
+1. **Key Functionality**: Manages capacity entitlements for auto-created leaf queues in a YARN Resource Manager, providing access to queue capacities.
+2. **Core Logic**: 
+	* Lazily initializes queue capacities on demand (when a queue path is first accessed).
+	* Stores and retrieves queue capacities using a `Map` (queue path → `QueueCapacities`).
+3. **Inputs/Outputs**:
+	* **Inputs**: `AutoCreatedLeafQueue` objects or leaf queue paths (strings).
+	* **Outputs**: `QueueCapacities` objects for given queues, or a `Map` of all entitlements.
+	* **State Changes**: Entitlements map is updated when a new queue path is encountered.
+	* **Side Effects**: None explicit, aside from internal state updates.
+4. **Dependencies**:
+	* **Classes**: `AutoCreatedLeafQueue`, `QueueCapacities`, `QueueManagementChange` (all from `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity` package).
+	* **Libraries/Frameworks**: Java Standard Library (util, function), Apache Hadoop YARN (Resource Manager, Scheduler).

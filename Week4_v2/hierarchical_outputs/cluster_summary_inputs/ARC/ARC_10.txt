@@ -1,0 +1,170 @@
+Algorithm: ARC
+Cluster ID: ARC_10
+Original cluster ID: cluster_9
+Files:
+- CSQueueUtils.java
+- ConfiguredNodeLabels.java
+- QueueCapacities.java
+- QueueNodeLabelsSettings.java
+- queuemanagement/DeactivatedLeafQueuesByLabel.java
+
+File-level summaries:
+
+===== FILE SUMMARY: CSQueueUtils.java =====
+Here is a concise file-level semantic summary for the provided Java source file `CSQueueUtils`:
+
+**1. Key Functionality:**
+Utility class for Capacity Scheduler (CS) queue management in Apache Hadoop YARN, providing methods for calculating and updating queue capacities, usage, and statistics.
+
+**2. Core Logic:**
+Algorithms for:
+
+* Calculating absolute capacities and maximum capacities based on parent queue settings
+* Updating used capacity, reserved capacity, and available resources for queues and their partitions
+* Normalizing weights and capacities for legacy queue mode
+* Integrating with Resource Calculator for resource comparisons and operations
+
+**3. Inputs/Outputs:**
+**Inputs:**
+
+* Queue configurations (e.g., `QueuePath`, `QueueCapacities`, `CapacitySchedulerConfiguration`)
+* Resource information (e.g., `ResourceCalculator`, `Resource`, `cluster` resources)
+* Node labels and partitions (e.g., `String nodePartition`, `Set<String> nodeLabels`)
+
+**Outputs/State Changes:**
+
+* Updated `QueueCapacities` and `CSQueueMetrics` objects
+* Modified queue statistics (e.g., used capacity, available resources)
+* Configured capacity and maximum capacity metrics for queues
+
+**4. Dependencies:**
+* Apache Hadoop YARN APIs (e.g., `org.apache.hadoop.yarn.api.records.Resource`)
+* Apache Hadoop utilities (e.g., `org.apache.hadoop.util.Sets`)
+* Capacity Scheduler configuration and classes (e.g., `CapacitySchedulerConfiguration`, `AbstractCSQueue`)
+* Resource Calculator (e.g., `ResourceCalculator`)
+* Node Labels Manager (e.g., `RMNodeLabelsManager`)
+
+===== FILE SUMMARY: ConfiguredNodeLabels.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:** 
+Manages node labels for YARN (Yet Another Resource Negotiator) queues, extracting configurations from provided settings.
+
+**Core Logic:**
+1. Initializes a queue-node label mapping from a `CapacitySchedulerConfiguration` object.
+2. Provides default behavior for queues without explicitly set labels (returns an "empty label").
+3. Aggregates node labels across all queues.
+
+**Inputs/Outputs:**
+* **Inputs:**
+	+ `CapacitySchedulerConfiguration` object (optional, for initialization)
+	+ Queue path (`String`)
+	+ Node labels (`Collection<String>`) for setting
+* **Outputs:**
+	+ Configured node labels for a specific queue (`Set<String>`)
+	+ All aggregated node labels across queues (`Set<String>`)
+* **State Changes:**
+	+ Queue-node label mappings can be updated using `setLabelsByQueue`
+
+**Dependencies:**
+* `CapacitySchedulerConfiguration` (Hadoop YARN API)
+* `RMNodeLabelsManager` (Hadoop YARN API, for constants)
+* `com.google.common.collect.ImmutableSet` (Guava library, for immutable collections)
+* Java Standard Library (e.g., `java.util` for collections and streaming)
+
+===== FILE SUMMARY: QueueCapacities.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Key Functionality:**
+Management of queue capacities in a resource management system (specifically, Apache Hadoop YARN), storing and providing access to various capacity types (e.g., used, maximum, reserved, weight) for different node labels.
+
+**Core Logic:**
+
+* Utilizes a `Map` (backed by a `HashMap`) to store capacity values for each node label, with an inner `Capacities` class encapsulating multiple capacity types as a float array.
+* Employs a `ReentrantReadWriteLock` for thread-safe read and write operations on the capacity map.
+* Provides getter and setter methods for various capacity types, with some methods handling special cases (e.g., default values for non-existent labels or the root queue).
+
+**Inputs/Outputs:**
+
+* **Inputs:** Node labels (strings), capacity values (floats)
+* **Outputs:** Capacity values (floats) for specified node labels and capacity types
+* **State Changes:** Updates to the internal capacity map through setter methods
+* **Side Effects:** None explicit, but may impact resource allocation decisions in the broader YARN system
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `java.util` classes (e.g., `HashMap`, `HashSet`, `ReentrantReadWriteLock`)
+	+ `org.apache.commons.lang3.StringUtils`
+	+ `org.apache.hadoop.yarn` classes (e.g., `CommonNodeLabelsManager`, `RMNodeLabelsManager`)
+* **Libraries/Frameworks:** Apache Commons Lang, Apache Hadoop YARN
+* **Hadoop/YARN APIs:** Implicitly depends on YARN's resource management and node labeling APIs, although no direct API calls are shown in this file.
+
+===== FILE SUMMARY: QueueNodeLabelsSettings.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Key Functionality:**
+Determines and manages node label settings for a queue in a YARN (Yet Another Resource Negotiator) Capacity Scheduler, ensuring accessibility and configuration consistency.
+
+**Core Logic:**
+
+* Initializes node label settings (accessible, configured, and default expression) based on `CapacitySchedulerConfiguration` and queue properties.
+* Applies inheritance from parent queues when settings are not explicitly defined.
+* Validates that a queue's accessible labels are a subset of its parent's, unless the parent allows access to all labels (`*`).
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ `CapacitySchedulerConfiguration` object
+	+ `CSQueue` parent queue
+	+ `QueuePath` for the current queue
+	+ `ConfiguredNodeLabels` (optional)
+* **Outputs:**
+	+ `accessibleLabels` (Set of String)
+	+ `configuredNodeLabels` (Set of String)
+	+ `defaultLabelExpression` (String)
+	+ Validation exceptions (IOException) if label settings are inconsistent
+* **State Changes:**
+	+ Populates queue's node label settings
+* **Side Effects:**
+	+ Throws IOException if validation fails
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `CapacitySchedulerConfiguration`
+	+ `CSQueue`
+	+ `QueuePath`
+	+ `ConfiguredNodeLabels`
+	+ `RMNodeLabelsManager`
+* **Libraries/Frameworks:**
+	+ Apache Commons Lang (for `StringUtils`)
+	+ Apache Hadoop YARN (for Capacity Scheduler and node label management)
+	+ Java Standard Library (for `Sets`, `IOException`, etc.)
+
+===== FILE SUMMARY: queuemanagement/DeactivatedLeafQueuesByLabel.java =====
+Here is a concise file-level semantic summary:
+
+**Summary for `DeactivatedLeafQueuesByLabel.java`**
+
+1. **Key Functionality**: Manages deactivated leaf queues by node label in a YARN (Yet Another Resource Negotiator) capacity scheduler, tracking capacities and determining activation eligibility.
+2. **Core Logic**:
+	* Calculates total deactivated capacity by summing absolute capacities of deactivated leaf queues.
+	* Determines available capacity based on parent queue capacity, activated child queues, and deactivated capacity.
+	* Evaluates whether leaf queues can be activated based on available capacity.
+3. **Inputs/Outputs**:
+	* **Inputs**:
+		+ `deactivatedLeafQueues` (map of queue names to capacities)
+		+ `parentQueuePath`, `nodeLabel`, `sumOfChildQueueActivatedCapacity`, `parentAbsoluteCapacity`, `leafQueueTemplateAbsoluteCapacity` (constructor parameters)
+	* **Outputs**:
+		+ `availableCapacity` (calculated)
+		+ `totalDeactivatedCapacity` (calculated)
+		+ Eligibility for leaf queue activation (boolean)
+		+ Debug logging (optional)
+	* **State Changes**:
+		+ Updates `availableCapacity` and `leafQueueTemplateAbsoluteCapacity` (for testing)
+4. **Dependencies**:
+	* `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.QueueCapacities`
+	* `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CSQueueUtils` (for `EPSILON` constant)
+	* `org.slf4j.Logger` (for debug logging)
+	* Apache Hadoop YARN APIs (implicitly, as part of the `org.apache.hadoop` package)

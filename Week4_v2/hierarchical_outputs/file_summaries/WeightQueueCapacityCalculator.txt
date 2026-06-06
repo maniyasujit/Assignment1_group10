@@ -1,0 +1,22 @@
+Here is a concise file-level semantic summary:
+
+**Summary for `WeightQueueCapacityCalculator.java`**
+
+1. **Key Functionality**: Calculates resource capacities for YARN queues based on weighted capacity allocation.
+2. **Core Logic**:
+	* Precalculates summary of children's weights for resource prerequisites.
+	* Calculates minimum resource capacity using normalized weights, remaining resources, and parent capacity ratios.
+	* Updates queue capacities after calculation based on sum of weighted resource capacities.
+	* **Note**: Maximum resource capacity calculation is not supported for WEIGHT capacity type.
+3. **Inputs/Outputs**:
+	* **Inputs**:
+		+ `ResourceCalculationDriver` (provides queue hierarchy and resource data)
+		+ `CalculationContext` (provides context for resource calculations)
+		+ `CSQueue` and `String label` (queue and label for capacity updates)
+	* **Outputs/State Changes**:
+		+ Updated queue capacities (normalized weight, absolute capacities)
+		+ Incremented weight summaries in `ResourceCalculationDriver`
+4. **Dependencies**:
+	* `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity` package (YARN capacity scheduler)
+	* `AbstractQueueCapacityCalculator` (parent class)
+	* `QueueCapacityVector.ResourceUnitCapacityType` (enum for capacity types, specifically WEIGHT)

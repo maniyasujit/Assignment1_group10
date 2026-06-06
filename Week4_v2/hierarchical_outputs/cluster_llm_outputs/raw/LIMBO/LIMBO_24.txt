@@ -1,0 +1,20 @@
+Here is the synthesized architectural cluster-level result:
+
+**Title:**
+Resource Rounding Strategy for YARN Capacity Scheduler
+
+**Description:**
+This architectural cluster, part of the LIMBO algorithm (Cluster ID: LIMBO_24), defines a pluggable rounding strategy for resource allocation in Apache Hadoop YARN's Capacity Scheduler. 
+**Main Components:** 
+1. `QueueResourceRoundingStrategy` interface (defining the rounding contract)
+**Interactions:** 
+Implementing classes will provide rounding logic, interacting with YARN's Capacity Scheduler through the `QueueCapacityVectorEntry` dependency.
+**Quality Attributes:**
+- **Configurability**: High (allows for various rounding strategy implementations)
+- **Maintainability**: High (interface-based design facilitates easy swapping of implementations)
+- **Scalability/Reliability/Performance/Security**: Inherited from underlying YARN framework
+**Technologies/Languages/Libraries:**
+- Java
+- Apache Hadoop YARN (Resource Manager, Capacity Scheduler)
+**Architectural Role:**
+This cluster enables flexible, whole-number resource value rounding within YARN's Capacity Scheduler, supporting efficient resource management in distributed computing environments.

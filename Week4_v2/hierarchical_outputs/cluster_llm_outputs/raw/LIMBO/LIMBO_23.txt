@@ -1,0 +1,25 @@
+Here is the synthesized architectural cluster-level result:
+
+**Title:**
+Resource Update Context for YARN Resource Manager (LIMBO_23)
+
+**Description:**
+This architectural cluster, LIMBO_23, serves as a **Resource Update Context** for Apache Hadoop YARN Resource Managers. **Main Components:** 
+1. **QueueCapacityUpdateContext** (primary class, managing intermediate calculations)
+2. **External Dependencies:** 
+   - **RMNodeLabelsManager** (for label-based resource filtering)
+   - **YARN API** (utilizing **Resource** class)
+
+**Interactions:** QueueCapacityUpdateContext receives updated cluster resources and interacts with RMNodeLabelsManager to produce label-filtered resources and collect queue update warnings.
+
+**Quality Attributes:**
+- **Maintainability:** Encapsulated core logic and explicit input/output definitions facilitate ease of maintenance.
+- **Scalability:** Leveraging YARN's distributed processing capabilities implicitly supports scalability.
+- **Reliability:** Warning collection mechanism enhances reliability by tracking potential issues.
+
+**Technologies/Libraries:**
+- **Programming Language:** Java
+- **Frameworks/Libraries:** Apache Hadoop YARN (under Apache License)
+
+**Architectural Role:**
+This cluster plays a supporting role in the broader YARN Resource Management architecture, specifically enhancing the efficiency and reliability of queue capacity updates.

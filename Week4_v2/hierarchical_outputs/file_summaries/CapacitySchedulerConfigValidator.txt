@@ -1,0 +1,37 @@
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+This Java file, `CapacitySchedulerConfigValidator`, provides static methods for validating configuration changes in a YARN (Yet Another Resource Negotiator) Capacity Scheduler environment, ensuring consistency and correctness of scheduler settings.
+
+**Core Logic:**
+
+1. **Configuration Validation**: Validates new configuration against the old one, reinitializing a temporary `CapacityScheduler` instance to check for compatibility.
+2. **Queue Hierarchy Validation**: Verifies that queue changes (additions, deletions, conversions) are allowed based on their current state (e.g., stopped queues can be deleted).
+3. **Resource Allocation Validation**: Checks that memory and vCore allocations are within configured minimum and maximum bounds.
+4. **Placement Rule Validation**: Ensures uniqueness of placement rule strings.
+
+**Inputs/Outputs:**
+
+* **Inputs**:
+	+ `Configuration` objects (old and new)
+	+ `RMContext`
+	+ `CSQueueStore` objects (existing and new queues)
+	+ Collection of placement rule strings
+* **Outputs**:
+	+ Validation success (no exceptions) or failure (exceptions with descriptive error messages)
+	+ Side effects: Logging of validation results and warnings
+
+**Dependencies:**
+
+* **Classes/Interfaces**:
+	+ `CapacityScheduler`
+	+ `RMContext`
+	+ `CSQueueStore`
+	+ `CSQueue`
+	+ `QueueMetrics`
+* **Libraries/Frameworks**:
+	+ Apache Hadoop YARN
+	+ Apache Log4j (SLF4J API)
+* **Hadoop/YARN APIs**:
+	+ `YarnConfiguration`
+	+ `QueueState`

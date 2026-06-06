@@ -1,0 +1,26 @@
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Key Functionality:**
+Management of queue capacities in a resource management system (specifically, Apache Hadoop YARN), storing and providing access to various capacity types (e.g., used, maximum, reserved, weight) for different node labels.
+
+**Core Logic:**
+
+* Utilizes a `Map` (backed by a `HashMap`) to store capacity values for each node label, with an inner `Capacities` class encapsulating multiple capacity types as a float array.
+* Employs a `ReentrantReadWriteLock` for thread-safe read and write operations on the capacity map.
+* Provides getter and setter methods for various capacity types, with some methods handling special cases (e.g., default values for non-existent labels or the root queue).
+
+**Inputs/Outputs:**
+
+* **Inputs:** Node labels (strings), capacity values (floats)
+* **Outputs:** Capacity values (floats) for specified node labels and capacity types
+* **State Changes:** Updates to the internal capacity map through setter methods
+* **Side Effects:** None explicit, but may impact resource allocation decisions in the broader YARN system
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `java.util` classes (e.g., `HashMap`, `HashSet`, `ReentrantReadWriteLock`)
+	+ `org.apache.commons.lang3.StringUtils`
+	+ `org.apache.hadoop.yarn` classes (e.g., `CommonNodeLabelsManager`, `RMNodeLabelsManager`)
+* **Libraries/Frameworks:** Apache Commons Lang, Apache Hadoop YARN
+* **Hadoop/YARN APIs:** Implicitly depends on YARN's resource management and node labeling APIs, although no direct API calls are shown in this file.

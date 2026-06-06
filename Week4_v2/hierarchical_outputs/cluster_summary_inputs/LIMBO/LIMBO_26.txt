@@ -1,0 +1,28 @@
+Algorithm: LIMBO
+Cluster ID: LIMBO_26
+Original cluster ID: 40
+Files:
+- QueuePrefixes.java
+
+File-level summaries:
+
+===== FILE SUMMARY: QueuePrefixes.java =====
+Here is a concise file-level semantic summary:
+
+**File:** `QueuePrefixes.java`
+
+**Summary:**
+
+1. **Key Functionality:** Generates prefix strings for YARN Resource Manager's Capacity Scheduler, specifically for queue paths, node labels, and auto-created leaf queue templates.
+2. **Core Logic:**
+	* Appends predefined constants (e.g., `PREFIX`, `DOT`, `ACCESSIBLE_NODE_LABELS`) to input `QueuePath` and node label strings to form unique prefixes.
+	* Handles special case for "no label" node labels.
+3. **Inputs/Outputs:**
+	* **Inputs:** `QueuePath` objects, node label strings
+	* **Outputs:** Prefix strings for queue paths, node labels, and auto-created leaf queue templates
+	* **State Changes:** None
+	* **Side Effects:** None
+4. **Dependencies:**
+	* **Classes:** `QueuePath`, `CommonNodeLabelsManager`
+	* **Interfaces/Libraries:** None
+	* **Frameworks/Hadoop/YARN APIs:** YARN Resource Manager's Capacity Scheduler ( implicit, via package and imports)

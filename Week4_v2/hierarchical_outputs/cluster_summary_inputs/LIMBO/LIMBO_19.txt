@@ -1,0 +1,66 @@
+Algorithm: LIMBO
+Cluster ID: LIMBO_19
+Original cluster ID: 33
+Files:
+- CapacitySchedulerContext.java
+- CapacitySchedulerQueueContext.java
+
+File-level summaries:
+
+===== FILE SUMMARY: CapacitySchedulerContext.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Defines a read-only interface (`CapacitySchedulerContext`) for accessing the context and configuration of the Capacity Scheduler in Apache Hadoop YARN (Yet Another Resource Negotiator).
+* **Core Logic**: None (interface only, no implementation; provides access to various scheduler components and configurations without defining their behavior).
+* **Inputs/Outputs**:
+	+ **Inputs**: None (query-based interface)
+	+ **Outputs**:
+		- Scheduler configurations and settings
+		- Cluster and node resource information
+		- Application and queue contexts
+		- Various manager instances (e.g., Preemption, Scheduler Health, Activities)
+	+ **State Changes/Side Effects**: None (read-only interface)
+* **Dependencies**:
+	+ **Classes/Interfaces**: 
+		- `CapacitySchedulerConfiguration`
+		- `RMContext`
+		- `ResourceCalculator`
+		- `FiCaSchedulerApp`
+		- `FiCaSchedulerNode`
+		- `PreemptionManager`
+		- `SchedulerHealth`
+		- `ActivitiesManager`
+		- `CapacitySchedulerQueueManager`
+	+ **Libraries/Frameworks**: Apache Hadoop YARN, Apache License 2.0
+	+ **Hadoop/YARN APIs**: Utilizes various YARN API records (e.g., `ApplicationAttemptId`, `NodeId`, `Priority`, `Resource`)
+
+===== FILE SUMMARY: CapacitySchedulerQueueContext.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:** 
+Stores and provides access to common queue-related information, manager classes, and configuration for the CapacityScheduler in a YARN Resource Manager.
+
+**Core Logic:**
+Initialization and reinitialization of queue context based on the CapacitySchedulerContext, providing a unified access point to various manager classes and configuration settings. No complex algorithms or control flows are present, primarily focusing on encapsulation and delegation.
+
+**Inputs/Outputs:**
+* **Inputs:** `CapacitySchedulerContext` (constructor), configuration updates (`reinitialize()`, `setConfigurationEntry()`)
+* **Outputs:** 
+	+ Manager classes (e.g., `QueueManager`, `LabelManager`, `PreemptionManager`)
+	+ Configuration settings (e.g., `CapacitySchedulerConfiguration`, `minimumAllocation`)
+	+ Cluster and queue resource information (e.g., `ClusterResource`, `ClusterResourceUsage`)
+	+ Scheduler health and node/application information (delegated from `CapacitySchedulerContext`)
+
+**Dependencies:**
+* **Classes/Interfaces:**
+	+ `CapacitySchedulerContext`
+	+ `CapacitySchedulerQueueManager`
+	+ `RMNodeLabelsManager`
+	+ `PreemptionManager`
+	+ `ActivitiesManager`
+	+ `ResourceCalculator`
+	+ `CapacitySchedulerConfiguration`
+	+ `FiCaSchedulerNode` and `FiCaSchedulerApp` (from `CapacitySchedulerContext`)
+* **Libraries/Frameworks:** Apache Hadoop YARN (Resource Manager, CapacityScheduler)

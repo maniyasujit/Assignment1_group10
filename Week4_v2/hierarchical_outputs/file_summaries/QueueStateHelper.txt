@@ -1,0 +1,19 @@
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary for `QueueStateHelper.java`**
+
+1. **Key Functionality**: Manages state transitions for YARN (Yet Another Resource Negotiator) queues in a Hadoop cluster, ensuring valid state configurations and hierarchical consistency.
+2. **Core Logic**:
+	* Determines queue state based on previous state, parent queue state, and configured state.
+	* Enforces valid state transitions (RUNNING → STOPPED, STOPPED → RUNNING) with considerations for parent-child queue relationships.
+3. **Inputs/Outputs**:
+	* **Inputs**: `AbstractCSQueue` object, queue configuration, parent queue state (if applicable)
+	* **Outputs**:
+		+ Updated queue state (`QueueState`)
+		+ Side effects: `stopQueue()` or `activateQueue()` calls on the queue object
+		+ Exceptions: `IllegalArgumentException` for invalid state configurations or parent-child inconsistencies
+4. **Dependencies**:
+	* `org.apache.hadoop.yarn.api.records.QueueState`
+	* `org.apache.hadoop.yarn.exceptions.YarnException`
+	* `org.apache.hadoop.thirdparty.com.google.common.collect.ImmutableSet` (for set operations)
+	* `AbstractCSQueue` (assumed to be part of the Hadoop YARN framework, not shown in the import list)

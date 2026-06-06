@@ -1,0 +1,38 @@
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Key Functionality:**
+This file implements a queue storage system (`CSQueueStore`) for managing Capacity Scheduler queues in a Hadoop YARN Resource Manager, providing methods for adding, removing, retrieving, and checking ambiguity of queues by their full or short names.
+
+**Core Logic:**
+
+* **Queue Mapping**: Maintains three interconnected maps:
+	1. `fullNameQueues`: Maps full queue paths to `CSQueue` objects (single source of truth).
+	2. `shortNameToLongNames`: Maps short queue names to sets of corresponding full queue paths (for ambiguity resolution).
+	3. `getMap`: Caches queue lookups by both full and short names for efficiency.
+* **Concurrency Control**: Utilizes a `ReadWriteLock` to synchronize access during modifications (add/remove) and allow concurrent reads.
+* **Ambiguity Resolution**: Updates `getMap` based on short name uniqueness, ensuring unambiguous queue retrieval.
+
+**Inputs/Outputs:**
+
+* **Inputs**:
+	+ `CSQueue` objects for addition
+	+ Queue names (full or short) for retrieval, removal, or ambiguity checks
+* **Outputs**:
+	+ `CSQueue` objects for successful retrievals
+	+ Boolean ambiguity indicators
+	+ Collections of all queues
+* **State Changes**:
+	+ Queue additions and removals update internal maps
+	+ `getMap` updates reflect changes in short name ambiguity
+* **Side Effects**:
+	+ None explicitly documented, but modifications may trigger external effects through callbacks or observers not shown in this code.
+
+**Dependencies:**
+
+* **Classes/Interfaces**:
+	+ `CSQueue` (not shown in this code snippet)
+	+ `CapacitySchedulerConfiguration` (for the `ROOT` constant)
+* **Libraries/Frameworks**:
+	+ Apache Hadoop YARN
+	+ Google Guava (for `ImmutableList`, `ImmutableMap`, and other utility classes)
+	+ Java Concurrency Utilities (for `ReadWriteLock` and `ReentrantReadWriteLock`)

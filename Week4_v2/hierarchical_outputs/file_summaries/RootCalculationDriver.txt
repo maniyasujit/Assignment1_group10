@@ -1,0 +1,14 @@
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Drives resource calculations for the root queue in a YARN (Yet Another Resource Negotiator) Resource Manager, specifically handling capacity computations.
+* **Core Logic**: Iterates through node labels and capacity vectors, delegating minimum and maximum resource calculations to an `AbstractQueueCapacityCalculator` instance. Applies rounding strategies and updates queue resource quotas accordingly.
+* **Inputs/Outputs**:
+	+ **Inputs**: `CSQueue` (root queue), `QueueCapacityUpdateContext`, `AbstractQueueCapacityCalculator`, and `Collection<String>` (defined resources)
+	+ **Outputs/State Changes**:
+		- Updated `QueueResourceQuotas` with effective minimum and maximum resources for each label and resource name
+		- Potential side effects through `rootCalculator` method calls (e.g., `updateCapacitiesAfterCalculation`, `calculateResourcePrerequisites`)
+* **Dependencies**:
+	+ **Classes/Interfaces**: `ResourceCalculationDriver`, `AbstractQueueCapacityCalculator`, `CSQueue`, `QueueCapacityUpdateContext`, `QueueResourceQuotas`
+	+ **Libraries/Frameworks**: Apache Hadoop YARN ( Resource Manager, Scheduler)

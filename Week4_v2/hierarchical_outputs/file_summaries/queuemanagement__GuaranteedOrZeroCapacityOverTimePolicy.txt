@@ -1,0 +1,36 @@
+Here is a concise file-level semantic summary of the provided Java source file:
+
+**Key Functionality:**
+This Java class, `GuaranteedOrZeroCapacityOverTimePolicy`, implements a capacity management policy for auto-created leaf queues in a YARN (Yet Another Resource Negotiator) resource manager. It dynamically assigns capacities to leaf queues based on application submission order, ensuring guaranteed capacity when available or zero capacity when idle.
+
+**Core Logic:**
+
+1. **Queue State Management**: Maintains a state of leaf queues (active/inactive) and their capacities across node labels.
+2. **Capacity Computation**:
+	* Deactivates idle leaf queues (no pending/running apps) by setting their capacities to zero.
+	* Activates new leaf queues based on application submission order, assigning guaranteed capacities when available.
+3. **State Updates**: Commits computed capacity changes to leaf queues and updates the internal state.
+
+**Inputs/Outputs:**
+
+* **Inputs**:
+	+ `AbstractParentQueue` instance (initialized in `init()` method)
+	+ Application submission events (implicit, driving the capacity computations)
+* **Outputs**:
+	+ `List<QueueManagementChange>` (computed capacity changes for leaf queues)
+	+ Updated leaf queue configurations (committed in `commitQueueManagementChanges()` method)
+	+ Logging information (debug, info, error)
+
+**Dependencies:**
+
+* **Classes/Interfaces**:
+	+ `AbstractParentQueue`
+	+ `ManagedParentQueue`
+	+ `AutoCreatedLeafQueue`
+	+ `AutoCreatedLeafQueueConfig`
+	+ `QueueCapacities`
+	+ `FiCaSchedulerApp`
+* **Libraries/Frameworks**:
+	+ Apache Hadoop YARN
+	+ Apache Commons Logging (SLF4J)
+	+ Java Concurrency Utilities (e.g., `ReentrantReadWriteLock`)

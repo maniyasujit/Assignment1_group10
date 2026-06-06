@@ -1,0 +1,14 @@
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Represents a leaf queue in the YARN Resource Manager's Capacity Scheduler, handling queue setup and configuration.
+* **Core Logic**: Initializes a leaf queue with the provided context, name, parent, and optional dynamic flag, and sets up queue configurations based on cluster resources.
+* **Inputs/Outputs**:
+	+ Inputs: `CapacitySchedulerQueueContext`, `queueName`, `CSQueue` parent and old queue (if applicable), `isDynamic` flag
+	+ Outputs: None explicit (constructor), State Change: Queue configurations set up
+	+ Side Effects: Logging (via SLF4J)
+* **Dependencies**:
+	+ Classes: `AbstractLeafQueue`, `CapacitySchedulerQueueContext`, `CSQueue`
+	+ Libraries/Frameworks: Apache Hadoop YARN, SLF4J (logging)
+	+ Hadoop/YARN APIs: Capacity Scheduler APIs

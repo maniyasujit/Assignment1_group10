@@ -1,0 +1,68 @@
+Algorithm: LIMBO
+Cluster ID: LIMBO_13
+Original cluster ID: 24
+Files:
+- AutoCreatedQueueTemplate.java
+- UserWeights.java
+
+File-level summaries:
+
+===== FILE SUMMARY: AutoCreatedQueueTemplate.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+This Java class, `AutoCreatedQueueTemplate`, manages template settings for automatically created queues in a YARN (Yet Another Resource Negotiator) resource management system, specifically for the Capacity Scheduler.
+
+**Core Logic:**
+The class stores and applies template configuration properties for auto-created queues, following a precedence hierarchy (explicit > wildcard). It differentiates between common, leaf-specific, and parent-specific template properties when setting configurations for child queues.
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ `CapacitySchedulerConfiguration` object
+	+ `QueuePath` objects (for parent and child queues)
+* **Outputs:**
+	+ Populated template property maps (common, leaf-only, parent-only)
+	+ Modified `CapacitySchedulerConfiguration` object with applied template settings for child queues
+* **State Changes:**
+	+ Updates to `CapacitySchedulerConfiguration` object
+* **Side Effects:**
+	+ None explicit, but influences queue configuration in the YARN resource management system
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `CapacitySchedulerConfiguration`
+	+ `QueuePath`
+	+ `ConfigurationProperties`
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN (specifically, Capacity Scheduler)
+* **Hadoop/YARN APIs:**
+	+ Utilizes YARN configuration and queue path management APIs
+
+===== FILE SUMMARY: UserWeights.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Manages user-specific weights for resource allocation in a YARN (Yet Another Resource Negotiator) capacity scheduler.
+* **Core Logic**:
+	+ Parses configuration properties to extract user weights.
+	+ Validates user weights against defined constraints (non-negative, within a queue's user limit).
+	+ Provides weight retrieval by username with a default weight fallback.
+* **Inputs/Outputs**:
+	+ **Inputs**: 
+		- `CapacitySchedulerConfiguration`
+		- `ConfigurationProperties`
+		- `QueuePath`
+		- Username (for weight retrieval)
+	+ **Outputs**:
+		- User weight (float) for a given username
+		- **State Changes**:
+			- Validation exceptions (`IOException`) if weights are invalid
+			- Updated internal weight map via `addFrom` method
+		- **Side Effects**: None explicit beyond internal state changes
+* **Dependencies**:
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity` package (e.g., `CapacitySchedulerConfiguration`, `QueuePrefixes`)
+	+ Apache Hadoop `ConfigurationProperties`
+	+ Java Standard Library (e.g., `java.util.HashMap`, `java.util.regex.Matcher`)

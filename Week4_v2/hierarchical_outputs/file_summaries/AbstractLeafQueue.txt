@@ -1,0 +1,52 @@
+**File-Level Semantic Summary**
+
+**1. Key Functionality:**
+This Java class, `AbstractLeafQueue`, represents a leaf queue in a resource management system, specifically designed for Hadoop YARN (Yet Another Resource Negotiator). It manages application submissions, resource allocation, and deallocation for a single queue, enforcing capacity, user limits, and priority constraints.
+
+**2. Core Logic:**
+
+* **Application Management:** Handles application submission, activation, and completion, updating queue and user metrics accordingly.
+* **Resource Allocation:** Assigns containers to applications based on availability, user limits, and queue capacity, using a pluggable ordering policy.
+* **Capacity and User Limit Enforcement:** Computes and updates queue and user capacities, ensuring adherence to configured limits and weights.
+* **State Transitions:** Manages queue state (e.g., RUNNING, STOPPED, DRAINING) and application state (e.g., pending, active, completed).
+
+**3. Inputs/Outputs, State Changes, or Side Effects:**
+
+* **Inputs:**
+	+ Application submissions and updates
+	+ Resource availability changes (cluster resource updates)
+	+ Configuration updates (e.g., capacity, user limits, priorities)
+* **Outputs:**
+	+ Allocation decisions (container assignments or rejections)
+	+ Updated queue and user metrics
+	+ Logging and debugging information
+* **State Changes:**
+	+ Queue state (e.g., RUNNING → STOPPED)
+	+ Application state (e.g., PENDING → ACTIVE)
+	+ User and queue resource usage and limits
+* **Side Effects:**
+	+ Updates to parent queue and scheduler state
+	+ Notifications to preemption manager and scheduler health
+
+**4. Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `CapacitySchedulerQueueContext`
+	+ `CSQueue` (parent class)
+	+ `FiCaSchedulerApp` (application representation)
+	+ `FiCaSchedulerNode` (node representation)
+	+ `OrderingPolicy` (pluggable ordering strategy)
+	+ `UsersManager` (user management and limit enforcement)
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ Apache Commons Lang
+	+ SLF4J (logging)
+* **Hadoop/YARN APIs:**
+	+ `ApplicationAttemptId`
+	+ `ApplicationId`
+	+ `Container`
+	+ `ContainerExitStatus`
+	+ `ContainerStatus`
+	+ `Priority`
+	+ `QueueACL`
+	+ `QueueInfo`

@@ -1,0 +1,28 @@
+Here is the synthesized architectural cluster-level result:
+
+**Title:**
+YARN Configuration Management & Access Control Cluster (LIMBO_28)
+
+**Description:**
+This architectural cluster, part of the Apache Hadoop YARN ecosystem, manages configuration updates for the Capacity Scheduler while enforcing access control. **Main Components:**
+
+1. **Configuration Update Assembler**: Generates configuration updates based on scheduling changes (e.g., queue additions, removals, updates, and global parameter changes).
+2. **Queue Admin Configuration Mutation ACL Policy**: Authorizes configuration mutations by verifying user admin privileges for affected queues.
+
+**Component Interaction:**
+The Configuration Update Assembler produces updates that are subsequently validated by the Queue Admin Configuration Mutation ACL Policy, ensuring authorized changes.
+
+**Quality Attributes:**
+
+* **Security**: Enforces access control for queue configuration mutations.
+* **Maintainability**: Modular design with clear, focused responsibilities (configuration assembly and access control).
+* **Scalability**: Leverages Apache Hadoop YARN's distributed architecture.
+
+**Technologies, Frameworks, Languages, or Libraries:**
+
+* **Languages**: Java
+* **Frameworks/Libraries**: Apache Hadoop YARN, Apache Hadoop Security, Google Guava
+* **APIs**: YARN Authorization API, YARN Resource Manager (RM) API
+
+**Architectural Role:**
+This cluster plays a crucial role in the YARN ecosystem by ensuring that Capacity Scheduler configurations are both accurately updated and securely managed, adhering to administrative access controls.

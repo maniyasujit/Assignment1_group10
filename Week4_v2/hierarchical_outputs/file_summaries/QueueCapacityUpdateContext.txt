@@ -1,0 +1,14 @@
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Stores and manages intermediate calculation values for a full queue capacity update phase in a YARN Resource Manager.
+* **Core Logic**: Encapsulates cluster resource updates and warning collection, with label-based resource filtering using an external manager.
+* **Inputs/Outputs**:
+	+ Inputs: `updatedClusterResource`, `RMNodeLabelsManager` instance
+	+ Outputs: Label-filtered `Resource` objects, collected `QueueUpdateWarning` instances
+	+ State Changes: Warning collection updates
+	+ Side Effects: None explicit
+* **Dependencies**:
+	+ Classes: `Resource` (YARN API), `RMNodeLabelsManager` (YARN RM), `QueueUpdateWarning` (not shown in this code snippet)
+	+ Libraries/Frameworks: Apache Hadoop YARN, Apache License (for licensing terms)

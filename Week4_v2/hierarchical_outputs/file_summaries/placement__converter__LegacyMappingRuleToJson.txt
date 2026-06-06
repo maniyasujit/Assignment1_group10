@@ -1,0 +1,30 @@
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+This Java class, `LegacyMappingRuleToJson`, converts legacy mapping rules (for user groups and application names) from a string format to a JSON format, compatible with the Capacity Scheduler in Apache Hadoop YARN.
+
+**Core Logic:**
+
+1. Parsing legacy rules into their constituent parts (match, target, etc.)
+2. Identifying rule types (user, group, application) and applying corresponding conversion logic
+3. Creating JSON nodes for each rule, setting common fields (e.g., type, fallbackResult, create) and type-specific fields (e.g., policy, matches, customPlacement)
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ Legacy user group mapping rules (string or string collection)
+	+ Legacy application name mapping rules (string or string collection)
+* **Outputs:**
+	+ JSON string representing the converted mapping rules (or null if no rules are set)
+	+ Side effect: none (no external state changes)
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.QueuePath`
+	+ `com.fasterxml.jackson.databind.ObjectMapper` (for JSON creation)
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ Jackson (for JSON processing)
+* **Hadoop/YARN APIs:**
+	+ Capacity Scheduler (implicit, through QueuePath usage)

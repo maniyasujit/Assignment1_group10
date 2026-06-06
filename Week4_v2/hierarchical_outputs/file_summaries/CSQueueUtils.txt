@@ -1,0 +1,32 @@
+Here is a concise file-level semantic summary for the provided Java source file `CSQueueUtils`:
+
+**1. Key Functionality:**
+Utility class for Capacity Scheduler (CS) queue management in Apache Hadoop YARN, providing methods for calculating and updating queue capacities, usage, and statistics.
+
+**2. Core Logic:**
+Algorithms for:
+
+* Calculating absolute capacities and maximum capacities based on parent queue settings
+* Updating used capacity, reserved capacity, and available resources for queues and their partitions
+* Normalizing weights and capacities for legacy queue mode
+* Integrating with Resource Calculator for resource comparisons and operations
+
+**3. Inputs/Outputs:**
+**Inputs:**
+
+* Queue configurations (e.g., `QueuePath`, `QueueCapacities`, `CapacitySchedulerConfiguration`)
+* Resource information (e.g., `ResourceCalculator`, `Resource`, `cluster` resources)
+* Node labels and partitions (e.g., `String nodePartition`, `Set<String> nodeLabels`)
+
+**Outputs/State Changes:**
+
+* Updated `QueueCapacities` and `CSQueueMetrics` objects
+* Modified queue statistics (e.g., used capacity, available resources)
+* Configured capacity and maximum capacity metrics for queues
+
+**4. Dependencies:**
+* Apache Hadoop YARN APIs (e.g., `org.apache.hadoop.yarn.api.records.Resource`)
+* Apache Hadoop utilities (e.g., `org.apache.hadoop.util.Sets`)
+* Capacity Scheduler configuration and classes (e.g., `CapacitySchedulerConfiguration`, `AbstractCSQueue`)
+* Resource Calculator (e.g., `ResourceCalculator`)
+* Node Labels Manager (e.g., `RMNodeLabelsManager`)

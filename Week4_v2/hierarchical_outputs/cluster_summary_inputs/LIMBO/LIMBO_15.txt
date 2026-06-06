@@ -1,0 +1,195 @@
+Algorithm: LIMBO
+Cluster ID: LIMBO_15
+Original cluster ID: 28
+Files:
+- CSQueueInfoProvider.java
+- CSQueueUsageTracker.java
+- CSQueueUtils.java
+- QueueAllocationSettings.java
+- QueueNodeLabelsSettings.java
+- ResourceVector.java
+- UserInfo.java
+
+File-level summaries:
+
+===== FILE SUMMARY: CSQueueInfoProvider.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Provides information about a Capacity Scheduler (CS) queue in a YARN Resource Manager, transforming internal queue state into API-accessible records.
+* **Core Logic**:
+	+ Translates `AbstractCSQueue` object properties into `QueueInfo`, `QueueStatistics`, and `QueueConfigurations` records.
+	+ Iterates over node labels to generate queue configurations with capacity and resource quota settings.
+* **Inputs/Outputs**:
+	+ **Input**: `AbstractCSQueue` object
+	+ **Outputs**:
+		- `QueueInfo` record
+		- Embedded `QueueStatistics` and `QueueConfigurations` records
+	+ **State Changes**: None (read-only, informational)
+	+ **Side Effects**: None
+* **Dependencies**:
+	+ **Classes/Interfaces**:
+		- `AbstractCSQueue` (internal YARN class)
+		- `QueueInfo`, `QueueStatistics`, `QueueConfigurations` (YARN API records)
+		- `RecordFactory` (YARN factory for record instances)
+	+ **Libraries/Frameworks**:
+		- Apache Hadoop YARN (Resource Manager, Capacity Scheduler)
+		- Apache License 2.0 (governance)
+
+===== FILE SUMMARY: CSQueueUsageTracker.java =====
+Here is a concise file-level semantic summary:
+
+**Summary for `CSQueueUsageTracker.java`**
+
+1. **Key Functionality**: Tracks and manages resource usage, container counts, and submission timestamps for a Capacity Scheduler (CS) queue in a YARN Resource Manager.
+2. **Core Logic**: Synchronized increment/decrement of container counts, with additional tracking of queue resource usage, quotas, and last submission timestamp (for dynamic queues).
+3. **Inputs/Outputs**:
+	* **Inputs**: `CSQueueMetrics` (constructor), `lastSubmittedTimestamp` updates
+	* **Outputs**: Current `numContainers`, `queueUsage`, `queueResourceQuotas`, `metrics`, and `lastSubmittedTimestamp` values
+	* **State Changes**: Container count increments/decrements, last submission timestamp updates
+	* **Side Effects**: None explicit (e.g., no external system interactions)
+4. **Dependencies**:
+	* **Classes**: `CSQueueMetrics`, `ResourceUsage`, `QueueResourceQuotas` (all part of the Apache Hadoop YARN project)
+	* **Libraries/Frameworks**: Apache Hadoop YARN (specifically, Resource Manager and Capacity Scheduler components)
+	* **Hadoop/YARN APIs**: Implicit dependency on YARN Resource Manager and Capacity Scheduler APIs (not explicitly listed as imports)
+
+===== FILE SUMMARY: CSQueueUtils.java =====
+Here is a concise file-level semantic summary for the provided Java source file `CSQueueUtils`:
+
+**1. Key Functionality:**
+Utility class for Capacity Scheduler (CS) queue management in Apache Hadoop YARN, providing methods for calculating and updating queue capacities, usage, and statistics.
+
+**2. Core Logic:**
+Algorithms for:
+
+* Calculating absolute capacities and maximum capacities based on parent queue settings
+* Updating used capacity, reserved capacity, and available resources for queues and their partitions
+* Normalizing weights and capacities for legacy queue mode
+* Integrating with Resource Calculator for resource comparisons and operations
+
+**3. Inputs/Outputs:**
+**Inputs:**
+
+* Queue configurations (e.g., `QueuePath`, `QueueCapacities`, `CapacitySchedulerConfiguration`)
+* Resource information (e.g., `ResourceCalculator`, `Resource`, `cluster` resources)
+* Node labels and partitions (e.g., `String nodePartition`, `Set<String> nodeLabels`)
+
+**Outputs/State Changes:**
+
+* Updated `QueueCapacities` and `CSQueueMetrics` objects
+* Modified queue statistics (e.g., used capacity, available resources)
+* Configured capacity and maximum capacity metrics for queues
+
+**4. Dependencies:**
+* Apache Hadoop YARN APIs (e.g., `org.apache.hadoop.yarn.api.records.Resource`)
+* Apache Hadoop utilities (e.g., `org.apache.hadoop.util.Sets`)
+* Capacity Scheduler configuration and classes (e.g., `CapacitySchedulerConfiguration`, `AbstractCSQueue`)
+* Resource Calculator (e.g., `ResourceCalculator`)
+* Node Labels Manager (e.g., `RMNodeLabelsManager`)
+
+===== FILE SUMMARY: QueueAllocationSettings.java =====
+Here is a concise file-level semantic summary:
+
+**QueueAllocationSettings.java Summary**
+
+1. **Key Functionality**: Determines minimum and maximum resource allocation settings for a queue in a YARN (Yet Another Resource Negotiator) cluster based on CapacitySchedulerConfiguration and queue properties.
+2. **Core Logic**: 
+	* Initializes with a minimum allocation resource.
+	* Calculates maximum allocation by comparing queue settings with cluster settings, ensuring queue limits do not exceed cluster maximums. Handles backward compatibility for older queue settings.
+3. **Inputs/Outputs**:
+	* **Inputs**:
+		+ `minimumAllocation` Resource (constructor)
+		+ `CapacitySchedulerConfiguration`, `QueuePath`, and `CSQueue` (for `setupMaximumAllocation`)
+	* **Outputs**:
+		+ `minimumAllocation` Resource (getter)
+		+ `maximumAllocation` Resource (getter, calculated in `setupMaximumAllocation`)
+	* **State Changes**: `maximumAllocation` is set in `setupMaximumAllocation`
+	* **Side Effects**: Throws `IllegalArgumentException` if queue maximum allocation exceeds cluster settings
+4. **Dependencies**:
+	* **Classes/Interfaces**: `Resource`, `ResourceInformation`, `CapacitySchedulerConfiguration`, `QueuePath`, `CSQueue`
+	* **Libraries/Frameworks**: Apache Hadoop YARN, Apache License 2.0
+	* **Hadoop/YARN APIs**: `org.apache.hadoop.yarn.api.records`, `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity`
+
+===== FILE SUMMARY: QueueNodeLabelsSettings.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Key Functionality:**
+Determines and manages node label settings for a queue in a YARN (Yet Another Resource Negotiator) Capacity Scheduler, ensuring accessibility and configuration consistency.
+
+**Core Logic:**
+
+* Initializes node label settings (accessible, configured, and default expression) based on `CapacitySchedulerConfiguration` and queue properties.
+* Applies inheritance from parent queues when settings are not explicitly defined.
+* Validates that a queue's accessible labels are a subset of its parent's, unless the parent allows access to all labels (`*`).
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ `CapacitySchedulerConfiguration` object
+	+ `CSQueue` parent queue
+	+ `QueuePath` for the current queue
+	+ `ConfiguredNodeLabels` (optional)
+* **Outputs:**
+	+ `accessibleLabels` (Set of String)
+	+ `configuredNodeLabels` (Set of String)
+	+ `defaultLabelExpression` (String)
+	+ Validation exceptions (IOException) if label settings are inconsistent
+* **State Changes:**
+	+ Populates queue's node label settings
+* **Side Effects:**
+	+ Throws IOException if validation fails
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `CapacitySchedulerConfiguration`
+	+ `CSQueue`
+	+ `QueuePath`
+	+ `ConfiguredNodeLabels`
+	+ `RMNodeLabelsManager`
+* **Libraries/Frameworks:**
+	+ Apache Commons Lang (for `StringUtils`)
+	+ Apache Hadoop YARN (for Capacity Scheduler and node label management)
+	+ Java Standard Library (for `Sets`, `IOException`, etc.)
+
+===== FILE SUMMARY: ResourceVector.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Represents a resource allocation vector with floating-point values, grouped by resource names, facilitating arithmetic operations and iteration.
+* **Core Logic**: 
+	+ Maps resource names to double values using a `HashMap`.
+	+ Supports element-wise arithmetic operations (increment, decrement) with other `ResourceVector` instances or scalar values.
+	+ Provides factory methods for creating zero, uniform, and `Resource`-based vectors.
+* **Inputs/Outputs**:
+	+ **Inputs**: Resource names, double values, `Resource` objects, other `ResourceVector` instances.
+	+ **Outputs**: Modified `ResourceVector` state, resource values, resource names (as a Set).
+	+ **State Changes**: Resource values updated through increment/decrement operations.
+	+ **Side Effects**: None explicit, beyond internal state changes.
+* **Dependencies**:
+	+ **Classes/Interfaces**: `org.apache.hadoop.yarn.api.records.Resource`, `org.apache.hadoop.yarn.api.records.ResourceInformation`, `org.apache.hadoop.yarn.util.resource.ResourceUtils`.
+	+ **Libraries/Frameworks**: Apache Hadoop YARN.
+	+ **Java Standard Library**: `java.util` (HashMap, Iterator, Set).
+
+===== FILE SUMMARY: UserInfo.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Represents user information in the context of YARN (Yet Another Resource Negotiator) Resource Manager, encapsulating resource usage, application status, and configuration.
+* **Core Logic**: None (primarily a data container with getters; initialization logic is straightforward, mapping inputs to object state).
+* **Inputs/Outputs**:
+	+ **Inputs**: Constructor parameters (username, resource usage, application counts, resource limits, weight, and activity status).
+	+ **Outputs**: Getter methods for all input parameters, providing access to user information.
+	+ **State Changes**: None (immutable once constructed, except for potential external modifications via getters' returned object references).
+	+ **Side Effects**: None.
+* **Dependencies**:
+	+ **Classes/Interfaces**: 
+		- `org.apache.hadoop.yarn.api.records.Resource`
+		- `org.apache.hadoop.yarn.server.resourcemanager.scheduler.ResourceUsage`
+		- Custom DAO (Data Access Object) classes: `ResourceInfo`, `ResourcesInfo`
+	+ **Libraries/Frameworks**: 
+		- `javax.xml.bind.annotation` (for XML serialization)
+		- Apache Hadoop YARN (for resource management context)

@@ -1,0 +1,45 @@
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Key Functionality:**
+This Java class, `FSSchedulerConfigurationStore`, provides a file system-based implementation for storing and managing YARN (Yet Another Resource Negotiator) scheduler configurations, extending the `YarnConfigurationStore` class.
+
+**Core Logic:**
+
+1. **Initialization**: Sets up the file system directory for storing configurations, checks for existing configurations, and initializes the current configuration.
+2. **Configuration Management**:
+	* **Log Mutation**: Temporarily updates the configuration, writing changes to a temporary file.
+	* **Confirm Mutation**: Finalizes or rolls back the temporary configuration update based on validation.
+	* **Retrieve**: Loads the current configuration from the file system.
+3. **Housekeeping**:
+	* **Versioning**: Tracks and updates a configuration version file.
+	* **File Cleanup**: Removes excess configuration files to maintain a specified maximum version count.
+
+**Inputs/Outputs, State Changes, or Side Effects:**
+
+* **Inputs**:
+	+ `Configuration` objects (file system, YARN scheduler)
+	+ `LogMutation` objects
+	+ `RMContext` object
+* **Outputs**:
+	+ Loaded `Configuration` objects
+	+ Updated configuration files in the file system
+* **State Changes**:
+	+ Updates to the `schedConf` and `oldConf` instance variables
+	+ Creation, renaming, or deletion of configuration files in the file system
+* **Side Effects**:
+	+ File system operations (read, write, delete, rename)
+	+ Logging of various operations and errors
+
+**Dependencies:**
+
+* **Classes/Interfaces**:
+	+ `YarnConfigurationStore` (extended)
+	+ `Configuration` (Apache Hadoop)
+	+ `FileSystem` (Apache Hadoop)
+	+ `RMContext` (Apache Hadoop YARN)
+	+ `LogMutation` (Apache Hadoop YARN)
+* **Libraries/Frameworks**:
+	+ Apache Hadoop
+	+ Apache Hadoop YARN
+	+ Google Gson (for JSON serialization)
+	+ SLF4J (for logging)

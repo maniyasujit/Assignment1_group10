@@ -1,0 +1,19 @@
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Calculates the available "headroom" resources (e.g., memory, vCores) for a given application in a YARN (Yet Another Resource Negotiator) capacity scheduler queue.
+* **Core Logic**: 
+	+ Retrieves current queue limits and cluster resources.
+	+ Determines headroom based on application's requested partitions (if any); otherwise, uses queue's default headroom calculation.
+	+ Aggregates headroom from multiple partitions (if requested).
+	+ Handles edge case where calculated headroom exceeds limits (sets to 0).
+* **Inputs/Outputs**:
+	+ **Inputs**: `UsersManager.User`, `AbstractLeafQueue`, `FiCaSchedulerApp`, `QueueResourceLimitsInfo`
+	+ **Outputs**: `Resource` object representing available headroom (memory, vCores)
+	+ **State Changes**: None (read-only calculation)
+	+ **Side Effects**: None
+* **Dependencies**:
+	+ **Classes/Interfaces**: `UsersManager.User`, `AbstractLeafQueue`, `FiCaSchedulerApp`, `QueueResourceLimitsInfo`, `RMNodeLabelsManager`
+	+ **Libraries/Frameworks**: Apache Hadoop YARN, Apache License 2.0
+	+ **Hadoop/YARN APIs**: YARN Resource Model (`Resource`, `Resources`)

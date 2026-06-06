@@ -1,0 +1,40 @@
+Here is the synthesized architectural cluster-level result:
+
+**Title:**
+YARN Resource Management Cluster: Capacity Scheduler and Resource Calculation Engine
+
+**Description:**
+This architectural cluster, identified as ARC_02, encompasses the core components of Apache Hadoop YARN's Capacity Scheduler and Resource Calculation Engine. The primary function is to efficiently manage and allocate resources (e.g., memory, CPU) across queues in a Hadoop cluster, ensuring scalability, reliability, and maintainability.
+
+**Main Components:**
+
+1. **Capacity Scheduler Queue Capacity Handler**: Manages queue capacities and resource values, employing different calculators (Absolute, Percentage, Weight) based on queue configurations.
+2. **Resource Calculation Drivers** (Root and Child): Drive resource calculations for root and child queues, respectively, utilizing various capacity calculators and rounding strategies.
+3. **Queue Capacity Calculators** (Absolute, Percentage, Weight, Root): Perform capacity calculations based on respective allocation strategies.
+4. **Queue Capacity Vector and Resource Vector**: Represent and manage resource capacities and allocations.
+5. **Configuration Parser**: Parses queue capacity configurations from property strings.
+
+**Component Interactions:**
+
+* The Capacity Scheduler Queue Capacity Handler orchestrates the calculation process, leveraging Resource Calculation Drivers and Queue Capacity Calculators.
+* Resource Calculation Drivers interact with Queue Capacity Calculators to compute resource capacities.
+* Queue Capacity Vector and Resource Vector provide data structures for efficient resource management.
+* The Configuration Parser feeds parsed configurations into the Capacity Scheduler.
+
+**Quality Attributes:**
+
+* **Scalability**: Designed to handle large Hadoop clusters with multiple queues and resources.
+* **Reliability**: Ensures consistent resource allocation through robust calculation and update mechanisms.
+* **Maintainability**: Modular design with clear component responsibilities facilitates updates and extensions.
+* **Performance**: Optimized for efficient resource allocation and calculation, minimizing overhead.
+* **Configurability**: Supports flexible queue configurations through the Configuration Parser.
+
+**Technologies, Frameworks, Languages, or Libraries:**
+
+* **Apache Hadoop YARN** (Resource Manager, Capacity Scheduler)
+* **Apache Commons** (Collections, Lang)
+* **Java Standard Library** (util, regex, function)
+* **SLF4J** (logging)
+
+**Architectural Role of the Cluster:**
+This cluster serves as the resource management backbone for Apache Hadoop YARN, enabling efficient, scalable, and reliable allocation of cluster resources to various queues, thereby supporting diverse workloads and applications.

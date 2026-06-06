@@ -1,0 +1,13 @@
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Defines a custom exception for incompatible schema versions in YARN Configuration Store.
+* **Core Logic**: None (simply extends YarnException with constructors for various error reporting scenarios).
+* **Inputs/Outputs**:
+	+ Inputs: `Throwable cause` and/or `String message` (constructor parameters).
+	+ Outputs: Instance of `YarnConfStoreVersionIncompatibleException` with populated error details.
+	+ State Changes/Side Effects: None (purely an exception reporting mechanism).
+* **Dependencies**:
+	+ `org.apache.hadoop.yarn.exceptions.YarnException` (extended class)
+	+ Apache License, Version 2.0 (governance)

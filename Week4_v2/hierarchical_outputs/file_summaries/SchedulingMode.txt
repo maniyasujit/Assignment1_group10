@@ -1,0 +1,13 @@
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Defines an enumeration for scheduling modes in the context of resource management and node partitioning.
+* **Core Logic**: None (purely declarative enum definition with explanatory comments); the logic for these modes is implied to be implemented elsewhere, using these enum values.
+* **Inputs/Outputs**:
+	+ Inputs: None (enum definition only)
+	+ Outputs: None (state changes or side effects)
+	+ State Changes/Side Effects: None; serves as a reference for scheduling decisions made elsewhere
+* **Dependencies**:
+	+ **Packages**: `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity` (implies dependency on Apache Hadoop YARN APIs)
+	+ **Libraries/Frameworks**: Apache Hadoop YARN (no direct library imports in this file, but implied by package naming)

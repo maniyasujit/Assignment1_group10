@@ -1,0 +1,17 @@
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Represents a group of Access Control List (ACL) settings tied to application priority, facilitating authorization in a YARN Resource Manager scheduler.
+* **Core Logic**: 
+	+ Holds and manages three key attributes: maximum priority, default priority, and associated ACL list.
+	+ Implements comparison, equality, and hashing based on maximum and default priority values.
+* **Inputs/Outputs**:
+	+ **Inputs**: Priority objects (max, default), AccessControlList object (via constructors or setters)
+	+ **Outputs**: Priority objects, AccessControlList object (via getters)
+	+ **State Changes**: Attribute updates via setter methods
+	+ **Side Effects**: None explicit (e.g., no I/O, networking, or external system interactions)
+* **Dependencies**:
+	+ **Classes/Interfaces**: `org.apache.hadoop.security.authorize.AccessControlList`, `org.apache.hadoop.yarn.api.records.Priority`
+	+ **Libraries/Frameworks**: Apache Hadoop YARN
+	+ **Hadoop/YARN APIs**: Utilizes YARN's Priority and ACL APIs for authorization in the Resource Manager scheduler.

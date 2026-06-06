@@ -1,0 +1,37 @@
+Here is a concise file-level semantic summary of the provided Java source file:
+
+**Key Functionality:**
+Enforces user and queue-level constraints on the maximum number of concurrently running applications (maxRunningApps) in a YARN (Yet Another Resource Negotiator) Capacity Scheduler environment.
+
+**Core Logic:**
+
+1. Tracks running and non-running application counts per user and queue.
+2. Checks if making an application runnable would exceed user or queue maxRunningApps limits.
+3. Updates runnability of applications when:
+	* Configuration is reloaded.
+	* An application is removed.
+	* Queue or user constraints change.
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ `FiCaSchedulerApp` instances (application attempts).
+	+ `CapacityScheduler` instance (for configuration and queue hierarchy).
+* **Outputs:**
+	+ Updated `runnable` flag on `FiCaSchedulerApp` instances.
+	+ Logged messages (INFO, ERROR).
+	+ State changes:
+		- `usersNumRunnableApps` map (user → running app count).
+		- `usersNonRunnableApps` multimap (user → non-running app list).
+		- Queue-level running app counts.
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.common.fica.FiCaSchedulerApp`.
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler`.
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.AbstractCSQueue` (and subclasses).
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN.
+	+ SLF4J (logging).
+	+ Google Guava (collections, e.g., `ArrayListMultimap`, `PriorityQueue`).

@@ -1,0 +1,82 @@
+Algorithm: LIMBO
+Cluster ID: LIMBO_28
+Original cluster ID: 42
+Files:
+- conf/ConfigurationUpdateAssembler.java
+- conf/QueueAdminConfigurationMutationACLPolicy.java
+
+File-level summaries:
+
+===== FILE SUMMARY: conf/ConfigurationUpdateAssembler.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:** 
+This Java class, `ConfigurationUpdateAssembler`, generates configuration updates for the Capacity Scheduler in Apache Hadoop YARN, based on provided scheduling configuration changes (add, remove, update queues, and global parameters).
+
+**Core Logic:**
+The main algorithm iterates through scheduling configuration changes, applying each to a proposed configuration:
+1. Remove queues: Validate, update sibling queues, and remove queue-specific configurations.
+2. Add queues: Validate, add to sibling queues, and set queue configurations.
+3. Update queues: Update queue-specific configurations.
+4. Apply global parameter changes.
+
+**Inputs/Outputs:**
+* **Inputs:**
+	+ `CapacitySchedulerConfiguration` (proposed configuration)
+	+ `SchedConfUpdateInfo` (configuration change metadata)
+* **Outputs:**
+	+ `Map<String, String>` (configuration updates, where keys are configuration properties and values are new property values or `null` for unsets)
+* **State Changes:**
+	+ Modifications to the proposed `CapacitySchedulerConfiguration` object
+* **Side Effects:**
+	+ None explicit, but the returned configuration updates are likely applied to the actual scheduler configuration.
+
+**Dependencies:**
+* **Classes/Interfaces:**
+	+ `CapacitySchedulerConfiguration`
+	+ `SchedConfUpdateInfo`
+	+ `QueueConfigInfo`
+	+ `QueuePath`
+	+ `QueuePrefixes`
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ Google Guava (for `Joiner`)
+
+===== FILE SUMMARY: conf/QueueAdminConfigurationMutationACLPolicy.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+Enforces access control for configuration mutations in YARN (Yet Another Resource Negotiator) queues, ensuring users have admin privileges for affected queues.
+
+**Core Logic:**
+1. Checks global config changes: verifies user is admin if changes are made.
+2. Iterates through modified queues (added, removed, updated):
+	* Traverses queue hierarchy upwards to find existing queue information.
+	* Verifies user has ADMINISTER_QUEUE access for each identified queue.
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ `UserGroupInformation` (user credentials)
+	+ `SchedConfUpdateInfo` (configuration update details)
+* **Outputs:**
+	+ `boolean` indicating whether the configuration mutation is allowed
+* **State Changes/Side Effects:**
+	+ None explicit, but influences authorization decisions for YARN queue configuration updates
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `YarnAuthorizationProvider`
+	+ `RMContext`
+	+ `MutableConfScheduler`
+	+ `Queue`
+	+ `QueueInfo`
+	+ `QueueACL`
+	+ `UserGroupInformation`
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ Apache Hadoop Security
+* **Hadoop/YARN APIs:**
+	+ YARN Authorization API
+	+ YARN Resource Manager (RM) API

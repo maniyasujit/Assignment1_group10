@@ -1,0 +1,61 @@
+Architectural Recovery of a Java Module using Hierarchical Summarization with Large Language Models
+
+1. Objective
+The primary objective of this project was to perform architectural recovery on a complex, multi-directory Java module (capacity). The goal was to produce a high-level, human-readable summary of the module's overall architecture, its sub-components, and their interactions. To achieve this, a hierarchical summarization technique was employed, leveraging a powerful Large Language Model (LLM).
+
+2. Methodology: Hierarchical Summarization
+The chosen methodology was a bottom-up, multi-level summarization process that mirrors the hierarchical structure of the source code. This approach treats the codebase as a tree structure:
+
+Leaf Nodes: Individual .java source files.
+Branch Nodes: Sub-directories containing a group of related source files (e.g., allocator, conf, preemption).
+Root Node: The top-level capacity module itself, representing the complete architecture.
+The process involves generating summaries at each level and using them as the input for the next, progressively creating a more abstract and high-level understanding of the system.
+
+3. Implemented Architecture and Workflow
+The workflow was orchestrated by a set of interconnected Python and shell scripts, executed on a High-Performance Computing (HPC) cluster equipped with NVIDIA A100 GPUs.
+
+Core Components:
+
+LLM: nvidia/Llama-3.1-Nemotron-70B-Instruct-HF, a 70-billion parameter instruction-tuned model, was used for all summarization tasks.
+HPC Environment: Jobs were managed by the SLURM workload manager, running on the dgx partition with the devel queue for interactive development and execution.
+Core Inference Script (sample.py): A Python script responsible for loading the LLM and its tokenizer, reading a target file path from an environment variable (SUMMARY_TARGET_FILE), and generating a textual summary based on a given prompt (SUMMARY_PROMPT).
+SLURM Job Script (sample.sh): A shell script wrapper that sets up the necessary environment for an srun job (loading Python/CUDA modules, activating the virtual environment) before executing sample.py.
+Execution Flow:
+
+The process was divided into two main stages, managed by two orchestrator scripts:
+
+Stage 1: Leaf Node Summarization
+
+Script: hierarchical_summarizer.py
+Process:
+The script recursively walks the entire /capacity directory tree to identify all 101 .java files.
+For each .java file found, it executes an srun job by calling the sample.sh script.
+Crucially, it passes the path of the specific .java file to the job via the SUMMARY_TARGET_FILE environment variable.
+The job generates a summary for that single file and saves it to a corresponding path within the summaries/ directory, preserving the original directory structure (e.g., summary for capacity/allocator/Allocator.java is saved in summaries/allocator/Allocator.java.txt).
+This stage is the most time-intensive, as it involves running 101 separate summarization jobs.
+Stage 2: Branch and Root Node Summarization
+
+Script: summarize_branches.py
+Process:
+Branch Summarization: The script iterates through each subdirectory within the summaries/ directory (e.g., summaries/allocator/).
+It combines all the leaf summaries within that subdirectory into a single temporary file.
+It then launches a new srun job, pointing SUMMARY_TARGET_FILE to this combined file and providing a prompt asking for a summary of the sub-module.
+The resulting "branch summary" is saved (e.g., branch_summaries/allocator_summary.txt).
+Root Summarization: After all branch summaries are created, the script performs the final step.
+It combines all the newly created branch summaries into one final temporary file.
+It launches one last srun job, pointing SUMMARY_TARGET_FILE to this final combined file and providing a prompt asking for a comprehensive architectural overview.
+The output of this job is the final deliverable: final_architectural_summary.txt.
+This two-stage, multi-script architecture ensures a clean separation of concerns and creates a robust, repeatable process for generating a detailed and accurate architectural overview from a complex codebase.
+
+
+
+Here are the two critical changes we made:
+
+Switched from Batch (sbatch) to Interactive (srun) Jobs:
+
+Initially, we were using sbatch, which submits a script to the queue and waits for the scheduler to find a free slot. For a large resource request (like 5 GPUs and 300GB of memory in our original script), the wait time can be very long, especially on a busy cluster.
+We switched to srun, which requests an interactive session. This is like asking for a command prompt directly on a powerful compute node.
+Requested Fewer Resources on a Development Partition:
+
+Partition and QoS: We specifically started targeting the dgx partition with the devel (development) Quality of Service (--partition=dgx --qos=devel). The devel queue is designed for exactly this kind of work: shorter, interactive jobs that need to start quickly. It has higher priority for small jobs than the general queue.
+This allowed us to get resources almost instantly and figure out the other errors with the model and code.

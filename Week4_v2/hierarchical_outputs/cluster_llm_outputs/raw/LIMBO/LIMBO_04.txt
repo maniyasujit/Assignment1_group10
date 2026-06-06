@@ -1,0 +1,25 @@
+Here is the synthesized architectural cluster-level result:
+
+**Title:**
+YARN Capacity Scheduler Queue Ordering Framework (LIMBO_04)
+
+**Description:**
+This architectural cluster provides a pluggable framework for determining the allocation ordering of child queues in Apache Hadoop YARN's Capacity Scheduler. **Main Components:** 
+* `QueueOrderingPolicy` interface (defined in `QueueOrderingPolicy.java`)
+
+**Interactions:**
+* Implementers of `QueueOrderingPolicy` interact with YARN's Capacity Scheduler, providing custom queue ordering logic via the `getAssignmentIterator` method.
+* The framework assumes integration with YARN's resource management APIs for queue management.
+
+**Quality Attributes:**
+* **Configurability**: High (allows custom queue ordering policies)
+* **Maintainability**: High (interface-based design enables easy implementation swaps)
+* **Scalability**: Inherited from underlying YARN Capacity Scheduler
+* **Reliability**: Depends on implementer's handling of concurrency (framework assumes caller-acquired locks)
+
+**Technologies/Libraries:**
+* Apache Hadoop YARN (Capacity Scheduler)
+* Java (programming language)
+
+**Architectural Role:**
+This cluster serves as a **Queue Ordering Strategy Injection Point** within the YARN Capacity Scheduler, enabling customizable and extensible queue management for large-scale resource allocation.

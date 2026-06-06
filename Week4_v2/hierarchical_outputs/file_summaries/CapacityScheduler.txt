@@ -1,0 +1,45 @@
+**File-Level Semantic Summary**
+
+**1. Key Functionality:**
+The `CapacityScheduler` class is a core component of the Apache Hadoop YARN (Yet Another Resource Negotiator) framework, responsible for managing resource allocation and scheduling of applications (jobs) across a cluster of nodes. It implements the `PreemptableResourceScheduler` and `Configurable` interfaces, enabling dynamic configuration and resource preemption.
+
+**2. Core Logic:**
+The scheduler's primary logic revolves around:
+
+* **Queue Management:** Hierarchical queue structure with capacity and priority settings.
+* **Resource Allocation:** Allocates containers (resources) to applications based on availability, queue priorities, and preemption rules.
+* **Scheduling Modes:** Supports synchronous and asynchronous scheduling, with optional multi-node placement.
+* **Event Handling:** Responds to various events, such as node additions/removals, application submissions, and container completions.
+
+**3. Inputs/Outputs, State Changes, or Side Effects:**
+
+* **Inputs:**
+	+ Configuration updates (e.g., queue settings, scheduling policies)
+	+ Application submission requests
+	+ Node addition/removal events
+	+ Container completion events
+* **Outputs:**
+	+ Allocation decisions (container assignments to applications)
+	+ Queue and application state updates
+	+ Logging and metrics for scheduling and resource utilization
+* **State Changes:**
+	+ Queue and application states (e.g., running, pending, finished)
+	+ Node and container states (e.g., allocated, reserved, released)
+* **Side Effects:**
+	+ Updates to the underlying resource management system (e.g., NodeManager interactions)
+
+**4. Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `AbstractYarnScheduler`
+	+ `PreemptableResourceScheduler`
+	+ `Configurable`
+	+ `RMContext` (Resource Manager Context)
+	+ `CapacitySchedulerConfiguration`
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ Apache Commons Lang
+	+ SLF4J (logging)
+* **Hadoop/YARN APIs:**
+	+ `ResourceManager` (RM) APIs for node and application management
+	+ `NodeManager` (NM) APIs for container management

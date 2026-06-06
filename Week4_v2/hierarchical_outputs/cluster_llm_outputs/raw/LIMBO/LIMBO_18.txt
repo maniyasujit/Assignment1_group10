@@ -1,0 +1,33 @@
+Here is the synthesized architectural cluster-level result:
+
+**Title:**
+LIMBO_18: YARN Queue Configuration and Hierarchy Management
+
+**Description:**
+This architectural cluster, LIMBO_18, facilitates the management of YARN (Yet Another Resource Negotiator) queue configurations and hierarchical structures. **Main components** include:
+
+1. **Configuration Properties** (trie-based storage for efficient prefix filtering)
+2. **Configured Node Labels** (queue-node label mapping and aggregation)
+3. **Queue Path** (hierarchical queue path representation and utilities)
+
+**Interactions:**
+
+* **Configuration Properties** provides filtered configuration data to **Configured Node Labels** for initialization.
+* **Queue Path** utilities may be used by **Configured Node Labels** to parse queue paths for label management.
+
+**Quality Attributes:**
+
+* **Maintainability:** Moderate (complex trie data structure, but clear method responsibilities)
+* **Scalability:** High (efficient trie-based filtering, suitable for large configuration sets)
+* **Reliability:** Good (input validation in **Queue Path**, logging in **Configuration Properties**)
+* **Configurability:** High (supports dynamic property storage and retrieval, customizable queue depths)
+
+**Technologies, Frameworks, Languages, or Libraries:**
+
+* Java
+* SLF4J (logging)
+* Guava (immutable collections)
+* Hadoop YARN APIs (indirect dependencies, e.g., `CapacitySchedulerConfiguration`)
+
+**Architectural Role:**
+This cluster plays a crucial supporting role in a larger Hadoop YARN Resource Manager implementation, enabling efficient management of queue configurations and node labels, which is essential for resource allocation and job scheduling.

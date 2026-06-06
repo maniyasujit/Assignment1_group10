@@ -1,0 +1,77 @@
+Algorithm: LIMBO
+Cluster ID: LIMBO_21
+Original cluster ID: 35
+Files:
+- LeafQueue.java
+- QueueManagementChange.java
+- conf/package-info.java
+
+File-level summaries:
+
+===== FILE SUMMARY: LeafQueue.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Represents a leaf queue in the YARN Resource Manager's Capacity Scheduler, handling queue setup and configuration.
+* **Core Logic**: Initializes a leaf queue with the provided context, name, parent, and optional dynamic flag, and sets up queue configurations based on cluster resources.
+* **Inputs/Outputs**:
+	+ Inputs: `CapacitySchedulerQueueContext`, `queueName`, `CSQueue` parent and old queue (if applicable), `isDynamic` flag
+	+ Outputs: None explicit (constructor), State Change: Queue configurations set up
+	+ Side Effects: Logging (via SLF4J)
+* **Dependencies**:
+	+ Classes: `AbstractLeafQueue`, `CapacitySchedulerQueueContext`, `CSQueue`
+	+ Libraries/Frameworks: Apache Hadoop YARN, SLF4J (logging)
+	+ Hadoop/YARN APIs: Capacity Scheduler APIs
+
+===== FILE SUMMARY: QueueManagementChange.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+Encapsulates changes for dynamic capacity adjustments in YARN (Yet Another Resource Negotiator) queue management, specifically for updating queue entitlements and states.
+
+**Core Logic:**
+The class manages updates through a defined `QueueAction` (currently only `UPDATE_QUEUE`) and tracks changes to queue state (`QueueState`) and template configurations (`AutoCreatedLeafQueueConfig`). The update process is facilitated through constructors and getter methods, with overridden `equals`, `hashCode`, and `toString` methods for object comparison and representation.
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ `CSQueue` object (queue to be updated)
+	+ `QueueAction` (update type)
+	+ Optional: `QueueState` (target state) and `AutoCreatedLeafQueueConfig` (template updates)
+* **Outputs:**
+	+ Updated `QueueState` (if applicable)
+	+ Access to updated `AutoCreatedLeafQueueConfig` (if provided)
+* **State Changes:**
+	+ Internal state of the `QueueManagementChange` object reflecting the intended updates
+* **Side Effects:**
+	+ None explicitly defined within this class; intended for use within a larger YARN Resource Manager context
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `CSQueue`
+	+ `QueueState`
+	+ `AutoCreatedLeafQueueConfig`
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN (for `CSQueue`, `QueueState`, and other YARN-specific types)
+* **Hadoop/YARN APIs:**
+	+ Implicit dependency on YARN Resource Manager APIs for queue management (not directly invoked within this class)
+
+===== FILE SUMMARY: conf/package-info.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: None (this file is a package declaration with licensing and metadata, no executable code or class definition).
+* **Core Logic**: N/A (no algorithm, control flow, or business logic present).
+* **Inputs/Outputs**: 
+	+ **Inputs**: None
+	+ **Outputs**: None
+	+ **State Changes/Side Effects**: None (purely declarative content).
+* **Dependencies**:
+	+ **Classes/Interfaces**: 
+		- `org.apache.hadoop.classification.InterfaceAudience`
+		- `org.apache.hadoop.classification.InterfaceStability`
+	+ **Libraries/Frameworks**: Apache Hadoop (for annotations)
+	+ **Hadoop/YARN APIs**: None (directly utilized in this file)

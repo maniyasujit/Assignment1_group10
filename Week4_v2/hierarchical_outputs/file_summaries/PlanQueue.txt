@@ -1,0 +1,40 @@
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+Represents a dynamic queue (PlanQueue) in the YARN Resource Manager, managed by the Reservation System, supporting reservations and quota management.
+
+**Core Logic:**
+
+* Initializes and reinitializes queue configurations based on provided settings and cluster resources.
+* Manages quotas for reservations, including maximum applications, user limits, and user limit factors.
+* Creates a default internal reservation queue for compatibility.
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ `CapacitySchedulerQueueContext`
+	+ `queueName`
+	+ `CSQueue` (parent and old queue for reinitialization)
+	+ Cluster resource updates
+* **Outputs:**
+	+ Initialized/Reinitialized `PlanQueue` instance
+	+ Default internal `ReservationQueue` instance (if created)
+	+ Logging information (queue creation/reinitialization details)
+* **State Changes:**
+	+ Updates queue configurations, quotas, and child queues
+	+ Locks (writeLock) for thread safety during reinitialization
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `AbstractManagedParentQueue` (superclass)
+	+ `CapacitySchedulerQueueContext`
+	+ `CSQueue`
+	+ `ReservationQueue`
+	+ `ReservationSystem` (indirect, through `ReservationConstants`)
+* **Libraries/Frameworks:**
+	+ Apache YARN (Resource Manager, Capacity Scheduler)
+	+ SLF4J (logging)
+* **Hadoop/YARN APIs:**
+	+ `org.apache.hadoop.yarn.api.records.Resource`
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler` package APIs

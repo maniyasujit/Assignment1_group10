@@ -1,0 +1,34 @@
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+This Java class, `WorkflowPriorityMappingsManager`, manages workflow priority mappings for YARN (Yet Another Resource Negotiator) applications, enabling override of application priorities based on predefined workflow ID to priority mappings.
+
+**Core Logic:**
+
+1. **Initialization**: Loads workflow priority mappings from configuration.
+2. **Recursive Priority Mapping**: Traces up the queue hierarchy to find the first matching workflow ID to priority mapping.
+3. **Priority Override**: Updates application priority based on matched workflow ID, if override is enabled.
+
+**Inputs/Outputs:**
+
+* **Inputs**:
+	+ `WorkflowPriorityMapping` configurations
+	+ `ApplicationId`, `CSQueue`, `user`, and `Priority` for priority mapping
+* **Outputs**:
+	+ Updated `Priority` for applications with matching workflow IDs
+	+ Logging of priority mapping and override operations
+* **State Changes**:
+	+ Updates `RMApp` (Resource Manager Application) priority
+
+**Dependencies:**
+
+* **Classes/Interfaces**:
+	+ `CapacityScheduler`
+	+ `CapacitySchedulerConfiguration`
+	+ `CSQueue`
+	+ `RMApp` (Resource Manager Application)
+	+ `UserGroupInformation`
+* **Libraries/Frameworks**:
+	+ Apache Hadoop YARN
+	+ Apache Commons (e.g., `StringUtils`)
+	+ SLF4J (for logging)

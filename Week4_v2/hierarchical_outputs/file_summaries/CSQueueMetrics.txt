@@ -1,0 +1,18 @@
+Here is a concise file-level semantic summary of the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: This Java class, `CSQueueMetrics`, extends `QueueMetrics` to provide metrics and resource utilization tracking for a specific queue in a YARN (Yet Another Resource Negotiator) resource management system, focusing on Capacity Scheduler (CS) queues.
+* **Core Logic**:
+	+ Tracks various queue metrics (e.g., AM resource limits, used capacity, guaranteed/maximum capacities) using mutable gauges.
+	+ Updates metrics based on resource utilization changes (e.g., `incAMUsed`, `decAMUsed`, `setGuaranteedResources`).
+	+ Supports custom resource types through `CSQueueMetricsForCustomResources` integration.
+* **Inputs/Outputs**:
+	+ **Inputs**: Queue name, parent queue, configuration, resource updates (e.g., `Resource` objects).
+	+ **Outputs**: Metric values (e.g., `getUsedCapacity`, `getGuaranteedMB`).
+	+ **State Changes**: Metric updates, custom resource registration.
+	+ **Side Effects**: Metrics system registration, potential user metrics creation.
+* **Dependencies**:
+	+ **Classes/Interfaces**: `QueueMetrics`, `CSQueueMetricsForCustomResources`, `MetricsSystem`, `Configuration`, `Resource`.
+	+ **Libraries/Frameworks**: Apache Hadoop YARN, Apache Hadoop Metrics (version 2).
+	+ **Hadoop/YARN APIs**: Resource management, queue management, metrics system integration.

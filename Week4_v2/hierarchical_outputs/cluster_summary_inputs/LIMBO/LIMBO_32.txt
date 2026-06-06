@@ -1,0 +1,84 @@
+Algorithm: LIMBO
+Cluster ID: LIMBO_32
+Original cluster ID: 47
+Files:
+- preemption/KillableContainer.java
+- preemption/PreemptableQueue.java
+- preemption/PreemptionManager.java
+
+File-level summaries:
+
+===== FILE SUMMARY: preemption/KillableContainer.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Represents a container that can be killed (preempted) in the context of YARN Resource Manager's Capacity Scheduler, encapsulating relevant metadata.
+* **Core Logic**: None (primarily a data holder class with simple getters; no complex algorithms or control flows).
+* **Inputs/Outputs**:
+	+ **Inputs**: `RMContainer`, `partition`, and `leafQueueName` (via constructor).
+	+ **Outputs**: Container metadata via getter methods (`getRMContainer`, `getNodePartition`, `getLeafQueueName`).
+	+ **State Changes/Side Effects**: None (read-only accessors).
+* **Dependencies**:
+	+ **Classes**: `org.apache.hadoop.yarn.server.resourcemanager.rmcontainer.RMContainer`
+	+ **Frameworks/Libraries**: Apache Hadoop YARN (specifically, Resource Manager APIs)
+
+===== FILE SUMMARY: preemption/PreemptableQueue.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Manages preemptable resources and containers for a queue in a YARN (Yet Another Resource Negotiator) capacity scheduler, enabling hierarchical resource preemption.
+* **Core Logic**: 
+	+ Tracks killable resources and containers by partition.
+	+ Propagates container additions/removals to parent queue (if exists), maintaining a hierarchical structure.
+	+ Updates resource allocations accordingly.
+* **Inputs/Outputs**:
+	+ **Inputs**: `KillableContainer` objects for addition/removal, partition names for resource queries.
+	+ **Outputs**: Killable resources by partition, killable containers by partition.
+	+ **State Changes**: Updates to `totalKillableResources` and `killableContainers` maps.
+	+ **Side Effects**: None explicit, but potentially influences YARN scheduler decisions.
+* **Dependencies**:
+	+ **Classes/Interfaces**: `KillableContainer`, `RMContainer`, `ContainerId`, `Resource` (from YARN API).
+	+ **Libraries/Frameworks**: Apache Hadoop YARN, Java Util (ConcurrentSkipListMap, HashMap).
+
+===== FILE SUMMARY: preemption/PreemptionManager.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Key Functionality:**
+Manages preemptable resources for queues in a YARN (Yet Another Resource Negotiator) capacity scheduler, enabling container preemption.
+
+**Core Logic:**
+
+* Hierarchical queue structure maintenance (refreshQueues)
+* Container lifecycle management (add, remove, move) within queues
+* Resource tracking for killable containers across partitions
+* Thread-safe access via ReentrantReadWriteLock
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ CSQueue objects (parent and child queues)
+	+ KillableContainer objects (with queue name, container ID, and resources)
+	+ Partition information
+* **Outputs:**
+	+ Maps of killable containers by queue and partition
+	+ Total killable resources by queue and partition
+	+ Shallow copies of preemptable queue configurations
+* **State Changes:**
+	+ Updates to internal `entities` map (queue configurations)
+	+ Modifications to killable container sets and resources within queues
+* **Side Effects:**
+	+ None explicit, but likely influences YARN scheduler decisions
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `org.apache.hadoop.yarn.api.records.ContainerId`
+	+ `org.apache.hadoop.yarn.api.records.Resource`
+	+ `org.apache.hadoop.yarn.server.resourcemanager.rmcontainer.RMContainer`
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CSQueue`
+	+ `org.apache.hadoop.yarn.util.resource.Resources`
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ Java concurrency utilities (java.util.concurrent.locks)

@@ -1,0 +1,9 @@
+Short Description of the Task Done in Week 4:
+
+For Week 4, we worked on the Week4_v2 results and the hierarchical_cluster_summarizer.py script. We used the ARC, ACDC, and LIMBO clustering outputs and converted them into file-level clusters for the Hadoop YARN capacity scheduler code.
+
+After that, we generated file-level summaries first and then used those summaries to create cluster-level architectural summaries. The final outputs were saved as ARC_results.csv, ACDC_results.csv, and LIMBO_results.csv inside the Week4_v2 folder.
+
+We also saved the prompts, converted clusters, file summaries, and raw LLM outputs inside Week4_v2/hierarchical_outputs, so the process can be checked and repeated. This helped us understand and compare the architectural meaning of the clusters produced by the different algorithms.
+
+This week we also worked on the report and prepared the presentation, including the explanation of our workflow, results, and final observations.

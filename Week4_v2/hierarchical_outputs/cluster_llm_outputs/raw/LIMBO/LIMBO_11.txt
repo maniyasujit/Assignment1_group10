@@ -1,0 +1,26 @@
+Here is the synthesized architectural cluster-level result:
+
+**Title:**
+LIMBO_11: YARN Capacity Scheduler Configuration Cluster
+
+**Description:**
+This architectural cluster, LIMBO_11, serves as a configuration management hub for auto-created leaf queues within the YARN Capacity Scheduler. **Main Components:** 
+1. `AutoCreatedLeafQueueConfig` (configuration holder)
+2. Dependent YARN classes/interfaces (`QueueCapacities`, `CapacitySchedulerConfiguration`, `QueueResourceQuotas`)
+
+**Interactions:** 
+- The `AutoCreatedLeafQueueConfig` class constructs instances using a builder pattern, aggregating inputs from dependent YARN classes.
+- Exposes configured settings via getter methods and string representation.
+
+**Quality Attributes:**
+- **Maintainability:** High (simple, read-only configuration holder with clear structure)
+- **Scalability:** Medium (dependent on YARN's scalability; this cluster primarily manages configurations)
+- **Reliability:** High (utilizes established YARN APIs and classes)
+- **Configurability:** High (flexible configuration setup via builder pattern)
+
+**Technologies/Libraries:**
+- **Language:** Java
+- **Framework/Libraries:** Apache Hadoop YARN
+
+**Architectural Role:**
+Provides a centralized, structured configuration management for auto-created leaf queues, supporting the efficient operation of the YARN Capacity Scheduler.

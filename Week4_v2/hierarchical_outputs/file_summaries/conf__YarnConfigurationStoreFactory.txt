@@ -1,0 +1,13 @@
+Here is a concise file-level semantic summary:
+
+**Summary for `YarnConfigurationStoreFactory.java`**
+
+1. **Key Functionality**: Creates instances of `YarnConfigurationStore` based on configuration settings, serving as a factory for various store implementations.
+2. **Core Logic**: Examines the `YarnConfiguration` to determine the chosen store type, using a switch statement for known types and reflection for custom types specified in the configuration.
+3. **Inputs/Outputs**:
+	* **Input**: `Configuration` object (`conf`)
+	* **Output**: Instance of `YarnConfigurationStore` (e.g., `InMemoryConfigurationStore`, `LeveldbConfigurationStore`, etc.)
+	* **State Change/Side Effect**: None explicit, but the created store instance may have its own state and side effects.
+4. **Dependencies**:
+	* **Classes/Interfaces**: `YarnConfigurationStore`, `YarnConfiguration`, `Configuration`
+	* **Libraries/Frameworks**: Apache Hadoop, SLF4J (for logging), Apache Commons ( ReflectionUtils)

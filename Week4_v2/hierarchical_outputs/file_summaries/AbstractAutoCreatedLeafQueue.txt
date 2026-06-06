@@ -1,0 +1,32 @@
+Here is a concise file-level semantic summary:
+
+**Summary for `AbstractAutoCreatedLeafQueue.java`**
+
+1. **Key Functionality**: Manages dynamic auto-created leaf queues in a YARN Capacity Scheduler, handling queue capacity adjustments and entitlements.
+2. **Core Logic**:
+	* `setEntitlement()` methods update queue capacity, absolute capacity, and maximum capacity, ensuring capacity values are within valid ranges (0 to 1.0).
+	* Overridden methods (`getMinimum/MaximumAbsoluteResource`, `checkConfigTypeIsAbsoluteResource`) delegate to parent class with modified configuration prefix for auto-created queues.
+3. **Inputs/Outputs**:
+	* **Inputs**:
+		+ `QueueEntitlement` objects (capacity, maxCapacity, etc.)
+		+ `nodeLabel` (optional)
+	* **Outputs**:
+		+ Updated queue capacities (absolute, maximum, and configured minimum/maximum vectors)
+		+ Updated queue statistics (used capacity, etc.)
+	* **State Changes**:
+		+ Queue capacity and entitlement settings
+		+ Queue statistics
+	* **Side Effects**:
+		+ Logging (debug level) for capacity changes
+4. **Dependencies**:
+	* **Classes/Interfaces**:
+		+ `AbstractManagedParentQueue`
+		+ `CapacitySchedulerQueueContext`
+		+ `QueueEntitlement`
+		+ `Resource` (from `org.apache.hadoop.yarn.api.records`)
+	* **Libraries/Frameworks**:
+		+ Apache YARN (Capacity Scheduler)
+		+ SLF4J (logging)
+	* **Hadoop/YARN APIs**:
+		+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler` package
+		+ `org.apache.hadoop.yarn.nodelabels` package (for node labels)

@@ -1,0 +1,18 @@
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: This class, `CSQueuePreemptionSettings`, determines the preemption settings for a given queue in a YARN (Yet Another Resource Negotiator) Capacity Scheduler hierarchy.
+* **Core Logic**: The class evaluates two types of preemption:
+	1. **Cross-Queue Preemption**: Checks if system-wide preemption is enabled and not explicitly disabled in the queue's hierarchy.
+	2. **Intra-Queue Preemption**: Verifies if system-wide intra-queue preemption is enabled and not disabled in the queue's hierarchy. Both settings are inherited from parent queues unless overridden.
+* **Inputs/Outputs**:
+	+ **Inputs**: `CSQueue` object, `CapacitySchedulerConfiguration` object
+	+ **Outputs**: Boolean values indicating preemption status (disabled or not) for:
+		- Cross-Queue Preemption (`isPreemptionDisabled()`)
+		- Intra-Queue Preemption (`isIntraQueuePreemptionDisabled()`, `isIntraQueuePreemptionDisabledInHierarchy()`)
+	+ **State Changes**: None (read-only settings evaluation)
+	+ **Side Effects**: None
+* **Dependencies**:
+	+ **Classes/Interfaces**: `CSQueue`, `CapacitySchedulerConfiguration`
+	+ **Libraries/Frameworks**: Apache Hadoop YARN, Apache Hadoop Configuration (for `YarnConfiguration`)

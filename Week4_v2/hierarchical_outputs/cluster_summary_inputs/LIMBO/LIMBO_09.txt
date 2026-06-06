@@ -1,0 +1,28 @@
+Algorithm: LIMBO
+Cluster ID: LIMBO_09
+Original cluster ID: 19
+Files:
+- AutoCreatedQueueManagementPolicy.java
+
+File-level summaries:
+
+===== FILE SUMMARY: AutoCreatedQueueManagementPolicy.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Defines a policy for managing auto-created queues in a YARN (Yet Another Resource Negotiator) Resource Manager, specifically handling initialization, queue configuration, and capacity adjustments.
+* **Core Logic**: 
+	+ Initializes policy with parent queue context
+	+ Generates initial configurations for auto-created leaf queues
+	+ Computes and adjusts capacities for auto-created leaf queues (without direct state updates)
+	+ Commits validated queue management changes to update queue state
+* **Inputs/Outputs**:
+	+ **Inputs**: `AbstractParentQueue`, `AbstractAutoCreatedLeafQueue`, `List<QueueManagementChange>`
+	+ **Outputs**: `AutoCreatedLeafQueueConfig`, `List<QueueManagementChange>` (suggested changes)
+	+ **State Changes**: Updates `LeafQueueState` upon successful `commitQueueManagementChanges`
+	+ **Side Effects**: May throw `IOException` or `SchedulerDynamicEditException` on failures
+* **Dependencies**:
+	+ **Classes/Interfaces**: `AbstractParentQueue`, `AbstractAutoCreatedLeafQueue`, `QueueManagementChange`, `AutoCreatedLeafQueueConfig`
+	+ **Libraries/Frameworks**: Apache Hadoop YARN
+	+ **Specific APIs**: Scheduler Dynamic Edit API (for exceptions)

@@ -1,0 +1,27 @@
+Here is a concise file-level semantic summary:
+
+**Key Functionality:** 
+Determines application lifetime and maximum parallel applications settings for a YARN (Yet Another Resource Negotiator) queue based on Capacity Scheduler configurations and queue properties.
+
+**Core Logic:**
+1. Inheritance-based resolution of queue settings from parent queues (if applicable) or configuration defaults.
+2. Validation and adjustment of default application lifetime to ensure it doesn't exceed the maximum allowed lifetime.
+
+**Inputs/Outputs:**
+* **Inputs:**
+	+ `CapacitySchedulerConfiguration` object
+	+ `AbstractCSQueue` object (`q`) and its `QueuePath` (`queuePath`)
+* **Outputs:**
+	+ Resolved `maxApplicationLifetime`
+	+ Resolved `defaultApplicationLifetime`
+	+ `maxParallelApps` setting
+	+ Indication if `defaultAppLifetimeWasSpecifiedInConfig`
+* **State Changes/Side Effects:**
+	+ Throws `YarnRuntimeException` if default lifetime exceeds maximum lifetime
+
+**Dependencies:**
+* `org.apache.hadoop.yarn.exceptions.YarnRuntimeException`
+* `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity` package classes:
+	+ `CapacitySchedulerConfiguration`
+	+ `AbstractCSQueue` (and its subclasses)
+	+ `QueuePath`

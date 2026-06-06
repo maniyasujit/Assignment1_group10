@@ -1,0 +1,34 @@
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+This Java class, `AbsoluteResourceCapacityCalculator`, calculates resource capacities for YARN (Yet Another Resource Negotiator) queues with absolute capacity type, ensuring efficient resource allocation in a Hadoop cluster.
+
+**Core Logic:**
+
+* Normalizes resource ratios for parent queues with absolute capacity type, considering children's configured resources and effective minimum resources.
+* Calculates minimum and maximum resource capacities for queues based on normalized ratios, remaining resources, and current capacity entries.
+* Updates queue capacities after calculations, handling potential downscaling warnings.
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ `ResourceCalculationDriver` (provides context for resource calculations)
+	+ `CalculationContext` (offers resource names, current capacity entries, etc.)
+	+ `CSQueue` (represents the queue being calculated for)
+* **Outputs/State Changes:**
+	+ Updated queue capacities
+	+ Normalized resource ratios (stored in `ResourceCalculationDriver`)
+	+ Potential downscaling warnings (added to `UpdateContext`)
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `AbstractQueueCapacityCalculator` (parent class)
+	+ `ResourceCalculationDriver`
+	+ `CalculationContext`
+	+ `CSQueue`
+	+ `QueueCapacityVector`
+	+ `ResourceVector`
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ Apache Hadoop common utilities (e.g., `UnitsConversionUtil`)

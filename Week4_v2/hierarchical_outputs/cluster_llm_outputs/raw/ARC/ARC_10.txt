@@ -1,0 +1,35 @@
+Here is the synthesized architectural cluster-level result:
+
+**Title:**
+YARN Capacity Scheduler Queue Management Cluster (ARC_10)
+
+**Description:**
+This architectural cluster, identified as ARC_10, facilitates queue management within Apache Hadoop YARN's Capacity Scheduler. **Main components** include:
+
+1. **Queue Capacity Manager** (QueueCapacities.java): Stores and provides access to queue capacities by node label.
+2. **Node Label Configurator** (ConfiguredNodeLabels.java, QueueNodeLabelsSettings.java): Manages node labels for queues, ensuring configuration consistency.
+3. **Queue Utility Services** (CSQueueUtils.java): Offers algorithms for calculating and updating queue capacities, usage, and statistics.
+4. **Deactivated Leaf Queue Manager** (DeactivatedLeafQueuesByLabel.java): Tracks deactivated leaf queues by node label, determining activation eligibility based on available capacity.
+
+**Component Interactions:**
+
+* Queue Utility Services utilize Queue Capacity Manager and Node Label Configurator for calculations and updates.
+* Node Label Configurator interacts with CapacitySchedulerConfiguration for initialization.
+* Deactivated Leaf Queue Manager relies on Queue Capacity Manager for capacity calculations.
+
+**Quality Attributes:**
+
+* **Maintainability:** Moderate to High (due to the use of established libraries like Apache Commons and Guava, and relatively focused component responsibilities).
+* **Scalability:** High (designed to handle multiple queues, node labels, and capacities within a distributed YARN environment).
+* **Reliability:** High (employs thread-safe operations via ReentrantReadWriteLock and validates label settings for consistency).
+* **Configurability:** High (supports inheritance from parent queues and customizable node label settings).
+* **Performance:** Moderate (dependent on the efficiency of underlying YARN and Hadoop infrastructure).
+* **Security:** Not explicitly addressed in this cluster, but inherits security features from the broader YARN and Hadoop ecosystem.
+
+**Technologies, Frameworks, Languages, or Libraries:**
+
+* **Language:** Java
+* **Frameworks/Libraries:** Apache Hadoop YARN, Apache Commons Lang, Guava, SLF4J (for logging)
+
+**Architectural Role of the Cluster:**
+This cluster plays a crucial role in managing queue capacities and node labels within the YARN Capacity Scheduler, ensuring efficient resource allocation and scalability in distributed computing environments.

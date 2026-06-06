@@ -1,0 +1,23 @@
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Provides information about a Capacity Scheduler (CS) queue in a YARN Resource Manager, transforming internal queue state into API-accessible records.
+* **Core Logic**:
+	+ Translates `AbstractCSQueue` object properties into `QueueInfo`, `QueueStatistics`, and `QueueConfigurations` records.
+	+ Iterates over node labels to generate queue configurations with capacity and resource quota settings.
+* **Inputs/Outputs**:
+	+ **Input**: `AbstractCSQueue` object
+	+ **Outputs**:
+		- `QueueInfo` record
+		- Embedded `QueueStatistics` and `QueueConfigurations` records
+	+ **State Changes**: None (read-only, informational)
+	+ **Side Effects**: None
+* **Dependencies**:
+	+ **Classes/Interfaces**:
+		- `AbstractCSQueue` (internal YARN class)
+		- `QueueInfo`, `QueueStatistics`, `QueueConfigurations` (YARN API records)
+		- `RecordFactory` (YARN factory for record instances)
+	+ **Libraries/Frameworks**:
+		- Apache Hadoop YARN (Resource Manager, Capacity Scheduler)
+		- Apache License 2.0 (governance)

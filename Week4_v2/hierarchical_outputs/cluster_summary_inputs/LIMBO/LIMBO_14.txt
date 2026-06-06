@@ -1,0 +1,184 @@
+Algorithm: LIMBO
+Cluster ID: LIMBO_14
+Original cluster ID: 26
+Files:
+- CSAssignment.java
+- allocator/AbstractContainerAllocator.java
+- allocator/ContainerAllocation.java
+- allocator/ContainerAllocator.java
+- allocator/RegularContainerAllocator.java
+
+File-level summaries:
+
+===== FILE SUMMARY: CSAssignment.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+This Java class, `CSAssignment`, represents a container assignment in the context of the Apache Hadoop YARN (Yet Another Resource Negotiator) Resource Manager's Capacity Scheduler. It encapsulates various attributes and metadata related to container allocation, scheduling, and resource management.
+
+**Core Logic:**
+The core logic revolves around managing the state of a container assignment, including:
+	* Tracking resource allocation (CPU, memory) and locality types (e.g., node local, rack local)
+	* Handling excess resource reservations and fulfilled reservations
+	* Maintaining assignment information (allocations, reservations)
+	* Supporting scheduling modes and container lifecycle (kill, increase allocation)
+
+**Inputs/Outputs:**
+* **Inputs:**
+	+ Resource (CPU, memory) requirements
+	+ Locality types (NodeType)
+	+ FiCaSchedulerApp instances (representing applications)
+	+ RMContainer instances (representing containers)
+* **Outputs:**
+	+ Assignment state (e.g., fulfilled reservation, skipped type)
+	+ Assignment information (allocations, reservations)
+	+ Container lifecycle decisions (containers to kill)
+* **State Changes:**
+	+ Updates to assignment attributes (e.g., resource, type, skipped type)
+	+ Modifications to assignment information and container lists
+
+**Dependencies:**
+* **Classes/Interfaces:**
+	+ `org.apache.hadoop.yarn.api.records.Resource`
+	+ `org.apache.hadoop.yarn.server.resourcemanager.rmcontainer.RMContainer`
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.NodeType`
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.common.AssignmentInformation`
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.common.fica.FiCaSchedulerApp`
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ Apache Hadoop common utilities (e.g., `Resources`)
+
+===== FILE SUMMARY: allocator/AbstractContainerAllocator.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+This abstract class, `AbstractContainerAllocator`, is responsible for deciding how to allocate containers for an application in a YARN (Yet Another Resource Negotiator) cluster, making application resource allocation logic extensible.
+
+**Core Logic:**
+The core logic revolves around the `assignContainers` method, which:
+1. Selects a resource request to allocate based on requirements, priority, and locality.
+2. Checks resource availability for allocation.
+3. Performs allocation, creating/update allocated/reserved containers and updating metrics.
+The `getCSAssignmentFromAllocateResult` method processes allocation results, handling skipped, reserved, and allocated containers, and updates assignment information and activity logs.
+
+**Inputs/Outputs:**
+* **Inputs:**
+	+ `FiCaSchedulerApp` (application context)
+	+ `ResourceCalculator` and `RMContext` (cluster resource information)
+	+ `CandidateNodeSet` (node candidates for allocation)
+	+ `SchedulingMode` (exclusive or non-exclusive)
+	+ `ResourceLimits` (resource constraints)
+	+ `RMContainer` (reserved container, if any)
+* **Outputs:**
+	+ `CSAssignment` (container allocation proposal)
+	+ **State Changes:**
+		- Updates application's unconfirmed resources
+		- Increments allocation/reservation metrics
+		- Logs activity records (allocation, skipping, etc.)
+	+ **Side Effects:**
+		- Creates/updates containers in the YARN cluster
+		- Updates cluster resource utilization metrics
+
+**Dependencies:**
+* **Classes/Interfaces:**
+	+ `FiCaSchedulerApp`
+	+ `ResourceCalculator`
+	+ `RMContext`
+	+ `ActivitiesManager`
+	+ `CSAssignment`
+	+ `SchedulingMode`
+	+ `ResourceLimits`
+	+ `RMContainer`
+	+ `FiCaSchedulerNode`
+	+ `CandidateNodeSet`
+* **Libraries/Frameworks:**
+	+ Apache YARN
+	+ SLF4J (logging)
+* **Hadoop/YARN APIs:**
+	+ YARN Resource Management (RM) APIs
+	+ YARN Container Management APIs
+
+===== FILE SUMMARY: allocator/ContainerAllocation.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Represents a container allocation request in a YARN (Yet Another Resource Negotiator) resource management context, encapsulating allocation state, resources, and container metadata.
+* **Core Logic**: Manages allocation state transitions (e.g., locality skipped, priority skipped) and tracks container updates, reservations, and deallocations. No complex algorithms; primarily a data container with accessor/mutator methods.
+* **Inputs/Outputs**:
+	+ Inputs: `RMContainer` (container to be unreserved), `Resource` (to be allocated), `AllocationState` (initial state)
+	+ Outputs: Getter methods for allocation state, resources, containers (to be unreserved, updated, or killed)
+	+ State Changes: Updates to `updatedContainer`, `toKillContainers` lists
+	+ Side Effects: None explicit, but likely influences YARN resource management decisions
+* **Dependencies**:
+	+ Classes: `RMContainer`, `Resource` (from `org.apache.hadoop.yarn.api.records`), `NodeType` (from `org.apache.hadoop.yarn.server.resourcemanager.scheduler`)
+	+ Libraries/Frameworks: Apache Hadoop YARN
+	+ APIs: Implicitly uses YARN Resource Management APIs through dependent classes
+
+===== FILE SUMMARY: allocator/ContainerAllocator.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: This file (`ContainerAllocator`) extends container allocation logic for YARN (Yet Another Resource Negotiator) Resource Manager, specifically for Capacity Scheduler, delegating to a `RegularContainerAllocator` instance.
+* **Core Logic**: The primary algorithm is essentially a **delegation pattern**, where the `assignContainers` method redirects to an instance of `RegularContainerAllocator`, which is responsible for the actual container assignment logic.
+* **Inputs/Outputs**:
+	+ **Inputs**: 
+		- `clusterResource` (available resources)
+		- `candidates` (set of candidate nodes for allocation)
+		- `schedulingMode` (mode of scheduling)
+		- `resourceLimits` (constraints for resource allocation)
+		- `reservedContainer` (pre-reserved container, if any)
+	+ **Outputs**: `CSAssignment` object (result of container assignment)
+	+ **State Changes/Side Effects**: Depends on the implementation of `RegularContainerAllocator`
+* **Dependencies**:
+	+ **Classes/Interfaces**: 
+		- `AbstractContainerAllocator` (parent class)
+		- `RegularContainerAllocator` (delegated allocator)
+		- `FiCaSchedulerApp`, `ResourceCalculator`, `RMContext`, `ActivitiesManager` (constructor dependencies)
+	+ **Libraries/Frameworks**: Apache Hadoop YARN, Apache License 2.0
+	+ **Hadoop/YARN APIs**: Resource Manager (RM) and Capacity Scheduler APIs
+
+===== FILE SUMMARY: allocator/RegularContainerAllocator.java =====
+Here is a concise file-level semantic summary of the provided Java source file:
+
+**Key Functionality:**
+This Java class, `RegularContainerAllocator`, is responsible for allocating containers to applications in a YARN (Yet Another Resource Negotiator) cluster, considering factors like locality, label, and resource availability. It implements a delayed scheduling mechanism to improve locality allocation.
+
+**Core Logic:**
+
+1. **Pre-checks**: Verify if a pending resource request can be allocated to a given node or set of nodes, considering exclusivity, pending resources, node partitions, headroom, and placement constraints.
+2. **Locality-based Allocation**: Attempt to allocate containers in order of locality preference (Node Local, Rack Local, Off-Switch) while respecting scheduling opportunities and delays.
+3. **Resource Management**: Handle container allocation, reservation, and deallocation, ensuring resource limits and availability are respected.
+
+**Inputs/Outputs:**
+
+* **Inputs**:
+	+ `Resource` cluster resource
+	+ `CandidateNodeSet` of `FiCaSchedulerNode` objects
+	+ `SchedulingMode` (e.g., IGNORE_PARTITION_EXCLUSIVITY)
+	+ `ResourceLimits` object
+	+ `SchedulerRequestKey` object
+	+ Optional `RMContainer` (reserved container)
+* **Outputs**:
+	+ `ContainerAllocation` object (representing allocation result)
+	+ `CSAssignment` object (container assignment result)
+	+ Side effects: updates to application scheduling opportunities, node reservations, and container allocations
+
+**Dependencies:**
+
+* **Classes/Interfaces**:
+	+ `FiCaSchedulerApp`
+	+ `ResourceCalculator`
+	+ `RMContext`
+	+ `ActivitiesManager`
+	+ `AppPlacementAllocator`
+	+ `CapacityScheduler` (optional)
+* **Libraries/Frameworks**:
+	+ Apache Hadoop YARN
+	+ Apache Commons Lang
+	+ SLF4J (logging)
+* **Hadoop/YARN APIs**:
+	+ `ResourceScheduler`
+	+ `SchedulerNode`
+	+ `RMContainer`

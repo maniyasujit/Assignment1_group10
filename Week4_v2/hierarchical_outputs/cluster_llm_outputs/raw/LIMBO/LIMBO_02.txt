@@ -1,0 +1,32 @@
+Here is the synthesized architectural cluster-level result:
+
+**Title:**
+YARN Capacity Scheduler (CS) Metrics and Monitoring Cluster
+
+**Description:**
+This architectural cluster, identified as LIMBO_02, provides a monitoring and metrics framework for the YARN Capacity Scheduler (CS), ensuring **reliability** and **performance** in resource management. 
+
+**Main Components:**
+
+1. **CSQueueMetrics**: Tracks queue-specific resource utilization and metrics for CS queues.
+2. **CapacitySchedulerMetrics**: A singleton collector for scheduler events and latency metrics.
+
+**Component Interactions:**
+* Both components interact with the **Hadoop Metrics System (Metrics2)** for registration and updates.
+* **CSQueueMetrics** may integrate with **CSQueueMetricsForCustomResources** for custom resource support.
+
+**Quality Attributes:**
+
+* **Maintainability**: Modular design with clear, focused responsibilities.
+* **Scalability**: Utilizes mutable gauges and atomic updates for concurrent access.
+* **Reliability**: Synchronized singleton initialization and thread-safe metric updates.
+* **Performance**: Optimized for real-time metric tracking and updates.
+
+**Technologies, Frameworks, Languages, or Libraries:**
+
+* **Languages**: Java
+* **Frameworks/Libraries**: Apache Hadoop YARN, Apache Hadoop Metrics (version 2), java.util.concurrent.atomic
+* **Hadoop/YARN APIs**: Resource management, queue management, metrics system integration. 
+
+**Architectural Role:**
+This cluster plays a crucial role in **Observability** and **Resource Optimization** within the broader YARN ecosystem, providing actionable insights into Capacity Scheduler performance and resource utilization.

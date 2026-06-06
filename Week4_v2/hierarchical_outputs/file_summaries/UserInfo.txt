@@ -1,0 +1,19 @@
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Represents user information in the context of YARN (Yet Another Resource Negotiator) Resource Manager, encapsulating resource usage, application status, and configuration.
+* **Core Logic**: None (primarily a data container with getters; initialization logic is straightforward, mapping inputs to object state).
+* **Inputs/Outputs**:
+	+ **Inputs**: Constructor parameters (username, resource usage, application counts, resource limits, weight, and activity status).
+	+ **Outputs**: Getter methods for all input parameters, providing access to user information.
+	+ **State Changes**: None (immutable once constructed, except for potential external modifications via getters' returned object references).
+	+ **Side Effects**: None.
+* **Dependencies**:
+	+ **Classes/Interfaces**: 
+		- `org.apache.hadoop.yarn.api.records.Resource`
+		- `org.apache.hadoop.yarn.server.resourcemanager.scheduler.ResourceUsage`
+		- Custom DAO (Data Access Object) classes: `ResourceInfo`, `ResourcesInfo`
+	+ **Libraries/Frameworks**: 
+		- `javax.xml.bind.annotation` (for XML serialization)
+		- Apache Hadoop YARN (for resource management context)

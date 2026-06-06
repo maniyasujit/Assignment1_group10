@@ -1,0 +1,22 @@
+Here is a concise file-level semantic summary:
+
+**Summary for `AutoCreatedLeafQueueConfig.java`**
+
+1. **Key Functionality**: Holds configuration settings for auto-created leaf queues in a YARN (Yet Another Resource Negotiator) Capacity Scheduler, managing their capacities and resource quotas.
+2. **Core Logic**: No complex algorithms; primarily a data container with a builder pattern for constructing instances, ensuring structured configuration setup.
+3. **Inputs/Outputs**:
+	* **Inputs**: 
+		+ `QueueCapacities` (template queue capacities)
+		+ `CapacitySchedulerConfiguration` (leaf queue configs)
+		+ `QueueResourceQuotas` (resource quotas)
+	* **Outputs**:
+		+ Exposed configurations via getter methods
+		+ String representation of the config (toString())
+	* **State Changes/Side Effects**: None (read-only configuration holder)
+4. **Dependencies**:
+	* **Classes/Interfaces**:
+		+ `QueueCapacities`
+		+ `CapacitySchedulerConfiguration`
+		+ `QueueResourceQuotas` (all part of the Apache Hadoop YARN project)
+	* **Libraries/Frameworks**: Apache Hadoop YARN
+	* **Hadoop/YARN APIs**: Utilizes YARN scheduler and resource management APIs indirectly through dependent classes.

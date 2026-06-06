@@ -1,0 +1,102 @@
+Algorithm: LIMBO
+Cluster ID: LIMBO_18
+Original cluster ID: 32
+Files:
+- ConfigurationProperties.java
+- ConfiguredNodeLabels.java
+- QueuePath.java
+
+File-level summaries:
+
+===== FILE SUMMARY: ConfigurationProperties.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:** 
+Configuration property storage and retrieval using a trie data structure, optimized for filtering by prefix.
+
+**Core Logic:**
+1. Properties are split by a delimiter ("." ) and stored in a nested trie structure (PrefixNode).
+2. Recursive traversal of the trie for prefix-based property filtering.
+3. Dynamic node creation during property storage and retrieval.
+
+**Inputs/Outputs:**
+* **Inputs:** 
+	+ `Map<String, String>` of configuration properties (constructor)
+	+ Prefix strings for filtering ( `getPropertiesWithPrefix` methods)
+* **Outputs:**
+	+ `Map<String, String>` of filtered properties ( `getPropertiesWithPrefix` methods)
+* **State Changes:** 
+	+ Trie structure updated during property storage
+	+ Logger warnings for empty configuration properties
+
+**Dependencies:**
+* **Classes/Interfaces:**
+	+ `org.slf4j.Logger` and `org.slf4j.LoggerFactory` for logging
+	+ `CapacitySchedulerConfiguration` (for constant `DOT`)
+* **Libraries/Frameworks:**
+	+ SLF4J (Simple Logging Facade for Java)
+* **Hadoop/YARN APIs:** 
+	+ None direct, but part of the `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity` package, implying indirect dependencies.
+
+===== FILE SUMMARY: ConfiguredNodeLabels.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:** 
+Manages node labels for YARN (Yet Another Resource Negotiator) queues, extracting configurations from provided settings.
+
+**Core Logic:**
+1. Initializes a queue-node label mapping from a `CapacitySchedulerConfiguration` object.
+2. Provides default behavior for queues without explicitly set labels (returns an "empty label").
+3. Aggregates node labels across all queues.
+
+**Inputs/Outputs:**
+* **Inputs:**
+	+ `CapacitySchedulerConfiguration` object (optional, for initialization)
+	+ Queue path (`String`)
+	+ Node labels (`Collection<String>`) for setting
+* **Outputs:**
+	+ Configured node labels for a specific queue (`Set<String>`)
+	+ All aggregated node labels across queues (`Set<String>`)
+* **State Changes:**
+	+ Queue-node label mappings can be updated using `setLabelsByQueue`
+
+**Dependencies:**
+* `CapacitySchedulerConfiguration` (Hadoop YARN API)
+* `RMNodeLabelsManager` (Hadoop YARN API, for constants)
+* `com.google.common.collect.ImmutableSet` (Guava library, for immutable collections)
+* Java Standard Library (e.g., `java.util` for collections and streaming)
+
+===== FILE SUMMARY: QueuePath.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Key Functionality:**
+Represents a queue path in a hierarchical structure, providing easy access to parent, leaf, and full path components, with additional utilities for validation, iteration, and wildcard path generation.
+
+**Core Logic:**
+
+* Parsing full queue paths into parent and leaf components
+* Iteration over queue path components in both forward and reverse orders
+* Generation of wildcarded queue paths based on a configurable auto-created queue depth
+* Validation of queue path validity and emptiness
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ Full queue path strings
+	+ Parent and leaf queue names
+	+ Auto-created queue depth configuration value
+* **Outputs:**
+	+ Parsed parent, leaf, and full queue path components
+	+ Iterators over queue path components
+	+ Lists of wildcarded queue paths
+	+ Validation results (boolean indicators for path validity and emptiness)
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `AutoCreatedQueueTemplate` (for wildcard queue constants)
+	+ `CapacitySchedulerConfiguration` (for configuration constants)
+* **Libraries/Frameworks:**
+	+ Java Standard Library (util, lang)
+* **Hadoop/YARN APIs:**
+	+ None direct, but likely part of a larger Hadoop YARN Resource Manager implementation.

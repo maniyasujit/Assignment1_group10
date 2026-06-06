@@ -1,0 +1,30 @@
+Here is the synthesized architectural cluster-level result:
+
+**Title:**
+YARN Capacity Scheduler Preemption Management Cluster (LIMBO_32)
+
+**Description:**
+This architectural cluster, part of the YARN Capacity Scheduler, manages preemptable resources and containers across hierarchical queues, enabling efficient resource allocation and deallocation. **Main Components:**
+
+1. **KillableContainer**: Encapsulates container metadata for preemption.
+2. **PreemptableQueue**: Tracks and manages killable resources and containers within a queue.
+3. **PreemptionManager**: Oversees the hierarchical queue structure, container lifecycles, and resource tracking across partitions.
+
+**Interactions:**
+* **PreemptionManager** interacts with **PreemptableQueue** instances to maintain the queue hierarchy and update resource allocations.
+* **PreemptableQueue** utilizes **KillableContainer** objects for resource tracking and updates.
+
+**Quality Attributes:**
+
+* **Maintainability**: Modular design with clear component responsibilities.
+* **Scalability**: Hierarchical queue structure and concurrent access (via ReentrantReadWriteLock) support large-scale resource management.
+* **Reliability**: Thread-safe access ensures consistent state.
+* **Configurability**: Queue configurations are updated and queried through the **PreemptionManager**.
+
+**Technologies/Libraries:**
+
+* **Apache Hadoop YARN** (Resource Manager APIs, Capacity Scheduler)
+* **Java Util** (ConcurrentSkipListMap, HashMap, java.util.concurrent.locks)
+
+**Architectural Role:**
+This cluster plays a crucial role in optimizing resource utilization within YARN's Capacity Scheduler, facilitating efficient preemption and allocation of resources across queues, thereby enhancing overall cluster resource management.

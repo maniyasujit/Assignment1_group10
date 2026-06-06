@@ -1,0 +1,62 @@
+Algorithm: LIMBO
+Cluster ID: LIMBO_10
+Original cluster ID: 21
+Files:
+- AppPriorityACLConfigurationParser.java
+- AppPriorityACLGroup.java
+
+File-level summaries:
+
+===== FILE SUMMARY: AppPriorityACLConfigurationParser.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary for `AppPriorityACLConfigurationParser.java`**
+
+1. **Key Functionality**: 
+   * Parses Application Priority ACL (Access Control List) configurations from `capacity-scheduler.xml`.
+   * Maps users/groups to priority settings (max/default priority) for YARN Resource Manager.
+
+2. **Core Logic**: 
+   * Regular expression-based parsing of ACL configuration strings.
+   * Iterative processing of ACL groups, validating and normalizing priority settings against the cluster's maximum priority.
+   * Construction of `AppPriorityACLGroup` objects to store parsed ACL configurations.
+
+3. **Inputs/Outputs**: 
+   * **Inputs**:
+     + `clusterMaxPriority` (Priority object)
+     + `aclString` (configuration string from `capacity-scheduler.xml`)
+   * **Outputs**:
+     + `List<AppPriorityACLGroup>` (parsed ACL configurations)
+   * **State Changes/Side Effects**:
+     + Logging of configuration warnings (e.g., when ACL max priority exceeds cluster max priority)
+
+4. **Dependencies**: 
+   * **Classes/Interfaces**:
+     + `org.apache.hadoop.yarn.api.records.Priority`
+     + `org.apache.hadoop.security.authorize.AccessControlList`
+     + `org.apache.hadoop.util.StringUtils`
+     + `org.slf4j.Logger` (for logging)
+   * **Libraries/Frameworks**:
+     + Apache Hadoop YARN
+     + SLF4J (for logging)
+   * **Hadoop/YARN APIs**:
+     + YARN Resource Manager APIs (implicitly, through Priority and AccessControlList classes)
+
+===== FILE SUMMARY: AppPriorityACLGroup.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Represents a group of Access Control List (ACL) settings tied to application priority, facilitating authorization in a YARN Resource Manager scheduler.
+* **Core Logic**: 
+	+ Holds and manages three key attributes: maximum priority, default priority, and associated ACL list.
+	+ Implements comparison, equality, and hashing based on maximum and default priority values.
+* **Inputs/Outputs**:
+	+ **Inputs**: Priority objects (max, default), AccessControlList object (via constructors or setters)
+	+ **Outputs**: Priority objects, AccessControlList object (via getters)
+	+ **State Changes**: Attribute updates via setter methods
+	+ **Side Effects**: None explicit (e.g., no I/O, networking, or external system interactions)
+* **Dependencies**:
+	+ **Classes/Interfaces**: `org.apache.hadoop.security.authorize.AccessControlList`, `org.apache.hadoop.yarn.api.records.Priority`
+	+ **Libraries/Frameworks**: Apache Hadoop YARN
+	+ **Hadoop/YARN APIs**: Utilizes YARN's Priority and ACL APIs for authorization in the Resource Manager scheduler.

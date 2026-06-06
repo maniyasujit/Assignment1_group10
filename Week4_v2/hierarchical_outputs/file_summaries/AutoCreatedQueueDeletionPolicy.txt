@@ -1,0 +1,31 @@
+Here is a concise file-level semantic summary:
+
+**Key Functionality:** 
+This Java class, `AutoCreatedQueueDeletionPolicy`, implements a scheduling edit policy for automatically deleting weight-based auto-created queues in a YARN (Yet Another Resource Negotiator) Resource Manager, specifically for the Capacity Scheduler.
+
+**Core Logic:**
+1. Periodically (at a configurable interval) identifies eligible auto-created queues for deletion.
+2. Tracks queues across intervals to ensure deletion after a consistent expiration period.
+3. Triggers deletion of expired queues by sending a deletion event to the Capacity Scheduler.
+
+**Inputs/Outputs:**
+- **Inputs:** 
+  - Configuration settings (e.g., `AUTO_CREATE_CHILD_QUEUE_EXPIRED_TIME`)
+  - Queue metadata from the Capacity Scheduler
+- **Outputs/Side Effects:**
+  - Deletion events sent to the Capacity Scheduler for expired queues
+  - Logging information for queue deletion activities
+  - Updated internal state (queues marked or sent for deletion)
+
+**Dependencies:**
+- **Classes/Interfaces:**
+  - `SchedulingEditPolicy`
+  - `ResourceScheduler` (specifically `CapacityScheduler`)
+  - `RMContext`
+  - `ResourceCalculator`
+  - `Clock`
+  - `CSQueue` (and its subclasses, e.g., `AbstractCSQueue`)
+- **Libraries/Frameworks:**
+  - Apache Hadoop YARN
+  - Apache Hadoop Configuration
+  - SLF4J (for logging)

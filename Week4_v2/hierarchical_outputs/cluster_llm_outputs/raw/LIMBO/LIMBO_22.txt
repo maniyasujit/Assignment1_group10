@@ -1,0 +1,31 @@
+Here is the synthesized architectural cluster-level result:
+
+**Title:**
+YARN Capacity Management Cluster (LIMBO_22)
+
+**Description:**
+This architectural cluster, part of the YARN Resource Manager, manages capacity entitlements and deactivated leaf queues for efficient resource allocation. **Main components** include:
+
+1. **Deactivated Leaf Queue Manager** (`DeactivatedLeafQueuesByLabel.java`): Calculates available capacity and determines activation eligibility for deactivated leaf queues.
+2. **Leaf Queue Entitlements Manager** (`LeafQueueEntitlements.java`): Lazily initializes and stores queue capacities for auto-created leaf queues.
+
+**Component Interaction:** The Deactivated Leaf Queue Manager likely utilizes queue capacities provided by the Leaf Queue Entitlements Manager to assess available capacity and make informed activation decisions.
+
+**Quality Attributes:**
+
+* **Maintainability**: Moderate (complex capacity calculations, but focused logic)
+* **Scalability**: High (supports auto-created leaf queues and dynamic capacity adjustments)
+* **Reliability**: High (uses established Apache Hadoop YARN APIs and utilities)
+* **Configurability**: Low (capacity calculations are rule-based, with limited apparent configurability)
+* **Performance**: Moderate (lazy initialization in `LeafQueueEntitlements` helps, but complex calculations may impact performance)
+* **Security**: N/A (no explicit security features or concerns identified)
+
+**Technologies, Frameworks, Languages, or Libraries:**
+
+* Java (language)
+* Apache Hadoop YARN (Resource Manager, Scheduler, APIs)
+* Java Standard Library (util, function)
+* SLF4J (logging)
+
+**Architectural Role:**
+This cluster plays a crucial role in optimizing resource utilization within the YARN ecosystem by effectively managing capacity entitlements and deactivated leaf queues, thereby influencing the overall efficiency and scalability of the resource management system.

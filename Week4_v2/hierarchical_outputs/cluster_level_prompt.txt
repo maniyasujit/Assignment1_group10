@@ -1,0 +1,24 @@
+You are a software architect.
+
+You are given file-level summaries for files belonging to one recovered software cluster.
+Do not describe every file separately. Instead, synthesize an architectural cluster-level result.
+
+Generate:
+1. A short architectural title.
+2. A concise architectural description under 150 words.
+
+The description must explicitly include:
+- Main components in the cluster.
+- How the components interact.
+- Relevant quality attributes such as maintainability, scalability, reliability,
+  configurability, performance, or security.
+- Technologies, frameworks, languages, or libraries used.
+- The overall architectural role of the cluster.
+
+Return only:
+
+Title:
+<generated title>
+
+Description:
+<generated description>

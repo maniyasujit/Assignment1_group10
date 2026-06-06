@@ -1,0 +1,227 @@
+Algorithm: LIMBO
+Cluster ID: LIMBO_05
+Original cluster ID: 14
+Files:
+- AbsoluteResourceCapacityCalculator.java
+- AbstractQueueCapacityCalculator.java
+- CalculationContext.java
+- DefaultQueueResourceRoundingStrategy.java
+- PercentageQueueCapacityCalculator.java
+- ResourceCalculationDriver.java
+- RootCalculationDriver.java
+- RootQueueCapacityCalculator.java
+- WeightQueueCapacityCalculator.java
+
+File-level summaries:
+
+===== FILE SUMMARY: AbsoluteResourceCapacityCalculator.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+This Java class, `AbsoluteResourceCapacityCalculator`, calculates resource capacities for YARN (Yet Another Resource Negotiator) queues with absolute capacity type, ensuring efficient resource allocation in a Hadoop cluster.
+
+**Core Logic:**
+
+* Normalizes resource ratios for parent queues with absolute capacity type, considering children's configured resources and effective minimum resources.
+* Calculates minimum and maximum resource capacities for queues based on normalized ratios, remaining resources, and current capacity entries.
+* Updates queue capacities after calculations, handling potential downscaling warnings.
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ `ResourceCalculationDriver` (provides context for resource calculations)
+	+ `CalculationContext` (offers resource names, current capacity entries, etc.)
+	+ `CSQueue` (represents the queue being calculated for)
+* **Outputs/State Changes:**
+	+ Updated queue capacities
+	+ Normalized resource ratios (stored in `ResourceCalculationDriver`)
+	+ Potential downscaling warnings (added to `UpdateContext`)
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `AbstractQueueCapacityCalculator` (parent class)
+	+ `ResourceCalculationDriver`
+	+ `CalculationContext`
+	+ `CSQueue`
+	+ `QueueCapacityVector`
+	+ `ResourceVector`
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ Apache Hadoop common utilities (e.g., `UnitsConversionUtil`)
+
+===== FILE SUMMARY: AbstractQueueCapacityCalculator.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Abstract base class for calculating queue capacities in a resource management scheduler, specifically in the context of Apache Hadoop YARN.
+* **Core Logic**: 
+	+ Encapsulates resource calculation logic for queue capacity setup.
+	+ Defines abstract methods for calculating minimum/maximum effective resources, updating capacities, and executing prerequisite calculations.
+	+ Provides protected methods for retrieving resource names based on capacity types.
+* **Inputs/Outputs**:
+	+ **Inputs**: `ResourceCalculationDriver`, `CSQueue`, `CalculationContext`, `String` (node label)
+	+ **Outputs**: Calculated resource values (min/max), updated queue capacities, sets of resource names
+	+ **State Changes**: Queue capacity metrics and statistics updates
+	+ **Side Effects**: None explicitly mentioned, but potentially influences resource allocation decisions in the YARN scheduler
+* **Dependencies**:
+	+ **Classes/Interfaces**: `ResourceCalculationDriver`, `CSQueue`, `CalculationContext`, `ResourceUnitCapacityType` (enum)
+	+ **Libraries/Frameworks**: Apache Hadoop YARN ( Resource Manager, Scheduler)
+	+ **Hadoop/YARN APIs**: Implicitly uses YARN scheduler and resource management APIs, though not directly imported in this file.
+
+===== FILE SUMMARY: CalculationContext.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Encapsulates arguments for resource calculation iterations in a YARN Resource Manager's Capacity Scheduler.
+* **Core Logic**: Provides shorthand accessors for minimum and maximum capacity vector entries for a given resource and node label, leveraging the associated `CSQueue` configuration.
+* **Inputs/Outputs**:
+	+ Inputs: `resourceName`, `capacityType`, `CSQueue` (via constructor)
+	+ Outputs: `resourceName`, `capacityType`, `CSQueue`, `QueueCapacityVectorEntry` (via getter methods)
+	+ State Changes: None
+	+ Side Effects: None
+* **Dependencies**:
+	+ Classes: `CSQueue`, `QueueCapacityVector`, `QueueCapacityVectorEntry`
+	+ Interfaces: None
+	+ Libraries/Frameworks: Apache Hadoop YARN (Resource Manager, Capacity Scheduler)
+	+ Hadoop/YARN APIs: Utilizes YARN Resource Manager's Capacity Scheduler APIs (e.g., `getConfiguredCapacityVector`)
+
+===== FILE SUMMARY: DefaultQueueResourceRoundingStrategy.java =====
+Here is a concise file-level semantic summary:
+
+**Summary for `DefaultQueueResourceRoundingStrategy.java`**
+
+1. **Key Functionality**: Implements a rounding strategy for resource calculations in YARN Resource Manager's Capacity Scheduler.
+2. **Core Logic**: Rounds resource values based on their type; uses `Math.floor()` for all types except the last one in the precedence order (typically WEIGHT), which uses `Math.round()`.
+3. **Inputs/Outputs**:
+	* **Inputs**: `resourceValue` (double), `capacityVectorEntry` (QueueCapacityVectorEntry)
+	* **Outputs**: Rounded `resourceValue` (double)
+	* **State Changes/Side Effects**: None
+4. **Dependencies**:
+	* **Classes/Interfaces**: `QueueResourceRoundingStrategy`, `QueueCapacityVector.QueueCapacityVectorEntry`, `ResourceUnitCapacityType` (all from `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity`)
+	* **Libraries/Frameworks**: Apache Hadoop YARN
+	* **Hadoop/YARN APIs**: Utilizes YARN Resource Manager's Capacity Scheduler APIs indirectly through dependencies.
+
+===== FILE SUMMARY: PercentageQueueCapacityCalculator.java =====
+Here is a concise file-level semantic summary:
+
+**Summary for `PercentageQueueCapacityCalculator.java`**
+
+1. **Key Functionality**: Calculates minimum and maximum resource capacities for a queue in a YARN (Yet Another Resource Negotiator) cluster, based on percentage-based capacity allocation.
+2. **Core Logic**:
+	* Calculates capacities by applying percentage ratios to parent absolute capacities and cluster resources.
+	* Uses `ResourceCalculationDriver` to fetch necessary input values and update context.
+	* Applies percentage-based calculations in `calculateMinimumResource` and `calculateMaximumResource` methods.
+3. **Inputs/Outputs**:
+	* **Inputs**:
+		+ `ResourceCalculationDriver` instance
+		+ `CalculationContext` instance
+		+ Queue label and resource name
+	* **Outputs/State Changes**:
+		+ Calculated minimum and maximum resource capacities (as `double` values)
+		+ Updated absolute capacities for the queue (in `updateCapacitiesAfterCalculation`)
+4. **Dependencies**:
+	* `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity` package (YARN Capacity Scheduler)
+	* `AbstractQueueCapacityCalculator` (parent class)
+	* `ResourceCalculationDriver` and `CalculationContext` interfaces (YARN Capacity Scheduler APIs)
+	* `AbstractCSQueue` (YARN Capacity Scheduler queue implementation)
+
+===== FILE SUMMARY: ResourceCalculationDriver.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Key Functionality:**
+Drives resource calculation for child queues under a parent queue in a YARN (Yet Another Resource Negotiator) cluster, managing disposable update information for all children.
+
+**Core Logic:**
+
+1. Iterates through a precedence of resource unit capacity types (Absolute, Percentage, Weight).
+2. For each capacity type, calculates resources for each child queue, considering parent queue constraints.
+3. Updates remaining resources after each calculation phase, ensuring resource utilization is within parent queue limits.
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ `CSQueue` (parent queue)
+	+ `QueueCapacityUpdateContext` (update context)
+	+ `Map<ResourceUnitCapacityType, AbstractQueueCapacityCalculator>` (calculators)
+	+ `Collection<String>` (defined resources)
+* **Outputs:**
+	+ Updated `QueueResourceQuotas` for each child queue
+	+ Warnings for resource utilization issues (e.g., overutilization, underutilization)
+	+ Remaining resources for each label (node partition)
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `CSQueue`
+	+ `QueueCapacityUpdateContext`
+	+ `AbstractQueueCapacityCalculator`
+	+ `QueueResourceQuotas`
+	+ `ResourceVector`
+	+ `CalculationContext` (inner class)
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ Apache Commons Lang (for tuple utilities)
+
+===== FILE SUMMARY: RootCalculationDriver.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Drives resource calculations for the root queue in a YARN (Yet Another Resource Negotiator) Resource Manager, specifically handling capacity computations.
+* **Core Logic**: Iterates through node labels and capacity vectors, delegating minimum and maximum resource calculations to an `AbstractQueueCapacityCalculator` instance. Applies rounding strategies and updates queue resource quotas accordingly.
+* **Inputs/Outputs**:
+	+ **Inputs**: `CSQueue` (root queue), `QueueCapacityUpdateContext`, `AbstractQueueCapacityCalculator`, and `Collection<String>` (defined resources)
+	+ **Outputs/State Changes**:
+		- Updated `QueueResourceQuotas` with effective minimum and maximum resources for each label and resource name
+		- Potential side effects through `rootCalculator` method calls (e.g., `updateCapacitiesAfterCalculation`, `calculateResourcePrerequisites`)
+* **Dependencies**:
+	+ **Classes/Interfaces**: `ResourceCalculationDriver`, `AbstractQueueCapacityCalculator`, `CSQueue`, `QueueCapacityUpdateContext`, `QueueResourceQuotas`
+	+ **Libraries/Frameworks**: Apache Hadoop YARN ( Resource Manager, Scheduler)
+
+===== FILE SUMMARY: RootQueueCapacityCalculator.java =====
+Here is a concise file-level semantic summary:
+
+**Summary for `RootQueueCapacityCalculator.java`**
+
+1. **Key Functionality**: Calculates resource capacities for the root queue in a YARN (Yet Another Resource Negotiator) cluster, specifically handling minimum, maximum, and absolute capacity updates.
+2. **Core Logic**:
+	* Delegates normalization to `AbsoluteResourceCapacityCalculator`.
+	* Uses cluster resource values for minimum and maximum capacity calculations.
+	* Sets absolute capacity to 1 for the root queue, with normalized weight adjustment if queue weight is 1.
+3. **Inputs/Outputs**:
+	* **Inputs**: `ResourceCalculationDriver`, `CalculationContext`, `CSQueue`, and resource labels.
+	* **Outputs/State Changes**:
+		+ Updated queue capacities (absolute, normalized weight).
+		+ Normalized resource ratio (set in `AbsoluteResourceCapacityCalculator`).
+4. **Dependencies**:
+	* `AbstractQueueCapacityCalculator` (extends)
+	* `AbsoluteResourceCapacityCalculator` (uses statically)
+	* `ResourceCalculationDriver`, `CalculationContext`, `CSQueue` (Apache Hadoop YARN APIs/classes)
+	* `QueueCapacityVector` (for `ResourceUnitCapacityType` enum)
+
+===== FILE SUMMARY: WeightQueueCapacityCalculator.java =====
+Here is a concise file-level semantic summary:
+
+**Summary for `WeightQueueCapacityCalculator.java`**
+
+1. **Key Functionality**: Calculates resource capacities for YARN queues based on weighted capacity allocation.
+2. **Core Logic**:
+	* Precalculates summary of children's weights for resource prerequisites.
+	* Calculates minimum resource capacity using normalized weights, remaining resources, and parent capacity ratios.
+	* Updates queue capacities after calculation based on sum of weighted resource capacities.
+	* **Note**: Maximum resource capacity calculation is not supported for WEIGHT capacity type.
+3. **Inputs/Outputs**:
+	* **Inputs**:
+		+ `ResourceCalculationDriver` (provides queue hierarchy and resource data)
+		+ `CalculationContext` (provides context for resource calculations)
+		+ `CSQueue` and `String label` (queue and label for capacity updates)
+	* **Outputs/State Changes**:
+		+ Updated queue capacities (normalized weight, absolute capacities)
+		+ Incremented weight summaries in `ResourceCalculationDriver`
+4. **Dependencies**:
+	* `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity` package (YARN capacity scheduler)
+	* `AbstractQueueCapacityCalculator` (parent class)
+	* `QueueCapacityVector.ResourceUnitCapacityType` (enum for capacity types, specifically WEIGHT)

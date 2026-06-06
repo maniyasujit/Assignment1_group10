@@ -1,0 +1,19 @@
+Here is a concise file-level semantic summary:
+
+**Summary for `RootQueueCapacityCalculator.java`**
+
+1. **Key Functionality**: Calculates resource capacities for the root queue in a YARN (Yet Another Resource Negotiator) cluster, specifically handling minimum, maximum, and absolute capacity updates.
+2. **Core Logic**:
+	* Delegates normalization to `AbsoluteResourceCapacityCalculator`.
+	* Uses cluster resource values for minimum and maximum capacity calculations.
+	* Sets absolute capacity to 1 for the root queue, with normalized weight adjustment if queue weight is 1.
+3. **Inputs/Outputs**:
+	* **Inputs**: `ResourceCalculationDriver`, `CalculationContext`, `CSQueue`, and resource labels.
+	* **Outputs/State Changes**:
+		+ Updated queue capacities (absolute, normalized weight).
+		+ Normalized resource ratio (set in `AbsoluteResourceCapacityCalculator`).
+4. **Dependencies**:
+	* `AbstractQueueCapacityCalculator` (extends)
+	* `AbsoluteResourceCapacityCalculator` (uses statically)
+	* `ResourceCalculationDriver`, `CalculationContext`, `CSQueue` (Apache Hadoop YARN APIs/classes)
+	* `QueueCapacityVector` (for `ResourceUnitCapacityType` enum)

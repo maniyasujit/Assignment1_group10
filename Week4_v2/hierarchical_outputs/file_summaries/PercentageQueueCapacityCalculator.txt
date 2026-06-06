@@ -1,0 +1,22 @@
+Here is a concise file-level semantic summary:
+
+**Summary for `PercentageQueueCapacityCalculator.java`**
+
+1. **Key Functionality**: Calculates minimum and maximum resource capacities for a queue in a YARN (Yet Another Resource Negotiator) cluster, based on percentage-based capacity allocation.
+2. **Core Logic**:
+	* Calculates capacities by applying percentage ratios to parent absolute capacities and cluster resources.
+	* Uses `ResourceCalculationDriver` to fetch necessary input values and update context.
+	* Applies percentage-based calculations in `calculateMinimumResource` and `calculateMaximumResource` methods.
+3. **Inputs/Outputs**:
+	* **Inputs**:
+		+ `ResourceCalculationDriver` instance
+		+ `CalculationContext` instance
+		+ Queue label and resource name
+	* **Outputs/State Changes**:
+		+ Calculated minimum and maximum resource capacities (as `double` values)
+		+ Updated absolute capacities for the queue (in `updateCapacitiesAfterCalculation`)
+4. **Dependencies**:
+	* `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity` package (YARN Capacity Scheduler)
+	* `AbstractQueueCapacityCalculator` (parent class)
+	* `ResourceCalculationDriver` and `CalculationContext` interfaces (YARN Capacity Scheduler APIs)
+	* `AbstractCSQueue` (YARN Capacity Scheduler queue implementation)

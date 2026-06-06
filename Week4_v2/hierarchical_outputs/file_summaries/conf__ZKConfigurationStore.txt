@@ -1,0 +1,41 @@
+Here is a concise file-level semantic summary of the provided Java source file:
+
+**Key Functionality:**
+This Java class, `ZKConfigurationStore`, implements a ZooKeeper-based storage system for YARN (Yet Another Resource Negotiator) configuration data, providing methods for storing, retrieving, and managing configuration versions, logs, and mutations.
+
+**Core Logic:**
+
+1. **Initialization**: Sets up ZooKeeper connections, creates necessary znodes, and initializes configuration storage.
+2. **Configuration Management**: Stores, retrieves, and updates YARN configuration data in ZooKeeper, handling versioning and concurrency.
+3. **Logging and Mutation Tracking**: Stores and manages logs of configuration changes (mutations) with a configurable maximum log size.
+4. **Concurrency and Fault Tolerance**: Employs retry mechanisms and safe update operations to handle ZooKeeper connection issues and concurrent access.
+
+**Inputs/Outputs:**
+
+* **Inputs**:
+	+ YARN configuration data (key-value pairs)
+	+ Log mutations (configuration change records)
+	+ Version information
+* **Outputs**:
+	+ Stored configuration data
+	+ Retrieved configuration versions
+	+ Logs of configuration changes
+	+ Updated configuration versions
+* **State Changes**:
+	+ ZooKeeper znode creations and updates
+	+ Configuration version increments
+* **Side Effects**:
+	+ ZooKeeper connection establishment and closure
+	+ Logging of errors and warnings
+
+**Dependencies:**
+
+* **Classes/Interfaces**:
+	+ `YarnConfigurationStore` (extended by this class)
+	+ `ZKCuratorManager` (for ZooKeeper interactions)
+	+ `Configuration` (Apache Hadoop configuration class)
+	+ `RMContext` (YARN Resource Manager context)
+* **Libraries/Frameworks**:
+	+ Apache ZooKeeper
+	+ Apache Hadoop (YARN, Commons IO)
+	+ SLF4J (logging)

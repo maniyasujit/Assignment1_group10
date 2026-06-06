@@ -1,0 +1,82 @@
+Algorithm: ACDC
+Cluster ID: ACDC_07
+Original cluster ID: org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.converter.ss
+Files:
+- AutoCreatedQueueDeletionPolicy.java
+- QueueConfigurationAutoRefreshPolicy.java
+
+File-level summaries:
+
+===== FILE SUMMARY: AutoCreatedQueueDeletionPolicy.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:** 
+This Java class, `AutoCreatedQueueDeletionPolicy`, implements a scheduling edit policy for automatically deleting weight-based auto-created queues in a YARN (Yet Another Resource Negotiator) Resource Manager, specifically for the Capacity Scheduler.
+
+**Core Logic:**
+1. Periodically (at a configurable interval) identifies eligible auto-created queues for deletion.
+2. Tracks queues across intervals to ensure deletion after a consistent expiration period.
+3. Triggers deletion of expired queues by sending a deletion event to the Capacity Scheduler.
+
+**Inputs/Outputs:**
+- **Inputs:** 
+  - Configuration settings (e.g., `AUTO_CREATE_CHILD_QUEUE_EXPIRED_TIME`)
+  - Queue metadata from the Capacity Scheduler
+- **Outputs/Side Effects:**
+  - Deletion events sent to the Capacity Scheduler for expired queues
+  - Logging information for queue deletion activities
+  - Updated internal state (queues marked or sent for deletion)
+
+**Dependencies:**
+- **Classes/Interfaces:**
+  - `SchedulingEditPolicy`
+  - `ResourceScheduler` (specifically `CapacityScheduler`)
+  - `RMContext`
+  - `ResourceCalculator`
+  - `Clock`
+  - `CSQueue` (and its subclasses, e.g., `AbstractCSQueue`)
+- **Libraries/Frameworks:**
+  - Apache Hadoop YARN
+  - Apache Hadoop Configuration
+  - SLF4J (for logging)
+
+===== FILE SUMMARY: QueueConfigurationAutoRefreshPolicy.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+Automatically refreshes YARN queue configurations at regular intervals if changes are detected in the underlying configuration file.
+
+**Core Logic:**
+
+1. Periodically checks the modification time of the queue configuration file.
+2. If the file has been modified since the last check and the monitoring interval has passed, attempts to refresh the queues using the `RMAdminService`.
+3. Handles refresh failures, logging errors and updating failure state.
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ YARN configuration (`YarnConfiguration`)
+	+ Resource Manager context (`RMContext`)
+	+ Resource Scheduler instance (`ResourceScheduler`)
+	+ Configuration file modifications (implicit input)
+* **Outputs:**
+	+ Refreshed queue configurations (via `RMAdminService`)
+	+ Log messages (info, error, debug)
+	+ Updated internal state (e.g., `lastReloadAttempt`, `lastReloadAttemptFailed`)
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `CapacityScheduler`
+	+ `RMContext`
+	+ `ResourceScheduler`
+	+ `RMAdminService`
+	+ `FileSystemBasedConfigurationProvider`
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ Apache Hadoop FileSystem
+	+ SLF4J (logging)
+* **Hadoop/YARN APIs:**
+	+ `YarnConfiguration`
+	+ `ResourceCalculator`
+	+ `RMNodeLabelsManager`

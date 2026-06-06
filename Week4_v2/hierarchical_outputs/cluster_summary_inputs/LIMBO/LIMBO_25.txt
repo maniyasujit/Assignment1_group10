@@ -1,0 +1,111 @@
+Algorithm: LIMBO
+Cluster ID: LIMBO_25
+Original cluster ID: 39
+Files:
+- QueueCapacityVector.java
+- QueueUpdateWarning.java
+- conf/QueueCapacityConfigParser.java
+- placement/converter/LegacyMappingRuleToJson.java
+
+File-level summaries:
+
+===== FILE SUMMARY: QueueCapacityVector.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+Represents a vector of queue capacities with associated calculation types for each resource in a YARN (Yet Another Resource Negotiator) resource management context.
+
+**Core Logic:**
+
+* Manages a collection of resources (e.g., memory, CPU) with their respective capacities and calculation types (absolute, percentage, weight).
+* Provides methods for setting, retrieving, and iterating over resource capacities and types.
+* Supports uniform and mixed capacity vectors, with automatic tracking of defined capacity types.
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ Resource names (e.g., "memory", "cpu")
+	+ Capacity values (doubles)
+	+ ResourceUnitCapacityTypes (enum: PERCENTAGE, ABSOLUTE, WEIGHT)
+* **Outputs:**
+	+ QueueCapacityVectorEntry objects (containing resource name, value, and type)
+	+ Sets of resource names by capacity type
+	+ Indicators for empty/mixed capacity vectors
+	+ String representation of the capacity vector
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `ResourceVector` (not shown in the provided code)
+	+ `ResourceInformation` (Apache Hadoop YARN API)
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ Java Standard Library (e.g., `java.util` classes)
+
+===== FILE SUMMARY: QueueUpdateWarning.java =====
+Here is a concise file-level semantic summary:
+
+**Summary for `QueueUpdateWarning.java`**
+
+1. **Key Functionality**: Represents and formats warning events occurring during YARN Resource Manager queue capacity updates.
+2. **Core Logic**: Encapsulates warning types with parameterized templates, allowing for dynamic message construction based on queue names and optional additional information.
+3. **Inputs/Outputs**:
+	* **Inputs**: `QueueUpdateWarningType`, `queue` name (String), optional `info` (String)
+	* **Outputs**: Formatted warning message (String) via `toString()`
+	* **State Changes**: None (immutable object)
+	* **Side Effects**: None
+4. **Dependencies**:
+	* **None external** (self-contained within Apache Hadoop YARN project)
+	* **Internal**: Assumes integration with YARN Resource Manager scheduler capacity update logic (not explicitly depended on in this file)
+
+===== FILE SUMMARY: conf/QueueCapacityConfigParser.java =====
+Here is a concise file-level semantic summary of the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Parses `QueueCapacityVector` from capacity configuration property strings for YARN (Yet Another Resource Negotiator) queues.
+* **Core Logic**:
+	+ Uses regular expressions to match and extract capacity values from input strings.
+	+ Applies different parsing strategies based on input format (uniform vs. heterogeneous/resource-based).
+	+ Converts extracted values to standardized units (e.g., MB) when necessary.
+* **Inputs/Outputs**:
+	+ **Inputs**: `capacityString` (configuration property string), `queuePath` (queue identifier)
+	+ **Outputs**: Parsed `QueueCapacityVector` object, or an empty vector if parsing fails
+	+ **State Changes**: None
+	+ **Side Effects**: None
+* **Dependencies**:
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity` package (YARN Capacity Scheduler)
+	+ `org.apache.hadoop.yarn.util.UnitsConversionUtil` (for unit conversions)
+	+ Java Standard Library (e.g., `java.util.regex`, `java.util.function`)
+
+===== FILE SUMMARY: placement/converter/LegacyMappingRuleToJson.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+This Java class, `LegacyMappingRuleToJson`, converts legacy mapping rules (for user groups and application names) from a string format to a JSON format, compatible with the Capacity Scheduler in Apache Hadoop YARN.
+
+**Core Logic:**
+
+1. Parsing legacy rules into their constituent parts (match, target, etc.)
+2. Identifying rule types (user, group, application) and applying corresponding conversion logic
+3. Creating JSON nodes for each rule, setting common fields (e.g., type, fallbackResult, create) and type-specific fields (e.g., policy, matches, customPlacement)
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ Legacy user group mapping rules (string or string collection)
+	+ Legacy application name mapping rules (string or string collection)
+* **Outputs:**
+	+ JSON string representing the converted mapping rules (or null if no rules are set)
+	+ Side effect: none (no external state changes)
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.QueuePath`
+	+ `com.fasterxml.jackson.databind.ObjectMapper` (for JSON creation)
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ Jackson (for JSON processing)
+* **Hadoop/YARN APIs:**
+	+ Capacity Scheduler (implicit, through QueuePath usage)

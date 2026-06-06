@@ -1,0 +1,82 @@
+Algorithm: LIMBO
+Cluster ID: LIMBO_29
+Original cluster ID: 43
+Files:
+- conf/InMemoryConfigurationStore.java
+- conf/YarnConfigurationStore.java
+
+File-level summaries:
+
+===== FILE SUMMARY: conf/InMemoryConfigurationStore.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:** 
+In-memory storage for YARN (Yet Another Resource Negotiator) configuration, implementing a non-persistent `YarnConfigurationStore`.
+
+**Core Logic:**
+Stores configuration in RAM, applying updates directly to the in-memory store without logging or persisting changes. Versioning is simplistic, incrementing with each confirmed mutation.
+
+**Inputs/Outputs:**
+* **Inputs:** 
+	+ Initial configuration (`initialize` method)
+	+ Configuration updates (`confirmMutation` method)
+* **Outputs:**
+	+ Current in-memory configuration (`retrieve` method)
+	+ Configuration version (`getConfigVersion` method)
+* **State Changes:**
+	+ In-memory configuration updates
+	+ Incrementing configuration version
+* **Side Effects:** None (no persistence or external interactions)
+
+**Dependencies:**
+* **Classes/Interfaces:**
+	+ `YarnConfigurationStore` (extended)
+	+ `Configuration` (Apache Hadoop)
+	+ `RMContext` (Apache Hadoop YARN)
+	+ `LogMutation` (Apache Hadoop YARN)
+* **Libraries/Frameworks:**
+	+ Apache Hadoop
+	+ Apache Hadoop YARN
+* **Hadoop/YARN APIs:**
+	+ YARN Resource Manager (RM) Context
+	+ YARN Configuration Management
+
+===== FILE SUMMARY: conf/YarnConfigurationStore.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+This Java file defines an abstract class `YarnConfigurationStore` for managing and persisting YARN (Yet Another Resource Negotiator) configuration, specifically for the Capacity Scheduler, using a write-ahead logging approach.
+
+**Core Logic:**
+The core logic revolves around logging, confirming, and retrieving configuration mutations (updates) in a fault-tolerant manner. This involves:
+1. Initializing the store with an initial configuration.
+2. Logging mutations (updates) to a backing store.
+3. Confirming logged mutations, optionally merging them with the persisted configuration.
+4. Retrieving the current persisted configuration.
+
+**Inputs/Outputs:**
+* **Inputs:**
+	+ Initial configuration (`Configuration` objects)
+	+ Logged mutations (`LogMutation` objects)
+	+ Confirmation status for mutations (boolean)
+* **Outputs:**
+	+ Persisted configuration (`Configuration` object)
+	+ List of confirmed configuration mutations (`LogMutation` objects)
+	+ Configuration version information (`Version` object)
+* **State Changes:**
+	+ Updates to the persisted configuration store
+	+ Logging and confirmation of mutations
+* **Side Effects:**
+	+ I/O operations for storing and retrieving configuration data
+
+**Dependencies:**
+* **Classes/Interfaces:**
+	+ `org.apache.hadoop.conf.Configuration`
+	+ `org.apache.hadoop.yarn.server.records.Version`
+	+ `org.apache.hadoop.yarn.server.resourcemanager.RMContext`
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler`
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ SLF4J (for logging)
+* **Hadoop/YARN APIs:**
+	+ Utilizes various YARN APIs for configuration management and versioning.

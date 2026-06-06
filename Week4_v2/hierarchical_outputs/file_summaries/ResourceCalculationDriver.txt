@@ -1,0 +1,35 @@
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Key Functionality:**
+Drives resource calculation for child queues under a parent queue in a YARN (Yet Another Resource Negotiator) cluster, managing disposable update information for all children.
+
+**Core Logic:**
+
+1. Iterates through a precedence of resource unit capacity types (Absolute, Percentage, Weight).
+2. For each capacity type, calculates resources for each child queue, considering parent queue constraints.
+3. Updates remaining resources after each calculation phase, ensuring resource utilization is within parent queue limits.
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ `CSQueue` (parent queue)
+	+ `QueueCapacityUpdateContext` (update context)
+	+ `Map<ResourceUnitCapacityType, AbstractQueueCapacityCalculator>` (calculators)
+	+ `Collection<String>` (defined resources)
+* **Outputs:**
+	+ Updated `QueueResourceQuotas` for each child queue
+	+ Warnings for resource utilization issues (e.g., overutilization, underutilization)
+	+ Remaining resources for each label (node partition)
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `CSQueue`
+	+ `QueueCapacityUpdateContext`
+	+ `AbstractQueueCapacityCalculator`
+	+ `QueueResourceQuotas`
+	+ `ResourceVector`
+	+ `CalculationContext` (inner class)
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ Apache Commons Lang (for tuple utilities)

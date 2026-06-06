@@ -1,0 +1,35 @@
+Here is the synthesized architectural cluster-level result:
+
+**Title:**
+YARN Capacity Scheduler Queue Management Cluster (ACDC_04)
+
+**Description:**
+This architectural cluster, part of the Apache Hadoop YARN Resource Manager, dynamically manages queue capacities and configurations for efficient resource allocation. **Main Components:**
+
+1. **Auto-Created Leaf Queue Management**: `AutoCreatedLeafQueue`, `AbstractAutoCreatedLeafQueue`, and `AutoCreatedQueueManagementPolicy` work together to create, configure, and adjust leaf queue capacities.
+2. **Capacity Computation and Updates**: `CSQueueUtils` and `DeactivatedLeafQueuesByLabel` calculate and update queue capacities, ensuring guaranteed capacities when available or zero when idle.
+3. **Queue State and Entitlement Management**: `ManagedParentQueue`, `QueueManagementChange`, `LeafQueueEntitlements`, and `GuaranteedOrZeroCapacityOverTimePolicy` manage queue states, entitlements, and capacity changes.
+
+**Interactions:**
+
+* Auto-created leaf queues interact with parent queues and capacity computation utilities to adjust capacities.
+* Queue management policies influence capacity assignments based on application submission events.
+* Entitlement management provides access to queue capacities, updating internal states as queues are accessed.
+
+**Quality Attributes:**
+
+* **Maintainability**: Modular design with focused classes for each functionality.
+* **Scalability**: Dynamic queue creation and capacity adjustments support varying workloads.
+* **Reliability**: Guaranteed capacity assignments ensure resource availability for submitted applications.
+* **Configurability**: Queue management policies (e.g., `GuaranteedOrZeroCapacityOverTimePolicy`) can be swapped or customized.
+* **Performance**: Efficient capacity computations and lazy initialization of queue capacities minimize overhead.
+
+**Technologies, Frameworks, Languages, or Libraries:**
+
+* **Apache Hadoop YARN** (Resource Manager, Capacity Scheduler)
+* **Apache Commons Logging (SLF4J)**
+* **Java Standard Library** (util, function)
+* **Guava library** (for immutable collections)
+
+**Architectural Role:**
+This cluster plays a crucial role in the YARN Resource Manager, ensuring efficient and dynamic resource allocation through intelligent queue management, thereby optimizing the overall performance and reliability of the Hadoop ecosystem.

@@ -1,0 +1,18 @@
+Here is a concise file-level semantic summary of the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Parses `QueueCapacityVector` from capacity configuration property strings for YARN (Yet Another Resource Negotiator) queues.
+* **Core Logic**:
+	+ Uses regular expressions to match and extract capacity values from input strings.
+	+ Applies different parsing strategies based on input format (uniform vs. heterogeneous/resource-based).
+	+ Converts extracted values to standardized units (e.g., MB) when necessary.
+* **Inputs/Outputs**:
+	+ **Inputs**: `capacityString` (configuration property string), `queuePath` (queue identifier)
+	+ **Outputs**: Parsed `QueueCapacityVector` object, or an empty vector if parsing fails
+	+ **State Changes**: None
+	+ **Side Effects**: None
+* **Dependencies**:
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity` package (YARN Capacity Scheduler)
+	+ `org.apache.hadoop.yarn.util.UnitsConversionUtil` (for unit conversions)
+	+ Java Standard Library (e.g., `java.util.regex`, `java.util.function`)

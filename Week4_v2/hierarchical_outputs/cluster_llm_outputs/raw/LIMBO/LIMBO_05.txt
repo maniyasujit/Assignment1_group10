@@ -1,0 +1,33 @@
+Here is the synthesized architectural cluster-level result:
+
+**Title:**
+YARN Resource Management Cluster: Capacity Scheduler Calculation Engine
+
+**Description:**
+This architectural cluster, identified as LIMBO_05, constitutes the calculation engine for Apache Hadoop YARN's Capacity Scheduler. It encompasses a set of interconnected Java components responsible for determining resource capacities for queues within a YARN cluster, ensuring efficient resource allocation.
+
+**Main Components:**
+
+1. **Queue Capacity Calculators**: Specialized classes (e.g., `AbsoluteResourceCapacityCalculator`, `PercentageQueueCapacityCalculator`, `WeightQueueCapacityCalculator`) that compute minimum and maximum resource capacities based on different capacity allocation types.
+2. **Resource Calculation Drivers**: `ResourceCalculationDriver` and `RootCalculationDriver` orchestrate the calculation process for child and root queues, respectively, utilizing the appropriate capacity calculators.
+3. **Context and Utility Classes**: `CalculationContext`, `DefaultQueueResourceRoundingStrategy`, and others provide supporting functionality for calculations, rounding, and context management.
+
+**Component Interactions:**
+
+* Calculation drivers iterate through capacity types, delegating calculations to corresponding queue capacity calculators.
+* Calculators interact with `CalculationContext` for input parameters and update queue capacities through the drivers.
+* Drivers update `QueueResourceQuotas` and handle resource utilization warnings.
+
+**Relevant Quality Attributes:**
+
+* **Maintainability**: Modular design with abstract base classes and interfaces facilitates extensibility and ease of modification.
+* **Scalability**: Efficient resource allocation and capacity calculations support large-scale YARN clusters.
+* **Reliability**: Robust calculation logic and update mechanisms ensure consistent resource management.
+* **Configurability**: Support for various capacity allocation types (absolute, percentage, weight) allows for flexible configuration.
+* **Performance**: Optimized calculation processes minimize overhead in resource-intensive YARN environments.
+
+**Technologies, Frameworks, Languages, or Libraries:**
+
+* **Language**: Java
+* **Frameworks/Libraries**: Apache Hadoop YARN, Apache Commons Lang
+* **Hadoop/YARN APIs**: Extensive use of YARN Resource Manager, Capacity Scheduler, and related APIs.

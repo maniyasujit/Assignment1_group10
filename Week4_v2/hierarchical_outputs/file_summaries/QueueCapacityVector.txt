@@ -1,0 +1,31 @@
+Here is a concise file-level semantic summary:
+
+**Key Functionality:**
+Represents a vector of queue capacities with associated calculation types for each resource in a YARN (Yet Another Resource Negotiator) resource management context.
+
+**Core Logic:**
+
+* Manages a collection of resources (e.g., memory, CPU) with their respective capacities and calculation types (absolute, percentage, weight).
+* Provides methods for setting, retrieving, and iterating over resource capacities and types.
+* Supports uniform and mixed capacity vectors, with automatic tracking of defined capacity types.
+
+**Inputs/Outputs:**
+
+* **Inputs:**
+	+ Resource names (e.g., "memory", "cpu")
+	+ Capacity values (doubles)
+	+ ResourceUnitCapacityTypes (enum: PERCENTAGE, ABSOLUTE, WEIGHT)
+* **Outputs:**
+	+ QueueCapacityVectorEntry objects (containing resource name, value, and type)
+	+ Sets of resource names by capacity type
+	+ Indicators for empty/mixed capacity vectors
+	+ String representation of the capacity vector
+
+**Dependencies:**
+
+* **Classes/Interfaces:**
+	+ `ResourceVector` (not shown in the provided code)
+	+ `ResourceInformation` (Apache Hadoop YARN API)
+* **Libraries/Frameworks:**
+	+ Apache Hadoop YARN
+	+ Java Standard Library (e.g., `java.util` classes)

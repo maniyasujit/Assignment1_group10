@@ -1,0 +1,65 @@
+Algorithm: ARC
+Cluster ID: ARC_06
+Original cluster ID: cluster_5
+Files:
+- ConfigurationProperties.java
+- UserWeights.java
+
+File-level summaries:
+
+===== FILE SUMMARY: ConfigurationProperties.java =====
+Here is a concise file-level semantic summary:
+
+**Key Functionality:** 
+Configuration property storage and retrieval using a trie data structure, optimized for filtering by prefix.
+
+**Core Logic:**
+1. Properties are split by a delimiter ("." ) and stored in a nested trie structure (PrefixNode).
+2. Recursive traversal of the trie for prefix-based property filtering.
+3. Dynamic node creation during property storage and retrieval.
+
+**Inputs/Outputs:**
+* **Inputs:** 
+	+ `Map<String, String>` of configuration properties (constructor)
+	+ Prefix strings for filtering ( `getPropertiesWithPrefix` methods)
+* **Outputs:**
+	+ `Map<String, String>` of filtered properties ( `getPropertiesWithPrefix` methods)
+* **State Changes:** 
+	+ Trie structure updated during property storage
+	+ Logger warnings for empty configuration properties
+
+**Dependencies:**
+* **Classes/Interfaces:**
+	+ `org.slf4j.Logger` and `org.slf4j.LoggerFactory` for logging
+	+ `CapacitySchedulerConfiguration` (for constant `DOT`)
+* **Libraries/Frameworks:**
+	+ SLF4J (Simple Logging Facade for Java)
+* **Hadoop/YARN APIs:** 
+	+ None direct, but part of the `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity` package, implying indirect dependencies.
+
+===== FILE SUMMARY: UserWeights.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Manages user-specific weights for resource allocation in a YARN (Yet Another Resource Negotiator) capacity scheduler.
+* **Core Logic**:
+	+ Parses configuration properties to extract user weights.
+	+ Validates user weights against defined constraints (non-negative, within a queue's user limit).
+	+ Provides weight retrieval by username with a default weight fallback.
+* **Inputs/Outputs**:
+	+ **Inputs**: 
+		- `CapacitySchedulerConfiguration`
+		- `ConfigurationProperties`
+		- `QueuePath`
+		- Username (for weight retrieval)
+	+ **Outputs**:
+		- User weight (float) for a given username
+		- **State Changes**:
+			- Validation exceptions (`IOException`) if weights are invalid
+			- Updated internal weight map via `addFrom` method
+		- **Side Effects**: None explicit beyond internal state changes
+* **Dependencies**:
+	+ `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity` package (e.g., `CapacitySchedulerConfiguration`, `QueuePrefixes`)
+	+ Apache Hadoop `ConfigurationProperties`
+	+ Java Standard Library (e.g., `java.util.HashMap`, `java.util.regex.Matcher`)

@@ -1,0 +1,18 @@
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Represents a resource allocation vector with floating-point values, grouped by resource names, facilitating arithmetic operations and iteration.
+* **Core Logic**: 
+	+ Maps resource names to double values using a `HashMap`.
+	+ Supports element-wise arithmetic operations (increment, decrement) with other `ResourceVector` instances or scalar values.
+	+ Provides factory methods for creating zero, uniform, and `Resource`-based vectors.
+* **Inputs/Outputs**:
+	+ **Inputs**: Resource names, double values, `Resource` objects, other `ResourceVector` instances.
+	+ **Outputs**: Modified `ResourceVector` state, resource values, resource names (as a Set).
+	+ **State Changes**: Resource values updated through increment/decrement operations.
+	+ **Side Effects**: None explicit, beyond internal state changes.
+* **Dependencies**:
+	+ **Classes/Interfaces**: `org.apache.hadoop.yarn.api.records.Resource`, `org.apache.hadoop.yarn.api.records.ResourceInformation`, `org.apache.hadoop.yarn.util.resource.ResourceUtils`.
+	+ **Libraries/Frameworks**: Apache Hadoop YARN.
+	+ **Java Standard Library**: `java.util` (HashMap, Iterator, Set).

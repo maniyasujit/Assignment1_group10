@@ -1,0 +1,26 @@
+Algorithm: LIMBO
+Cluster ID: LIMBO_24
+Original cluster ID: 38
+Files:
+- QueueResourceRoundingStrategy.java
+
+File-level summaries:
+
+===== FILE SUMMARY: QueueResourceRoundingStrategy.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Defines an interface for strategies to round calculated resource values to whole numbers in the context of YARN Resource Manager's Capacity Scheduler.
+* **Core Logic**: None (interface only); implementers will provide the rounding algorithm, but the interface suggests consideration of both `resourceValue` and `capacityVectorEntry` in the rounding decision.
+* **Inputs/Outputs**:
+	+ **Inputs**:
+		- `resourceValue` (double): calculated resource value to be rounded
+		- `capacityVectorEntry` (QueueCapacityVectorEntry): configured capacity entry influencing rounding
+	+ **Outputs**:
+		- `roundedResourceValue` (double): whole number representation of the input resource value
+* **Dependencies**:
+	+ **Classes/Interfaces**:
+		- `QueueCapacityVector.QueueCapacityVectorEntry` (part of the same package, implying tight coupling with YARN's Capacity Scheduler internals)
+	+ **Libraries/Frameworks**:
+		- Apache Hadoop YARN (Resource Manager, Capacity Scheduler)

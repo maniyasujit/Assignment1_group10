@@ -1,0 +1,38 @@
+Algorithm: LIMBO
+Cluster ID: LIMBO_31
+Original cluster ID: 45
+Files:
+- placement/MappingRuleCreator.java
+
+File-level summaries:
+
+===== FILE SUMMARY: placement/MappingRuleCreator.java =====
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary for `MappingRuleCreator.java`**
+
+1. **Key Functionality**: 
+   * Creates `MappingRule` objects from JSON files or strings, which define placement rules for YARN (Yet Another Resource Negotiator) resource management.
+
+2. **Core Logic**: 
+   * Parses JSON input to extract rule definitions (`Rule` objects)
+   * Creates `MappingRuleMatcher` and `MappingRuleAction` objects based on rule types (e.g., USER, GROUP, APPLICATION) and policies (e.g., DEFAULT_QUEUE, REJECT, PRIMARY_GROUP)
+   * Combines matchers and actions into `MappingRule` objects, handling fallback behaviors
+
+3. **Inputs/Outputs**: 
+   * **Inputs**:
+     + JSON files (via file path) or JSON strings containing rule definitions
+   * **Outputs**:
+     + Lists of `MappingRule` objects
+   * **State Changes/Side Effects**:
+     + Logging of rule processing details (e.g., default values used)
+
+4. **Dependencies**: 
+   * **Classes/Interfaces**:
+     + `MappingRule`, `MappingRuleMatcher`, `MappingRuleAction` (custom YARN placement rule classes)
+     + `Rule`, `MappingRulesDescription` (generated schema classes for JSON parsing)
+   * **Libraries/Frameworks**:
+     + Apache Hadoop YARN
+     + Jackson (for JSON parsing via `ObjectMapper`)
+     + Apache Commons Lang (for utility functions like `StringUtils`)
+     + SLF4J (for logging)

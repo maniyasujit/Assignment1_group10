@@ -1,0 +1,16 @@
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Encapsulates arguments for resource calculation iterations in a YARN Resource Manager's Capacity Scheduler.
+* **Core Logic**: Provides shorthand accessors for minimum and maximum capacity vector entries for a given resource and node label, leveraging the associated `CSQueue` configuration.
+* **Inputs/Outputs**:
+	+ Inputs: `resourceName`, `capacityType`, `CSQueue` (via constructor)
+	+ Outputs: `resourceName`, `capacityType`, `CSQueue`, `QueueCapacityVectorEntry` (via getter methods)
+	+ State Changes: None
+	+ Side Effects: None
+* **Dependencies**:
+	+ Classes: `CSQueue`, `QueueCapacityVector`, `QueueCapacityVectorEntry`
+	+ Interfaces: None
+	+ Libraries/Frameworks: Apache Hadoop YARN (Resource Manager, Capacity Scheduler)
+	+ Hadoop/YARN APIs: Utilizes YARN Resource Manager's Capacity Scheduler APIs (e.g., `getConfiguredCapacityVector`)

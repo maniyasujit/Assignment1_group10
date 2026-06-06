@@ -1,0 +1,15 @@
+Here is a concise file-level semantic summary for the provided Java source file:
+
+**Summary**
+
+* **Key Functionality**: Defines an interface for determining the allocation ordering of child queues in YARN's Capacity Scheduler.
+* **Core Logic**: None explicitly implemented (interface); implementers must provide logic for ordering queues via `getAssignmentIterator`.
+* **Inputs/Outputs**:
+	+ Inputs: `List<CSQueue>` (queues to order), `String` (node partition)
+	+ Outputs: `Iterator<CSQueue>` (ordered queues for container assignment), `String` (configuration name)
+	+ State Changes: None direct; depends on implementer's handling of `setQueues`
+	+ Side Effects: Assumes caller has acquired parent queue's read lock to prevent concurrent modifications
+* **Dependencies**:
+	+ Classes/Interfaces: `org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CSQueue`
+	+ Libraries/Frameworks: Apache Hadoop YARN (Capacity Scheduler)
+	+ Hadoop/YARN APIs: Implicit dependency on YARN's resource management APIs (not explicitly listed)
